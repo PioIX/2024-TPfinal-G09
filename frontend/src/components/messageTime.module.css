@@ -1,0 +1,11 @@
+/* messageTime.module.css */
+.messageTime {
+  font-size: 0.9em;
+  color: #888; /* Color gris para darle menos importancia visual */
+  display: flex;
+  flex-direction: column; /* Muestra la fecha y la hora en dos líneas */
+}
+
+.messageTime span {
+  margin: 2px 0; /* Pequeño margen entre el día y la hora */
+}

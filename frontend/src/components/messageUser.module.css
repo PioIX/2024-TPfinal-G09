@@ -1,0 +1,5 @@
+.userMessage {
+  font-weight: bold;         /* El nombre del usuario será en negrita */
+  color: #007bff;            /* Color distintivo (azul) */
+  margin-bottom: 5px;        /* Espacio debajo del nombre */
+}
