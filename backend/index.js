@@ -72,63 +72,113 @@ app.get('/', function(req, res){
     });
 });
 
-app.get("/getUsers", async function (req, res) {
-    const respuesta = await MySQL.realizarQuery(`SELECT * FROM usersG`);
-    res.send(respuesta);
-});
-
-
-// GET para obtener los chats
-app.get("/getChats", async function (req, res) {
-    const respuesta = await MySQL.realizarQuery(`SELECT * FROM chatsG`);
-    res.send(respuesta);
-});
-
-// GET para obtener las relaciones entre usuarios y chats
-app.get("/getChatXuser", async function (req, res) {
-    const respuesta = await MySQL.realizarQuery(`SELECT * FROM chatXUserG`);
-    res.send(respuesta);
-});
-
-// GET para obtener los mensajes
-app.get("/getMensajes", async function (req, res) {
-    const respuesta = await MySQL.realizarQuery(`SELECT * FROM mensajesG`);
-    res.send(respuesta);
+app.get("/getUsers", async (req, res) => {
+    try {
+        const users = await MySQL.realizarQuery("SELECT * FROM Users");
+        res.status(200).json(users);  // Respuesta con estado 200 y los usuarios en formato JSON
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener los usuarios", error });  // Error del servidor
+    }
 });
             
 app.post("/postUser", async function (req, res) {  
-    await MySQL.realizarQuery(
-      `INSERT INTO usersG (nombre, apellido, username, password, mail, image) VALUES
-       ('${req.body.firstName}','${req.body.lastName}','${req.body.username}','${req.body.password}','${req.body.email}','${req.body.image}')`
-    );
-  
-    res.send(true);
+    try {
+        // Consulta preparada para evitar inyección de SQL
+        await MySQL.realizarQuery(
+            `INSERT INTO Users (username, password, name, surname, money, mail, image) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            [req.body.username, req.body.password, req.body.name, req.body.surname, req.body.money || 0, req.body.mail, req.body.image]
+        );
+        res.status(201).send(true);  // Respuesta exitosa con estado 201 (creado)
+    } catch (error) {
+        res.status(500).json({ message: "Error al insertar el usuario", error });
+    }
 });
 
-app.post("/postMensaje", async function (req, res) {  
-    await MySQL.realizarQuery(
-      `INSERT INTO mensajesG (fecha, content, idChatXUser) VALUES
-      ('${req.body.fecha}', '${req.body.content}', ${req.body.idChatXUser})`
-    );
-  
-    res.send(true);
+app.put("/putUser", async function (req, res) {
+    try {
+        // Consulta preparada para evitar inyección de SQL
+        await MySQL.realizarQuery(
+            `UPDATE Users 
+             SET username = ?, password = ?, name = ?, surname = ?, money = ?, mail = ?, image = ? 
+             WHERE id = ?`,
+            [req.body.username, req.body.password, req.body.name, req.body.surname, req.body.money, req.body.mail, req.body.image, req.body.id]
+        );
+        res.status(200).send("Usuario actualizado con éxito.");  // Respuesta exitosa
+    } catch (error) {
+        res.status(500).json({ message: "Error al actualizar el usuario", error });
+    }
 });
 
-app.put('/putUser', async function(req, res) {
-    await MySQL.realizarQuery(
-      `UPDATE usersG
-        SET nombre = '${req.body.nombre}',
-        apellido = '${req.body.apellido}',
-        username = '${req.body.username}',
-        password = '${req.body.password}',
-        mail = '${req.body.mail}',
-        image = '${req.body.image}'
-        WHERE id = ${req.body.id}`
-    );
- 
-    res.send("Usuario actualizado con éxito.");
+app.delete("/deleteUser", async function (req, res) {
+    try {
+        // Consulta preparada para eliminar un usuario por su id
+        const result = await MySQL.realizarQuery(
+            `DELETE FROM Users WHERE id = ?`,
+            [req.body.id]  // Pasamos el ID del usuario que se desea eliminar
+        );
+
+        // Verificamos si realmente se eliminó algún registro
+        if (result.affectedRows == 0) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+
+        res.status(200).send("Usuario eliminado con éxito.");
+    } catch (error) {
+        res.status(500).json({ message: "Error al eliminar el usuario", error });
+    }
 });
 
+app.get("/getSobres", async (req, res) => {
+    try {
+        const sobres = await MySQL.realizarQuery("SELECT * FROM Sobre");
+        res.status(200).json(sobres);  // Respuesta exitosa con los sobres en formato JSON
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener los sobres", error });
+    }
+});
 
+app.post("/postSobre", async function (req, res) {  
+    try {
+        // Consulta preparada para insertar un nuevo sobre
+        await MySQL.realizarQuery(
+            `INSERT INTO Sobre (name, price) VALUES (?, ?)`,
+            [req.body.name, req.body.price]  // Valores pasados desde el cuerpo de la solicitud
+        );
+        res.status(201).send(true);  // Respuesta exitosa, estado 201 (creado)
+    } catch (error) {
+        res.status(500).json({ message: "Error al insertar el sobre", error });
+    }
+});
 
+app.put("/putSobre", async function (req, res) {
+    try {
+        // Consulta preparada para actualizar un sobre
+        await MySQL.realizarQuery(
+            `UPDATE Sobre 
+             SET name = ?, price = ? 
+             WHERE id = ?`,
+            [req.body.name, req.body.price, req.body.id]  // Valores del cuerpo de la solicitud
+        );
+        res.status(200).send("Sobre actualizado con éxito.");  // Respuesta exitosa
+    } catch (error) {
+        res.status(500).json({ message: "Error al actualizar el sobre", error });
+    }
+});
 
+app.delete("/deleteSobre", async function (req, res) {
+    try {
+        // Consulta preparada para eliminar un sobre
+        const result = await MySQL.realizarQuery(
+            `DELETE FROM Sobre WHERE id = ?`,
+            [req.body.id]  // ID del sobre que se quiere eliminar
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Sobre no encontrado" });  // Si no se encontró el sobre
+        }
+
+        res.status(200).send("Sobre eliminado con éxito.");  // Respuesta exitosa
+    } catch (error) {
+        res.status(500).json({ message: "Error al eliminar el sobre", error });
+    }
+});
