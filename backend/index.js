@@ -137,48 +137,77 @@ app.get("/getSobres", async (req, res) => {
     }
 });
 
-app.post("/postSobre", async function (req, res) {  
+app.get("/getCardModels", async (req, res) => {
     try {
-        // Consulta preparada para insertar un nuevo sobre
+        const cards = await MySQL.realizarQuery("SELECT * FROM CardModels");
+        res.status(200).json(cards);  // Respuesta exitosa con las tarjetas en formato JSON
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener las tarjetas", error });
+    }
+});
+
+app.get("/getJuegos", async (req, res) => {
+    try {
+        const juegos = await MySQL.realizarQuery("SELECT * FROM Juego");
+        res.status(200).json(juegos);  // Respuesta exitosa con los juegos
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener los juegos", error });
+    }
+});
+
+app.post("/postJuego", async function (req, res) {
+    try {
+        // Consulta preparada para insertar un nuevo juego con el id del ganador
         await MySQL.realizarQuery(
-            `INSERT INTO Sobre (name, price) VALUES (?, ?)`,
-            [req.body.name, req.body.price]  // Valores pasados desde el cuerpo de la solicitud
+            `INSERT INTO Juego (winner) VALUES (?)`,
+            [req.body.winner]  // ID del usuario ganador pasado en el cuerpo de la solicitud
+        );
+        res.status(201).send(true);  // Respuesta de éxito con estado 201 (creado)
+    } catch (error) {
+        res.status(500).json({ message: "Error al insertar el juego", error });
+    }
+});
+
+app.get("/getJuegoXUsers", async (req, res) => {
+    try {
+        const juegoXUsers = await MySQL.realizarQuery("SELECT * FROM JuegoXUser");
+        res.status(200).json(juegoXUsers);  // Respuesta exitosa con las relaciones en formato JSON
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener los registros", error });
+    }
+});
+
+app.post("/postJuegoXUser", async function (req, res) {
+    try {
+        // Consulta preparada para insertar una nueva relación usuario-juego
+        await MySQL.realizarQuery(
+            `INSERT INTO JuegoXUser (idUser, idJuego) VALUES (?, ?)`,
+            [req.body.idUser, req.body.idJuego]  // ID del usuario y juego pasados desde el cuerpo de la solicitud
         );
         res.status(201).send(true);  // Respuesta exitosa, estado 201 (creado)
     } catch (error) {
-        res.status(500).json({ message: "Error al insertar el sobre", error });
+        res.status(500).json({ message: "Error al insertar la relación", error });
     }
 });
 
-app.put("/putSobre", async function (req, res) {
+app.get("/getCards", async (req, res) => {
     try {
-        // Consulta preparada para actualizar un sobre
+        const cards = await MySQL.realizarQuery("SELECT * FROM Cards");
+        res.status(200).json(cards);  // Respuesta exitosa con las cartas
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener las cartas", error });
+    }
+});
+
+app.post("/postCard", async function (req, res) {
+    try {
+        // Consulta preparada para insertar una nueva carta
         await MySQL.realizarQuery(
-            `UPDATE Sobre 
-             SET name = ?, price = ? 
-             WHERE id = ?`,
-            [req.body.name, req.body.price, req.body.id]  // Valores del cuerpo de la solicitud
+            `INSERT INTO Cards (idModel, idUser, hand) VALUES (?, ?, ?)`,
+            [req.body.idModel, req.body.idUser, req.body.hand]  // idModel, idUser y estado de la carta en mano
         );
-        res.status(200).send("Sobre actualizado con éxito.");  // Respuesta exitosa
+        res.status(201).send(true);  // Respuesta exitosa, estado 201 (creado)
     } catch (error) {
-        res.status(500).json({ message: "Error al actualizar el sobre", error });
-    }
-});
-
-app.delete("/deleteSobre", async function (req, res) {
-    try {
-        // Consulta preparada para eliminar un sobre
-        const result = await MySQL.realizarQuery(
-            `DELETE FROM Sobre WHERE id = ?`,
-            [req.body.id]  // ID del sobre que se quiere eliminar
-        );
-
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ message: "Sobre no encontrado" });  // Si no se encontró el sobre
-        }
-
-        res.status(200).send("Sobre eliminado con éxito.");  // Respuesta exitosa
-    } catch (error) {
-        res.status(500).json({ message: "Error al eliminar el sobre", error });
+        res.status(500).json({ message: "Error al insertar la carta", error });
     }
 });
