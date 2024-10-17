@@ -40,6 +40,8 @@ const server = app.listen(LISTEN_PORT, () => {
     console.log(`   [GET] http://localhost:${LISTEN_PORT}/getJuegos`);
     console.log(`   [GET] http://localhost:${LISTEN_PORT}/getJuegoXUsers`);
     console.log(`   [GET] http://localhost:${LISTEN_PORT}/getCards`);
+    console.log(`   [PUT] http://localhost:${LISTEN_PORT}/putUser`);
+    console.log(`   [DELETE] http://localhost:${LISTEN_PORT}/deleteUser`);
     console.log(`   [POST] http://localhost:${LISTEN_PORT}/postUser`);
     console.log(`   [POST] http://localhost:${LISTEN_PORT}/postJuego`);
     console.log(`   [POST] http://localhost:${LISTEN_PORT}/postJuegoXUser`);
@@ -76,6 +78,7 @@ app.get('/', function(req, res){
     });
 });
 
+// Obtener users A
 app.get("/getUsers", async (req, res) => {
     try {
         const users = await MySQL.realizarQuery("SELECT * FROM Users");
@@ -84,15 +87,63 @@ app.get("/getUsers", async (req, res) => {
         res.status(500).json({ message: "Error al obtener los usuarios", error });  // Error del servidor
     }
 });
-            
+
+// Obtener sobres A
+app.get("/getSobres", async (req, res) => {
+    try {
+        const sobres = await MySQL.realizarQuery("SELECT * FROM Sobre");
+        res.status(200).json(sobres);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener los sobres", error });
+    }
+});
+
+// Obtener modelos A
+app.get("/getCardModels", async (req, res) => {
+    try {
+        const cards = await MySQL.realizarQuery("SELECT * FROM CardModels");
+        res.status(200).json(cards);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener las tarjetas", error });
+    }
+});
+
+// Obtener juegos A
+app.get("/getJuegos", async (req, res) => {
+    try {
+        const juegos = await MySQL.realizarQuery("SELECT * FROM Juego");
+        res.status(200).json(juegos);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener los juegos", error });
+    }
+});
+
+// Obtener relaciones de juegos y usuarios A
+app.get("/getJuegoXUsers", async (req, res) => {
+    try {
+        const juegoXUsers = await MySQL.realizarQuery("SELECT * FROM JuegoXUser");
+        res.status(200).json(juegoXUsers);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener los registros", error });
+    }
+});
+
+// Obtener cartas A
+app.get("/getCards", async (req, res) => {
+    try {
+        const cards = await MySQL.realizarQuery("SELECT * FROM Cards");
+        res.status(200).json(cards);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener las cartas", error });
+    }
+});
+   
+//Nuevo usuario A
 app.post("/postUser", async function (req, res) {  
     try {
-        const { username, password, name, surname, mail, image } = req.body;
-
-        // Inserción directa sin parametrización
         const query = `
             INSERT INTO Users (username, password, name, surname, money, mail, image) 
-            VALUES ('${username}', '${password}', '${name}', '${surname}', 0, '${mail}', '${image}')
+            VALUES ('${req.body.username}', '${req.body.password}', '${req.body.name}', '${req.body.surname}', 0, '${req.body.mail}', '${req.body.image}')
         `;
 
         await MySQL.realizarQuery(query);
@@ -104,17 +155,13 @@ app.post("/postUser", async function (req, res) {
     }
 });
 
-
-// Actualizar usuario
-app.put("/putUser", async function (req, res) {
+// Actualizar plata usuario A
+app.put("/putUserMoney", async function (req, res) {
     try {
-        const { username, password, name, surname, money, mail, image, id } = req.body;
-
         const query = `
             UPDATE Users 
-            SET username = '${username}', password = '${password}', name = '${name}', 
-                surname = '${surname}', money = ${money}, mail = '${mail}', image = '${image}' 
-            WHERE id = ${id}
+            SET  money = ${req.body.money} 
+            WHERE id = ${req.body.id}
         `;
 
         await MySQL.realizarQuery(query);
@@ -125,12 +172,28 @@ app.put("/putUser", async function (req, res) {
     }
 });
 
-// Eliminar usuario
+// Actualizar usuario A
+app.put("/putUser", async function (req, res) {
+    try {
+        const query = `
+            UPDATE Users 
+            SET username = '${req.body.username}', password = '${req.body.password}', name = '${req.body.name}', 
+                surname = '${req.body.surname}', mail = '${req.body.mail}', image = '${req.body.image}' 
+            WHERE id = ${req.body.id}
+        `;
+
+        await MySQL.realizarQuery(query);
+
+        res.status(200).send("Usuario actualizado con éxito.");
+    } catch (error) {
+        res.status(500).json({ message: "Error al actualizar el usuario", error });
+    }
+});
+
+// Eliminar usuario A
 app.delete("/deleteUser", async function (req, res) {
     try {
-        const { id } = req.body;
-
-        const query = `DELETE FROM Users WHERE id = ${id}`;
+        const query = `DELETE FROM Users WHERE id = ${req.body.id}`;
 
         const result = await MySQL.realizarQuery(query);
 
@@ -144,42 +207,26 @@ app.delete("/deleteUser", async function (req, res) {
     }
 });
 
-// Obtener sobres
-app.get("/getSobres", async (req, res) => {
+// Insertar nueva carta A
+app.post("/postCard", async function (req, res) {
     try {
-        const sobres = await MySQL.realizarQuery("SELECT * FROM Sobre");
-        res.status(200).json(sobres);
+        const query = `
+            INSERT INTO Cards (idModel, idUser, hand) 
+            VALUES (${req.body.idModel}, ${req.body.idUser}, '${req.body.hand}')
+        `;
+
+        await MySQL.realizarQuery(query);
+
+        res.status(201).send(true);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener los sobres", error });
+        res.status(500).json({ message: "Error al insertar la carta", error });
     }
 });
 
-// Obtener modelos de cartas
-app.get("/getCardModels", async (req, res) => {
-    try {
-        const cards = await MySQL.realizarQuery("SELECT * FROM CardModels");
-        res.status(200).json(cards);
-    } catch (error) {
-        res.status(500).json({ message: "Error al obtener las tarjetas", error });
-    }
-});
-
-// Obtener juegos
-app.get("/getJuegos", async (req, res) => {
-    try {
-        const juegos = await MySQL.realizarQuery("SELECT * FROM Juego");
-        res.status(200).json(juegos);
-    } catch (error) {
-        res.status(500).json({ message: "Error al obtener los juegos", error });
-    }
-});
-
-// Insertar un nuevo juego
+// Insertar un nuevo juego A
 app.post("/postJuego", async function (req, res) {
     try {
-        const { winner } = req.body;
-
-        const query = `INSERT INTO Juego (winner) VALUES ('${winner}')`;
+        const query = `INSERT INTO Juego (winner) VALUES ('${req.body.winner}')`;
 
         await MySQL.realizarQuery(query);
 
@@ -189,55 +236,15 @@ app.post("/postJuego", async function (req, res) {
     }
 });
 
-// Obtener relaciones de juegos y usuarios
-app.get("/getJuegoXUsers", async (req, res) => {
-    try {
-        const juegoXUsers = await MySQL.realizarQuery("SELECT * FROM JuegoXUser");
-        res.status(200).json(juegoXUsers);
-    } catch (error) {
-        res.status(500).json({ message: "Error al obtener los registros", error });
-    }
-});
-
-// Insertar relación entre juego y usuario
+// Insertar relación entre juego y usuario A
 app.post("/postJuegoXUser", async function (req, res) {
     try {
-        const { idUser, idJuego } = req.body;
-
-        const query = `INSERT INTO JuegoXUser (idUser, idJuego) VALUES (${idUser}, ${idJuego})`;
+        const query = `INSERT INTO JuegoXUser (idUser, idJuego) VALUES (${req.body.idUser}, ${req.body.idJuego})`;
 
         await MySQL.realizarQuery(query);
 
         res.status(201).send(true);
     } catch (error) {
         res.status(500).json({ message: "Error al insertar la relación", error });
-    }
-});
-
-// Obtener cartas
-app.get("/getCards", async (req, res) => {
-    try {
-        const cards = await MySQL.realizarQuery("SELECT * FROM Cards");
-        res.status(200).json(cards);
-    } catch (error) {
-        res.status(500).json({ message: "Error al obtener las cartas", error });
-    }
-});
-
-// Insertar nueva carta
-app.post("/postCard", async function (req, res) {
-    try {
-        const { idModel, idUser, hand } = req.body;
-
-        const query = `
-            INSERT INTO Cards (idModel, idUser, hand) 
-            VALUES (${idModel}, ${idUser}, '${hand}')
-        `;
-
-        await MySQL.realizarQuery(query);
-
-        res.status(201).send(true);
-    } catch (error) {
-        res.status(500).json({ message: "Error al insertar la carta", error });
     }
 });

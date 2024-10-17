@@ -1,6 +1,28 @@
 // URL base para todas las peticiones
 const baseURL = 'http://localhost:3001';
 
+// Función para obtener los sobres
+export async function getSobres() {
+  try {
+      const response = await fetch(`${baseURL}/getSobres`);
+      const data = await response.json();
+      return data;
+  } catch (error) {
+      console.error("Error al obtener los sobres:", error);
+  }
+}
+
+// Función para obtener los modelos de carta
+export async function getCardModels() {
+  try {
+      const response = await fetch(`${baseURL}/getCardModels`);
+      const data = await response.json();
+      return data;
+  } catch (error) {
+      console.error("Error al obtener los modelos de cartas:", error);
+  }
+}
+
 // Función para obtener los usuarios
 export async function getUsers() {
     try {
@@ -15,44 +37,39 @@ export async function getUsers() {
     }
 }
 
-// Función para obtener los chats
-export async function getChats() {
-    try {
-        console.log("chat")
-        const response = await fetch(`${baseURL}/getChats`);
-        const data = await response.json();
-        //console.log("Chats:", data);
-        return data;
-    } catch (error) {
-        console.error("Error al obtener los chats:", error);
-    }
+// Función para obtener los juegos
+export async function getJuegos() {
+  try {
+      const response = await fetch(`${baseURL}/getJuegos`);
+      const data = await response.json();
+      return data;
+  } catch (error) {
+      console.error("Error al obtener los juegos:", error);
+  }
 }
 
-// Función para obtener las relaciones entre usuarios y chatsv
-export async function getChatXUser() {
-    try {
-        console.log("chatys")
-        const response = await fetch(`${baseURL}/getChatXuser`);
-        const data = await response.json();
-        //console.log("Relaciones Usuario-Chats:", data);
-        return data; 
-    } catch (error) {
-        console.error("Error al obtener los chats:", error);
-    }
+// Función para obtener los vinculos juego usuario
+export async function getJuegoXUsers() {
+  try {
+      const response = await fetch(`${baseURL}/getJuegoXUsers`);
+      const data = await response.json();
+      return data;
+  } catch (error) {
+      console.error("Error al obtener las relaciones de juegos y usuarios:", error);
+  }
 }
 
-// Función para obtener los mensajes
-export async function getMensajes() {
-    try {
-        console.log("msg")
-        const response = await fetch(`${baseURL}/getMensajes`);
-        const data = await response.json();
-        //console.log("Mensajes:", data);
-        return data;
-    } catch (error) {
-        console.error("Error al obtener los mensajes:", error);
-    }
+// Función para obtener las cartas
+export async function getCards() {
+  try {
+      const response = await fetch(`${baseURL}/getCards`);
+      const data = await response.json();
+      return data;
+  } catch (error) {
+      console.error("Error al obtener las cartas:", error);
+  }
 }
+
 export async function fetchRegister(newUser) {
     try {
       const response = await fetch(`${baseURL}/postUser`, {
