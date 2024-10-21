@@ -1,11 +1,10 @@
 "use client"
 import Button from "@/components/button";
 import { useEffect } from "react";
-import Link from "next/navigation";
-import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { getUsers, fetchRegister, fetchUpdateUser, FindXByID } from "@/app/javascript.js";
-import InputEdit from "@/components/inputEdit"; // Importamos el componente Input
+import { getUsers, fetchUpdateUser} from "@/functions/fetch.js";
+import { FindXByID } from "@/functions/javascript";
+import Input from "@/components/input"; // Importamos el componente Input
 import styles from "@/app/user/page.module.css"; // Estilos para el formulario
 import UserProfilePic from "@/components/userProfilePic";
 import { useSearchParams } from 'next/navigation';
@@ -14,23 +13,21 @@ import { useSearchParams } from 'next/navigation';
 export default function Home() {
   const searchParams = useSearchParams();
   const idUser = searchParams.get('idUser');
-  const [users, setUsers] = useState([]);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [name, setFirstName] = useState("");
+  const [surname, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const [mail, setEmail] = useState("");
   const [image, setImage] = useState("");
   
-  async function cargarDeportistas() {
+  async function cargarUsuario() {
     try {
       const users = await getUsers();
-      setUsers(users);
       const user = users[FindXByID(idUser, users)]
       console.log(user)
     // Establecemos los valores de user en las variables de estado
-      setFirstName(user.nombre);
-      setLastName(user.apellido);
+      setFirstName(user.name);
+      setLastName(user.surname);
       setUsername(user.username);
       setPassword(user.password);
       setEmail(user.mail);
@@ -44,23 +41,23 @@ export default function Home() {
   async function linkUpdate() {
     const user = {
       id: idUser,
-      nombre: firstName,
-      apellido: lastName,
+      name: name,
+      surname: surname,
       username: username,
       password: password,
-      mail: email,
+      mail: mail,
       image: image
   };
     fetchUpdateUser(user)
-    window.location.href = '/deportistas';
+    window.location.href = `/menu?idUser=${idUser}`;
   }
   
   useEffect(() => {
-    cargarDeportistas();
+    cargarUsuario();
   }, []);
 
   function linkBack() {
-    window.location.href = '/deportistas';
+    window.location.href = `/menu?idUser=${idUser}`;
   }
 
 
@@ -73,23 +70,23 @@ export default function Home() {
       <br/>
       <div className={styles.division}>
         <div className={styles.lateral}>
-          <InputEdit
+          <Input
             label="Nombre"
             type="text"
             name="firstName"
-            value={firstName}
-            placeholder={firstName}
+            value={name}
+            placeholder={name}
             onChange={(e) => setFirstName(e.target.value)}
           />
-          <InputEdit
+          <Input
             label="Apellido"
             type="text"
             name="lastName"
-            value={lastName}
-            placeholder={lastName}
+            value={surname}
+            placeholder={surname}
             onChange={(e) => setLastName(e.target.value)}
           />
-          <InputEdit
+          <Input
             label="Usuario"
             type="text"
             name="username"
@@ -99,7 +96,7 @@ export default function Home() {
           />
         </div>
         <div className={styles.lateral}>
-          <InputEdit
+          <Input
             label="Contraseña"
             type="password"
             name="password"
@@ -107,15 +104,15 @@ export default function Home() {
             placeholder={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <InputEdit
+          <Input
             label="Correo Electrónico"
             type="email"
             name="text"
-            value={email}
-            placeholder={email}
+            value={mail}
+            placeholder={mail}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <InputEdit
+          <Input
             label="Imagen de perfil"
             type="text"
             name="image"

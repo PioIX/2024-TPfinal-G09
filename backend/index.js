@@ -41,11 +41,13 @@ const server = app.listen(LISTEN_PORT, () => {
     console.log(`   [GET] http://localhost:${LISTEN_PORT}/getJuegoXUsers`);
     console.log(`   [GET] http://localhost:${LISTEN_PORT}/getCards`);
     console.log(`   [PUT] http://localhost:${LISTEN_PORT}/putUser`);
+    console.log(`   [PUT] http://localhost:${LISTEN_PORT}/putUserMoney`);
     console.log(`   [DELETE] http://localhost:${LISTEN_PORT}/deleteUser`);
     console.log(`   [POST] http://localhost:${LISTEN_PORT}/postUser`);
     console.log(`   [POST] http://localhost:${LISTEN_PORT}/postJuego`);
     console.log(`   [POST] http://localhost:${LISTEN_PORT}/postJuegoXUser`);
     console.log(`   [POST] http://localhost:${LISTEN_PORT}/postCard`);
+    console.log(`   [POST] http://localhost:${LISTEN_PORT}/getCardsByUser`);
 });
 
 const io = require('socket.io')(server, {
@@ -138,20 +140,48 @@ app.get("/getCards", async (req, res) => {
     }
 });
    
-//Nuevo usuario A
-app.post("/postUser", async function (req, res) {  
+app.get("/getCardsByUser", async (req, res) => {
+    if (!req.query.idUser) {
+        return res.status(400).json({ message: "El parámetro idUser es obligatorio" });
+    }
+
     try {
-        const query = `
-            INSERT INTO Users (username, password, name, surname, money, mail, image) 
-            VALUES ('${req.body.username}', '${req.body.password}', '${req.body.name}', '${req.body.surname}', 0, '${req.body.mail}', '${req.body.image}')
-        `;
-
-        await MySQL.realizarQuery(query);
-
-        res.status(200).send({ success: true, message: "Usuario creado exitosamente." });
+        // Usamos una consulta SQL que filtre por el idUser
+        const query = `SELECT * FROM Cards WHERE idUser = '${req.query.idUser}'`;
+        const cards = await MySQL.realizarQuery(query); // Pa?samos idUser como parámetro para prevenir SQL Injection
+        res.status(200).json(cards);
     } catch (error) {
-        console.error("Error al crear el usuario: ", error);
-        res.status(500).send({ success: false, message: "Error en el servidor." });
+        res.status(500).json({ message: "Error al obtener las cartas", error });
+    }
+});
+
+app.get("/getMazoByUser", async (req, res) => {
+    if (!req.query.idUser) {
+        return res.status(400).json({ message: "El parámetro idUser es obligatorio" });
+    }
+
+    try {
+        // Usamos una consulta SQL que filtre por el idUser
+        const query = `SELECT * FROM Cards WHERE idUser = '${req.query.idUser} 'and hand=1`;
+        const cards = await MySQL.realizarQuery(query); // Pa?samos idUser como parámetro para prevenir SQL Injection
+        res.status(200).json(cards);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener las cartas", error });
+    }
+});
+
+app.get("/getGamesByUser", async (req, res) => {
+    if (!req.query.idUser) {
+        return res.status(400).json({ message: "El parámetro idUser es obligatorio" });
+    }
+
+    try {
+        // Usamos una consulta SQL que filtre por el idUser
+        const query = `SELECT * FROM JuegoXUser WHERE idUser = '${req.query.idUser}'`;
+        const cards = await MySQL.realizarQuery(query); // Pa?samos idUser como parámetro para prevenir SQL Injection
+        res.status(200).json(cards);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener los juegos", error });
     }
 });
 
@@ -190,20 +220,20 @@ app.put("/putUser", async function (req, res) {
     }
 });
 
-// Eliminar usuario A
-app.delete("/deleteUser", async function (req, res) {
+//Nuevo usuario A
+app.post("/postUser", async function (req, res) {  
     try {
-        const query = `DELETE FROM Users WHERE id = ${req.body.id}`;
+        const query = `
+            INSERT INTO Users (username, password, name, surname, money, mail, image) 
+            VALUES ('${req.body.username}', '${req.body.password}', '${req.body.name}', '${req.body.surname}', 0, '${req.body.mail}', '${req.body.image}')
+        `;
 
-        const result = await MySQL.realizarQuery(query);
+        await MySQL.realizarQuery(query);
 
-        if (result.affectedRows == 0) {
-            return res.status(404).json({ message: "Usuario no encontrado" });
-        }
-
-        res.status(200).send("Usuario eliminado con éxito.");
+        res.status(200).send({ success: true, message: "Usuario creado exitosamente." });
     } catch (error) {
-        res.status(500).json({ message: "Error al eliminar el usuario", error });
+        console.error("Error al crear el usuario: ", error);
+        res.status(500).send({ success: false, message: "Error en el servidor." });
     }
 });
 
@@ -248,3 +278,4 @@ app.post("/postJuegoXUser", async function (req, res) {
         res.status(500).json({ message: "Error al insertar la relación", error });
     }
 });
+

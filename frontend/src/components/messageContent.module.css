@@ -1,6 +1,0 @@
-/* messageContent.module.css */
-.messageContent {
-  color: #011718;           /* Color del texto */
-  word-wrap: break-word;    /* Que el texto se ajuste si es muy largo */
-  margin: 5px 0;            /* Espacio entre mensajes */
-}

@@ -1,12 +1,9 @@
 "use client"
 import Button from "@/components/button";
-import Link from "next/navigation";
-import { useRouter, router } from "next/router";
 import React, { useState, useEffect } from "react";
-import { getUsers, fetchRegister } from "@/app/javascript.js";
+import { getUsers, fetchRegister } from "@/functions/fetch.js";
 import Input from "@/components/input"; // Importamos el componente Input
 import styles from "@/app/page.module.css"; // Estilos para el formulario
-import Header from "@/components/header";
 
 export default function Home() {
 
@@ -16,7 +13,6 @@ export default function Home() {
   let [password, setPassword] = useState("");
   let [mail, setMail] = useState("");  
 
-  
   async function linkLogin() {
     try {
       const users = await getUsers(); // Obtener los usuarios desde el API
@@ -27,7 +23,7 @@ export default function Home() {
         if (user.password === password) {
           window.alert("Login exitoso");
           console.log(user.id);
-          window.location.href = `/deportistas`;
+          window.location.href = `/menu?idUser=${user.id}`;
           return
         } else {
           window.alert("Contraseña incorrecta");
@@ -92,7 +88,6 @@ export default function Home() {
   }
   return (
     <div>
-    <Header/>
     <main>
       <div className={styles.container}>
       <h2>Login / Sign-Up</h2>
