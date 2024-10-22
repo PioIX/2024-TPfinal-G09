@@ -6,8 +6,18 @@
   padding: 5px;
   margin: 10px;
   font-family: Arial, sans-serif;
+  border: 1px solid white;
+  box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+  border-radius: 17px;
+  transition: all 0.5s;
 }
-
+.carta:hover {
+  border: 1px solid black;
+  transform: scale(1.05);
+}
+.carta:active {
+  transform: scale(0.95) rotateZ(1.7deg);
+}
 .cartaImg {
   width: 130px;
   height: 130px;

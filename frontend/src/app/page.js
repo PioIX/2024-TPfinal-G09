@@ -87,7 +87,7 @@ export default function Home() {
     }
   }
   return (
-    <div>
+    <div className={styles.login}>
     <main>
       <div className={styles.container}>
       <h2>Login / Sign-Up</h2>
