@@ -1,11 +1,28 @@
 "use client"
-import Button from "@/components/button";
 import React, { useState, useEffect } from "react";
-import { getUsers, getCardModels, getCards, getJuegoXUsers, getSobres, getJuegos} from "@/functions/fetch.js";
-import Input from "@/components/input"; // Importamos el componente Input
-import styles from "@/app/page.module.css"; // Estilos para el formulario
+import { getCardModels, getCardsByUser, getGamesByUser, getMazoByUser } from "@/functions/fetch.js";
+import {setCards } from "@/functions/javascript"
+import { useSearchParams } from "next/navigation";
+import Cartas from "@/components/cartas";
 
 export default function Home() {
+  const searchParams = useSearchParams();
+  const idUser = searchParams.get('idUser');
+  const [cardsPlay, setCardsPlay] = useState([]);
+
+  async function cargarCartas() {
+    const cardsU= await getCardsByUser(idUser)
+    const cardsM = await getCardModels()
+    const cardsD = await setCards(cardsM, cardsU)
+    console.log(cardsD)
+    setCardsPlay(cardsD)
+    
+    //Que cargue todas las cartas que correspondan al usuario
+  };
+
+  useEffect(() => {
+    cargarCartas();
+  }, []);
   //crear primero Componentes->cartas->carta + puntaje + Username
   //crear pantalla de elección de propiedad
   //crear pantalla de elección de carta
@@ -15,7 +32,7 @@ export default function Home() {
   return (
     <div>
       <main>
-        
+        <Cartas cards={cardsPlay}></Cartas>
       </main>
     </div>
   );

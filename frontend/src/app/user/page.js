@@ -3,7 +3,7 @@ import Button from "@/components/button";
 import { useEffect } from "react";
 import React, { useState } from "react";
 import { getUsers, fetchUpdateUser} from "@/functions/fetch.js";
-import { FindXByID } from "@/functions/javascript";
+import { findXByID } from "@/functions/javascript";
 import Input from "@/components/input"; // Importamos el componente Input
 import styles from "@/app/user/page.module.css"; // Estilos para el formulario
 import UserProfilePic from "@/components/userProfilePic";
@@ -23,7 +23,7 @@ export default function Home() {
   async function cargarUsuario() {
     try {
       const users = await getUsers();
-      const user = users[FindXByID(idUser, users)]
+      const user = users[findXByID(idUser, users)]
       console.log(user)
     // Establecemos los valores de user en las variables de estado
       setFirstName(user.name);

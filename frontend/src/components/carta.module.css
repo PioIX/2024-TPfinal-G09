@@ -1,0 +1,92 @@
+.carta {
+  border: 3px solid #8e44ad;
+  border-radius: 10px;
+  width: 200px;
+  text-align: center;
+  padding: 5px;
+  margin: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.cartaImg {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 20%;
+}
+
+.cartaHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.nombre {
+  font-size: 18px;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.statsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10px; /* Espaciado entre el título y las estadísticas */
+}
+
+/* Estilo para cada columna de estadísticas */
+.column {
+  width: 48%; /* Ajustamos el ancho para que ambas columnas se ubiquen bien una al lado de la otra */
+}
+
+.column p {
+  margin: 10px; /* Espaciado entre los párrafos */
+}
+
+.iconL{
+  width: 20px;
+  height: 20px;
+  margin-right: 4px; /* Espaciado entre el icono y el texto */
+  vertical-align: middle; /* Alinea el icono con el texto */
+}
+
+.iconR{
+  width: 20px;
+  height: 20px;
+  margin-left: 4px; /* Espaciado entre el icono y el texto */
+  vertical-align: middle; /* Alinea el icono con el texto */
+}
+
+/* Estilos para diferentes calidades */
+.común {
+  background-color: #ffffff; /* Fondo blanco */
+  border-color: #000000;     /* Borde negro */
+}
+
+.especial {
+  background-color: #b6e7ff; /* Fondo azul claro */
+  border-color: #3498db;     /* Borde azul */
+}
+
+.rara {
+  background-color: #abffa8; /* Fondo verde claro */
+  border-color: #4caf50;     /* Borde verde */
+}
+
+.épica {
+  background-color: #dab6ff; /* Fondo morado claro */
+  border-color: #9b59b6;     /* Borde morado */
+}
+
+.legendaria {
+  background-color: #ffcfb6; /* Fondo naranja claro */
+  border-color: #c0392b;     /* Borde rojo oscuro */
+}
+
+.icónica {
+  background-color: #f8de7e; /* Fondo amarillo */
+  border-color: #d4a017;     /* Borde dorado */
+}

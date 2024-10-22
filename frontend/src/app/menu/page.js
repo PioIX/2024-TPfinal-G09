@@ -13,7 +13,7 @@ export default function Home() {
     window.location.href = `/user?idUser=${userId}`
   }
   async function goPlay(){
-    window.location.href = `/game`
+    window.location.href = `/game?idUser=${userId}`
   }
   async function goRecord(){
     window.location.href = `/historial?idUser=${userId}`
