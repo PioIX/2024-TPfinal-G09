@@ -2,10 +2,11 @@
 
 import React from "react";
 import Carta from "@/components/carta"
+import styles from "@/components/carta.module.css"; // Importamos el CSS como módulo
 
 export default function Cartas({cards}) {
   return (
-    <div>
+    <div className={styles.statsContainer}>
       {cards.map((carta, index) => (
         <div
           key={index}

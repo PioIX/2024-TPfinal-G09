@@ -16,7 +16,7 @@ export default function Home() {
   async function linkLogin() {
     try {
       const users = await getUsers(); // Obtener los usuarios desde el API
-      const user = users.find(u => u.username === username); // Buscar usuario por nombre de usuario
+      const user = users.find(u => u.username == username); // Buscar usuario por nombre de usuario
 
       if (user) {
         // Si el usuario existe, verificar la contraseña

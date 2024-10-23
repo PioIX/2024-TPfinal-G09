@@ -4,11 +4,15 @@ import { getCardModels, getCardsByUser, getGamesByUser, getMazoByUser } from "@/
 import {setCards } from "@/functions/javascript"
 import { useSearchParams } from "next/navigation";
 import Cartas from "@/components/cartas";
+import GameHeader from "@/components/headerGame";
 
 export default function Home() {
   const searchParams = useSearchParams();
   const idUser = searchParams.get('idUser');
   const [cardsPlay, setCardsPlay] = useState([]);
+  const [statSelect, setStatSelect] = useState("");
+  const [cardSelect, setCardSelect] = useState(-1);
+  const [gameStatus, setGameStatus] = useState(0);
 
   async function cargarCartas() {
     const cardsU= await getCardsByUser(idUser)
@@ -32,6 +36,7 @@ export default function Home() {
   return (
     <div>
       <main>
+        <GameHeader/>
         <Cartas cards={cardsPlay}></Cartas>
       </main>
     </div>

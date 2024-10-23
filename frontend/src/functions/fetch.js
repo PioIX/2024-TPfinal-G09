@@ -30,7 +30,7 @@ export async function getUsers() {
       console.log("user")
         const response = await fetch(`${baseURL}/getUsers`);
         const data = await response.json();
-        //console.log(data)
+        console.log(data)
         return data;
     } catch (error) {
         console.error("Error al obtener los usuarios:", error);
