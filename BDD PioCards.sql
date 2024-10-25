@@ -49,6 +49,9 @@ INSERT INTO CardModels (nombre, materia, img, calidad, carisma, conocimiento, ex
 ('Flavio Sturla', 'Historia', 'flavio_sturla.jpg', 'Legendaria', 73, 92, 38, 21, 56, 88),
 ('Mariano Bennassar', 'Lengua', 'mariano_bennassar.jpg', 'Especial', 45, 64, 37, 79, 72, 29);
 
+update CardModels
+set img=""
+where id=5;
 
 CREATE TABLE Juego (
     id INT AUTO_INCREMENT PRIMARY KEY,

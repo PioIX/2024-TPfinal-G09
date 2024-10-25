@@ -4,7 +4,7 @@
   width: 200px;
   text-align: center;
   padding: 5px;
-  margin: 10px;
+  margin: 5px;
   font-family: Arial, sans-serif;
   border: 3px solid white;
   box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
@@ -43,6 +43,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
   margin-top: 10px; /* Espaciado entre el título y las estadísticas */
 }
 
@@ -86,16 +87,21 @@
 }
 
 .épica {
-  background-color: #dab6ff; /* Fondo morado claro */
+  background: #dda0f5; /* Fondo morado claro */
   border-color: #9b59b6;     /* Borde morado */
 }
 
 .legendaria {
-  background-color: #ffcfb6; /* Fondo naranja claro */
-  border-color: #c0392b;     /* Borde rojo oscuro */
+  background: linear-gradient(45deg, rgb(247, 35, 35), rgb(255, 220, 25));
+  border-color: #e61d1d;     /* Borde rojo oscuro */
 }
 
 .icónica {
-  background-color: #f8de7e; /* Fondo amarillo */
-  border-color: #d4a017;     /* Borde dorado */
+  background: linear-gradient(25deg, #ffd700, #fff5c7); 
+  border-color: #ffbb0e;     /* Borde dorado */
+}
+
+.flashback {
+  background: linear-gradient(45deg, #09ecf8, hsl(335, 100%, 55%)); /* Azul neón a rosa */
+  border-color:  hsl(180, 98%, 52%); /* Borde rojo oscuro */
 }
