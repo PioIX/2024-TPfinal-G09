@@ -4,13 +4,19 @@ import React from "react";
 import Carta from "@/components/carta"
 import styles from "@/components/carta.module.css"; // Importamos el CSS como módulo
 
-export default function Cartas({cards}) {
+export default function Cartas({ cards, mostrarUsername = false, seleccionable = false, setSelectCard}) {
+  // Maneja la selección de la carta si `seleccionable` es true
+  const handleCardClick = (id) => {
+    if (seleccionable && setSelectCard) {
+      setSelectCard(id);
+    }
+  };
+
   return (
     <div className={styles.statsContainer}>
       {cards.map((carta, index) => (
-        <div
-          key={index}
-        >
+        <div key={index} onClick={() => handleCardClick(carta.id)} className={seleccionable ? styles.cardSelectable : ""}>
+          {mostrarUsername && <h3>{carta.username}</h3>}
           <Carta
             nombre={carta.nombre}
             materia={carta.materia}
@@ -22,6 +28,7 @@ export default function Cartas({cards}) {
             paciencia={carta.paciencia}
             popularidad={carta.popularidad}
             autoridad={carta.autoridad}
+            winner={carta.winner}
           />
         </div>
       ))}

@@ -14,9 +14,10 @@ export default function Carta({
   paciencia,
   popularidad,
   autoridad,
+  winner =false
 }) {
   return (
-    <div className={`${styles.carta} ${styles[calidad.toLowerCase()]}`}>
+    <div className={`${styles.carta} ${styles[calidad.toLowerCase()]} ${winner ? styles.winner : ""}`}>
       <div className={styles.cartaHeader}>
         <div className={styles.calidad}><img src="/calidad.png" alt="icon" className={styles.iconL} />{calidad}</div>
         <div className={styles.materia}>{materia}<img src="/libro.png" alt="icon" className={styles.iconR} /></div>

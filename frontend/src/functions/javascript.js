@@ -8,7 +8,7 @@ export function findXByID(id, vector) {
   return -1; // Si no se encuentra el cliente, devuelve -1
 }
 
-export function setCards(cardModels, cards) {
+export function setCards(cardModels, cards, users) {
   let result = [];
 
   // Recorremos el array de cards
@@ -23,7 +23,8 @@ export function setCards(cardModels, cards) {
         // Creamos el objeto resultante combinando el modelo y el id del jugador
         let resultCard = {
           ...model,       // Copiamos las propiedades del cardModel
-          playerId: card.idUser  // Añadimos el id del jugador
+          playerId: card.idUser,  // Añadimos el id del jugador
+          username: users[findXByID(card.idUser,users)].username
         };
 
         result.push(resultCard);  // Añadimos el resultado al array final
