@@ -27,7 +27,9 @@ export default function Home() {
 
   return (
     <div>
-
+<div style={styles.header}>
+  TIENDA DE CARTAS
+</div>
     </div>
   );
 }
