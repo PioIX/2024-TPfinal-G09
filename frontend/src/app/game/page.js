@@ -143,8 +143,9 @@ export default function Home() {
   };
 
   async function handleEndMatch() {
-    //que postee los datos del match en la base de datos y muestre una pestaña de victoria o derrota8
+    //que postee los datos del match en la base de datos y muestre una pestaña de victoria o derrota
   }
+
   useEffect(() => {
     cargarCartas();
   }, []);
