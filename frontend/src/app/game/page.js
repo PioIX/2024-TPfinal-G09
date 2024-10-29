@@ -5,6 +5,7 @@ import {setCards } from "@/functions/javascript"
 import { useSearchParams } from "next/navigation";
 import Cartas from "@/components/cartas";
 import GameStage from "@/components/gameStage";
+import { useSocket } from "@/hooks/useSocket";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -82,8 +83,8 @@ export default function Home() {
     { idUser: "user3", username: "user3", puntaje: 0 },
   ]);
   const [loop, setLoop] = useState([])//el loop es un vector que tiene los usuarios de la partida
-  //y que uno de estos usuarios 
-
+  //y que uno de estos usuarios  
+  const {socket, isConnected} = useSocket();
 
   async function cargarCartas() {
     const users =await getUsers()
@@ -97,6 +98,7 @@ export default function Home() {
   };
 
   async function joinRoom() {
+    socket.emit("joinRoom", { room: "1" });
     //Que envíe al socket el ingreso al socket
   };
   async function readyRoom() {
@@ -149,6 +151,16 @@ export default function Home() {
   useEffect(() => {
     cargarCartas();
   }, []);
+
+  useEffect(() => {
+    if(!socket)return
+    socket.on("newMessage", data => {
+
+    });
+
+  },[socket, isConnected])
+
+
   return (
     <div>
       <main>

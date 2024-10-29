@@ -295,7 +295,7 @@ io.on("connection", (socket) => {
 
 	socket.on('sendMessage', data => {
 		io.to(req.session.room).emit('newMessage', { room: req.session.room, message: data });
-	});
+	});  
 
 	socket.on('disconnect', () => {
 		console.log("Disconnect");

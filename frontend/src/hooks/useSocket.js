@@ -11,7 +11,7 @@ const [isConnected, setIsConnected] = useState(false);
 
     // Actualizar el estado de la conexión
     socketIo.on('connect', () => {
-      setIsConnected(true);
+      setIsConnected(true); 
       console.log('WebSocket connectado.');
     });
 
