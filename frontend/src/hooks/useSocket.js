@@ -16,8 +16,8 @@ const useSocket = (options = { withCredentials: true }, serverUrl = "ws://localh
     const socketIo = io(serverUrl, options);
     
     socketIo.on('connect', () => {
-      setIsConnected(true);
-      console.log('Socket conectado.');
+      setIsConnected(true); 
+      console.log('WebSocket conectado.');
     });
 
     socketIo.on('disconnect', () => {

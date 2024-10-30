@@ -333,7 +333,6 @@ io.on("connection", (socket) => {
             // Sumar puntos al usuario ganador
             const winner = room.puntos.find(p => p.idUser === winnerCard.idUser);
             if (winner) winner.puntaje += 3;
-
             io.to(idSala).emit("sendCardsYPoints", { cardsPlay: room.cardsPlay, puntos: room.puntos });
             room.cardsPlay = []; // Reinicia el vector de cartas jugadas para la próxima ronda
         }
