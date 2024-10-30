@@ -275,29 +275,103 @@ app.post("/postJuegoXUser", async function (req, res) {
     }
 });
 
+const players = {}; // Guarda los jugadores en la sala y sus puntajes
+const gameStatus = {}; // Estado del juego por sala
+const loops = {}; // Guarda el loop actual de cada sala
+
 io.on("connection", (socket) => {
-	const req = socket.request;
+    // Evento para que un jugador se una a una sala
+    socket.on("joinRoom", ({ idUser, idSala }) => {
+        socket.join(idSala);
+        
+        // Inicializa la sala si no existe
+        if (!gameStatus[idSala]) {
+            gameStatus[idSala] = { players: [], timer: null, loop: [], puntos: [] };
+        }
 
-	socket.on('joinRoom', data => {
-		console.log("🚀 ~ io.on ~ req.session.room:", req.session.room)
-		if (req.session.room != undefined && req.session.room.length > 0)
-			socket.leave(req.session.room);
-		req.session.room = data.room;
-		socket.join(req.session.room);
+        const room = gameStatus[idSala];
+        room.players.push(idUser);
+        
+        // Crea el vector de puntos si es un nuevo jugador
+        room.puntos.push({ idUser, puntaje: 0 });
 
-		io.to(req.session.room).emit('chat-messages', { user: req.session.user, room: req.session.room });
-	});
+        // Inicia el timer si es el segundo jugador y no hay 4 jugadores
+        if (room.players.length === 2 && !room.timer) {
+            room.timer = setTimeout(() => startGame(idSala), 20000);
+        }
+        
+        // Comienza la partida si se alcanzan 4 jugadores
+        if (room.players.length === 4) {
+            clearTimeout(room.timer); // Cancela el timer si ya hay 4 jugadores
+            startGame(idSala);
+        }
+    });
 
-	socket.on('pingAll', data => {
-		console.log("PING ALL: ", data);
-		io.emit('pingAll', { event: "Ping to all", message: data });
-	});
+    // Evento para seleccionar la propiedad
+    socket.on("chooseProp", (prop) => {
+        const idSala = Array.from(socket.rooms)[1];
+        if (!idSala) return;
+        
+        io.to(idSala).emit("sendProp", prop);
+        gameStatus[idSala].currentProp = prop;
+    });
 
-	socket.on('sendMessage', data => {
-		io.to(req.session.room).emit('newMessage', { room: req.session.room, message: data });
-	});
+    // Evento para elegir una carta
+    socket.on("chooseCard", (card) => {
+        const idSala = Array.from(socket.rooms)[1];
+        if (!idSala) return;
+        
+        const room = gameStatus[idSala];
+        room.cardsPlay = room.cardsPlay || [];
+        room.cardsPlay.push(card);
+        
+        // Si todos los jugadores enviaron sus cartas, determina el ganador
+        if (room.cardsPlay.length === room.players.length) {
+            const winnerCard = determineWinner(room.cardsPlay, room.currentProp);
+            winnerCard.winner = true;
+            
+            // Sumar puntos al usuario ganador
+            const winner = room.puntos.find(p => p.idUser === winnerCard.idUser);
+            if (winner) winner.puntaje += 3;
 
-	socket.on('disconnect', () => {
-		console.log("Disconnect");
-	})
+            io.to(idSala).emit("sendCardsYPoints", { cardsPlay: room.cardsPlay, puntos: room.puntos });
+            room.cardsPlay = []; // Reinicia el vector de cartas jugadas para la próxima ronda
+        }
+    });
+
+    // Evento para finalizar la ronda y rotar el loop
+    socket.on("endRound", () => {
+        const idSala = Array.from(socket.rooms)[1];
+        if (!idSala) return;
+
+        const room = gameStatus[idSala];
+        const totalPoints = room.puntos.reduce((sum, p) => sum + p.puntaje, 0);
+
+        if (totalPoints >= 15) {
+            const winner = room.puntos.reduce((max, player) => player.puntaje > max.puntaje ? player : max, room.puntos[0]);
+            io.to(idSala).emit("endGame", { idUser: winner.idUser, puntos: winner.puntaje });
+            resetRoom(idSala); // Reinicia el estado de la sala
+        } else {
+            // Rota el loop y envía la siguiente ronda
+            room.loop.push(room.loop.shift()); // Rota el loop
+            io.to(idSala).emit("readyRound", room.loop);
+        }
+    });
 });
+
+// Función para inicializar el juego
+function startGame(idSala) {
+    const room = gameStatus[idSala];
+    room.loop = [...room.players]; // Inicializa el loop con los jugadores
+    io.to(idSala).emit("readyRound", { loop: room.loop, puntos: room.puntos });
+}
+
+// Función para determinar la carta ganadora
+function determineWinner(cards, prop) {
+    return cards.reduce((bestCard, card) => card[prop] > bestCard[prop] ? card : bestCard, cards[0]);
+}
+
+// Función para resetear el estado de la sala al final del juego
+function resetRoom(idSala) {
+    delete gameStatus[idSala];
+}

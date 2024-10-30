@@ -135,4 +135,3 @@ export default function GameStage({
       return null;
   }
 }
-6
