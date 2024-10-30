@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 
-const useSocket = (options = { withCredentials: true }, serverUrl = "ws://localhost:4000/") => {
+const useSocket = (options = { withCredentials: true }, serverUrl = "ws://localhost:3001/") => {
   const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const [gameData, setGameData] = useState({
@@ -27,6 +27,7 @@ const useSocket = (options = { withCredentials: true }, serverUrl = "ws://localh
 
     // Listeners para eventos del servidor
     socketIo.on('readyRound', ({ loop, puntos }) => {
+      console.log("llego el ready room",loop, puntos)
       setGameData(prev => ({ ...prev, loop, puntos }));
     });
 

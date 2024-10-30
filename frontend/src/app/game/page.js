@@ -20,7 +20,7 @@ export default function Home() {
     { idUser: "user2", username: "user2", puntaje: 156 },
     { idUser: "user3", username: "user3", puntaje: 0 },
   ]);
-  const { isConnected, gameData, joinRoom, chooseProp, chooseCard, endRound } = useSocket();
+  const { isConnected, gameData, socket, joinRoom, chooseProp, chooseCard, endRound } = useSocket();
   const [loop, setLoop] = useState([])//el loop es un vector que tiene los usuarios de la partida
   //y que uno de estos usuarios 
 
@@ -36,22 +36,31 @@ export default function Home() {
   };
 // Unirse a la sala al cargar la página
   useEffect(() => {
-    if (isConnected && idUser) {
+    if(!socket)return;
       joinRoom(idUser, "sala1");
-    }
+
   }, [isConnected, idUser]);
 
 // Efecto para cambiar el estado al recibir el loop
   useEffect(() => {
-    if (gameData.loop.length > 0) {
-      const currentUserTurn = gameData.loop[0] === idUser;
+    console.log(loop)
+    if (loop.length > 0) {
+      const currentUserTurn = loop[0] == idUser;
       setStatus(currentUserTurn ? 0 : 1);
     }
-  }, [gameData.loop]);
+  }, [loop]);
+
+  useEffect(() => {
+    setPuntos(gameData.puntos)
+    setLoop(gameData.loop)
+    setCardsPlay(gameData.cardsPlay)
+    setPropSelect(gameData.propSeleccionada)
+  }, [gameData]);
+
 
   // Handler para enviar la propiedad seleccionada
   const handleSendProp = () => {
-    chooseProp(selectedProp);
+    chooseProp(propSelect);
     setStatus(2); // Pasar a seleccionar carta
   };
 

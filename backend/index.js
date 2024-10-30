@@ -17,7 +17,7 @@ const session = require('express-session');// Para el manejo de las variables de
 
 const app = express();	
 app.use(cors({
-    origin: ['http://127.0.0.1:5500', 'http://localhost:3000', 'http://localhost:3001','http://localhost:4000']
+    origin: ['http://127.0.0.1:5500', 'http://localhost:3000', 'http://localhost:3001','http://localhost:3002']
 }));								// Inicializo express para el manejo de las peticiones
 
 app.use(bodyParser.urlencoded({ extended: false }));	// Inicializo el parser JSON
@@ -49,7 +49,7 @@ const server = app.listen(LISTEN_PORT, () => {
 const io = require('socket.io')(server, {
 	cors: {
 		// IMPORTANTE: REVISAR PUERTO DEL FRONTEND
-		origin: ["http://localhost:3000","http://localhost:3001","http://localhost:4000"],            	// Permitir el origen localhost:3000
+		origin: ["http://localhost:3000","http://localhost:3001","http://localhost:3002"],            	// Permitir el origen localhost:3000
 		methods: ["GET", "POST", "PUT", "DELETE"],  	// Métodos permitidos
 		credentials: true                           	// Habilitar el envío de cookies
 	}
@@ -283,7 +283,6 @@ io.on("connection", (socket) => {
     // Evento para que un jugador se una a una sala
     socket.on("joinRoom", ({ idUser, idSala }) => {
         socket.join(idSala);
-        
         // Inicializa la sala si no existe
         if (!gameStatus[idSala]) {
             gameStatus[idSala] = { players: [], timer: null, loop: [], puntos: [] };
@@ -296,8 +295,8 @@ io.on("connection", (socket) => {
         room.puntos.push({ idUser, puntaje: 0 });
 
         // Inicia el timer si es el segundo jugador y no hay 4 jugadores
-        if (room.players.length === 2 && !room.timer) {
-            room.timer = setTimeout(() => startGame(idSala), 20000);
+        if (room.players.length > 2) {
+           startGame(idSala);
         }
         
         // Comienza la partida si se alcanzan 4 jugadores
@@ -360,8 +359,10 @@ io.on("connection", (socket) => {
 
 // Función para inicializar el juego
 function startGame(idSala) {
+    console.log("iniciando partida con", idSala)
     const room = gameStatus[idSala];
     room.loop = [...room.players]; // Inicializa el loop con los jugadores
+    console.log("salinha ", room)
     io.to(idSala).emit("readyRound", { loop: room.loop, puntos: room.puntos });
 }
 
