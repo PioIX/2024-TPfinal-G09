@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { getUsers, fetchRegister } from "@/functions/fetch.js";
 import Input from "@/components/input"; // Importamos el componente Input
 import styles from "@/app/page.module.css"; // Estilos para el formulario
-
 export default function Home() {
 
   let [name, setName] = useState("");

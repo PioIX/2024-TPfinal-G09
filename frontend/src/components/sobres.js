@@ -7,7 +7,7 @@ const Sobre = ({ imagenSrc, texto, subtitulo }) => {
         <div className={styles.sobre}>
             <div className={styles.contenido}>
                 <img src="/panini-logo.png" alt="Logo de Panini" className={styles.logo} />
-                <img src={imagenSrc} alt="Imagen del sobre" className={styles.imagen} />
+                <img src="/pioix-logo.png" alt="Imagen del sobre" className={styles.imagen} />
                 <div className={styles.texto}>{texto}</div>
                 {subtitulo && <div className={styles.subtexto}>{subtitulo}</div>}
             </div>

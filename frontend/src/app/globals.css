@@ -1,6 +1,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --comun-color: linear-gradient(90deg, #c0c0c0, #fff, #c0c0c0) 1;
+  --legendaria-color: linear-gradient(90deg, #c5a35a, #fff, #c5a35a) 1;
 }
 
 html,

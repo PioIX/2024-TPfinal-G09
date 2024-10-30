@@ -1,9 +1,7 @@
-/* components/sobres.module.css */
-
 .sobre {
     width: 220px; /* Ajustado para un diseño más amplio */
     height: 320px; /* Ajustado para un diseño más alto */
-    border: 5px solid transparent; /* Borde transparente inicialmente */
+    border: 7px solid transparent; /* Borde transparente inicialmente */
     border-radius: 5px; /* Bordes redondeados */
     position: relative;
     overflow: hidden; /* Para evitar que el contenido sobresalga */
@@ -12,7 +10,7 @@
     background: linear-gradient(white, white), 
                 linear-gradient(90deg, #c0c0c0, #fff, #c0c0c0); /* Gradiente metálico */
     background-clip: border-box; /* Asegura que el gradiente se aplique al borde */
-    border-image: linear-gradient(90deg, #c0c0c0, #fff, #c0c0c0) 1; /* Borde metálico */
+    border-image: var(--); /* Borde metálico */
 }
 
 .sobre:hover {
@@ -25,12 +23,12 @@
     border: 5px solid var(comun); /* Borde interno negro */
     border-radius: 5px; /* Bordes redondeados internos */
     position: relative;
-    background-color: #fff; /* Fondo blanco */
+    background-color: var(--comun-color); /* Fondo blanco */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 10px; /* Espaciado interno */
+
 }
 
 .logo {
@@ -44,7 +42,6 @@
     height: auto; /* Mantener la proporción de la imagen */
     margin-bottom: 15px; /* Espacio entre la imagen y el texto */
     border-radius: 8px; /* Bordes redondeados para la imagen */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra para la imagen */
 }
 
 .texto {

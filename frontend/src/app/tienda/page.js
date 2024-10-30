@@ -5,7 +5,8 @@ import styles from "@/app/tienda/page.module.css"; // Estilos para el formulario
 import { useSearchParams } from 'next/navigation';
 import Sobre from "@/components/sobres";
 export default function Home() {
-  
+
+
   const searchParams = useSearchParams();
   const userId = searchParams.get('idUser');
 
