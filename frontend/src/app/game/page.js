@@ -1,52 +1,50 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import { useSocket } from "@/hooks/useSocket"; // Importar el hook personalizado de Socket.IO
+import { getCardModels, getHandByUser, getGamesByUser, getMazoByUser, getUsers } from "@/functions/fetch.js";
+import {setCards } from "@/functions/javascript"
 import { useSearchParams } from "next/navigation";
+import Cartas from "@/components/cartas";
 import GameStage from "@/components/gameStage";
-import { getCardModels,getJuegos,getUsers, getMazoByUser } from "@/functions/fetch";
+import { useSocket } from "@/hooks/useSocket";
+
 export default function Home() {
   const searchParams = useSearchParams();
   const idUser = searchParams.get('idUser');
-  const { isConnected, gameData, joinRoom, chooseProp, chooseCard, endRound } = useSocket();
+  const [cardsUser, setCardsUser] = useState([])
+  const [cardsPlay, setCardsPlay] = useState([]); 
+  const [propSelect, setPropSelect] = useState("");
+  const [cardSelect, setCardSelect] = useState(-1);
   const [status, setStatus] = useState(-1);
-  const [selectedProp, setSelectedProp] = useState(null);
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [cardsUser, setCardsUser] = useState([]);
   const [puntos, setPuntos] = useState([
-    { idUser: "user1", username: "user1", puntaje: 0 },
-    { idUser: "user2", username: "user2", puntaje: 0 },
+    { idUser: "user1", username: "user1", puntaje: 2 },
+    { idUser: "user2", username: "user2", puntaje: 156 },
     { idUser: "user3", username: "user3", puntaje: 0 },
   ]);
+  const { isConnected, gameData, joinRoom, chooseProp, chooseCard, endRound } = useSocket();
   const [loop, setLoop] = useState([])//el loop es un vector que tiene los usuarios de la partida
-  //y que uno de estos usuarios  
+  //y que uno de estos usuarios 
 
   async function cargarCartas() {
     const users =await getUsers()
     const cardsU= await getMazoByUser(idUser)
     const cardsM = await getCardModels()
-    const cardsD = await setCardsUser(cardsM, cardsU, users)
+    const cardsD = await setCards(cardsM, cardsU, users)
     console.log(cardsD)
     setCardsUser(cardsD)
     
     //Que cargue todas las cartas que correspondan al usuario
   };
-
-  useEffect(() => {cargarCartas();
-  }, []);
-
-  // Unirse a la sala al cargar la página
+// Unirse a la sala al cargar la página
   useEffect(() => {
-    console.log("a")
     if (isConnected && idUser) {
-      console.log("eee")
       joinRoom(idUser, "sala1");
     }
-  },[isConnected, idUser]);
+  }, [isConnected, idUser]);
 
-  // Efecto para cambiar el estado al recibir el loop
+// Efecto para cambiar el estado al recibir el loop
   useEffect(() => {
     if (gameData.loop.length > 0) {
-      const currentUserTurn = gameData.loop[0] == idUser;
+      const currentUserTurn = gameData.loop[0] === idUser;
       setStatus(currentUserTurn ? 0 : 1);
     }
   }, [gameData.loop]);
@@ -65,29 +63,51 @@ export default function Home() {
 
   // Handler para continuar a la siguiente ronda
   const handleNextRound = () => {
-    endRound(gameData.puntos, gameData.loop);
+    endRound(puntos, loop);
     setStatus(0); // Volver al estado de selección de propiedad
   };
-    
 
+  useEffect(() => {
+    cargarCartas();
+  }, []);
   return (
     <div>
       <main>
-        <GameStage
-          status={status}
+        <div>
+        <button onClick={() => setStatus(-1)}>Conexión</button>
+        <button onClick={() => setStatus(0)}>Elige Propiedad</button>
+        <button onClick={() => setStatus(1)}>Esperando Propiedad</button>
+        <button onClick={() => setStatus(2)}>Elige Carta</button>
+        <button onClick={() => setStatus(3)}>Esperando Cartas</button>
+        <button onClick={() => setStatus(4)}>Mostrar Cartas</button>
+        <button onClick={() => setStatus(5)}>Mostrar Ganador</button>
+        </div>
+        <GameStage 
+          status={status} 
           cardsUser={cardsUser}
-          cardsPlay={gameData.cardsPlay}
+          cardsPlay={cardsPlay}
           setStatus={setStatus}
-          setSelectProp={setSelectedProp}
-          setSelectCard={setSelectedCard}
-          selectedProp={gameData.propSeleccionada}
-          selectedCard={selectedCard}
-          puntos={gameData.puntos}
+          setSelectProp={setPropSelect}
+          setSelectCard={setCardSelect}
+          selectedProp={propSelect}
+          selectedCard={cardSelect}
+          puntos={puntos}
+          setPuntos={setPuntos}
           handleSendProp={handleSendProp}
           handleSendCard={handleSendCard}
-          nextRound={handleNextRound}
-        />
+          nextRound={handleNextRound}/>
       </main>
     </div>
   );
 }
+
+
+/*<div>
+        <button onClick={() => setStatus(-1)}>Conexión</button>
+        <button onClick={() => setStatus(0)}>Elige Propiedad</button>
+        <button onClick={() => setStatus(1)}>Esperando Propiedad</button>
+        <button onClick={() => setStatus(2)}>Elige Carta</button>
+        <button onClick={() => setStatus(3)}>Esperando Cartas</button>
+        <button onClick={() => setStatus(4)}>Mostrar Cartas</button>
+        <button onClick={() => setStatus(5)}>Mostrar Ganador</button>
+        </div>*/
