@@ -1,9 +1,9 @@
 "use client"
 import Button from "@/components/button";
 import React, { useState, useEffect } from "react";
-import styles from "@/app/page.module.css"; // Estilos para el formulario
+import styles from "@/app/tienda/page.module.css"; // Estilos para el formulario
 import { useSearchParams } from 'next/navigation';
-
+import Sobre from "@/components/sobres";
 export default function Home() {
   
   const searchParams = useSearchParams();
@@ -27,9 +27,19 @@ export default function Home() {
 
   return (
     <div>
-<div style={styles.header}>
+      
+<div className={styles.header}>
   TIENDA DE CARTAS
 </div>
+
+<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <Sobre 
+                imagenSrc="/calidad.png" 
+                texto="¡Colección de Figuritas!" 
+                subtitulo="Tipo de Sobre: Estándar" 
+            />
+        </div>
+
     </div>
   );
 }

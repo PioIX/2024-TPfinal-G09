@@ -1,0 +1,68 @@
+/* components/sobres.module.css */
+
+.sobre {
+    width: 220px; /* Ajustado para un diseño más amplio */
+    height: 320px; /* Ajustado para un diseño más alto */
+    border: 5px solid transparent; /* Borde transparente inicialmente */
+    border-radius: 5px; /* Bordes redondeados */
+    position: relative;
+    overflow: hidden; /* Para evitar que el contenido sobresalga */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra más suave */
+    transition: transform 0.3s; /* Transición para el hover */
+    background: linear-gradient(white, white), 
+                linear-gradient(90deg, #c0c0c0, #fff, #c0c0c0); /* Gradiente metálico */
+    background-clip: border-box; /* Asegura que el gradiente se aplique al borde */
+    border-image: linear-gradient(90deg, #c0c0c0, #fff, #c0c0c0) 1; /* Borde metálico */
+}
+
+.sobre:hover {
+    transform: scale(1.05); /* Efecto de aumento al pasar el mouse */
+}
+
+.contenido {
+    width: 100%;
+    height: 100%;
+    border: 5px solid var(comun); /* Borde interno negro */
+    border-radius: 5px; /* Bordes redondeados internos */
+    position: relative;
+    background-color: #fff; /* Fondo blanco */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px; /* Espaciado interno */
+}
+
+.logo {
+    width: 60%; /* Ajusta el tamaño del logo */
+    height: auto; /* Mantener la proporción del logo */
+    margin-bottom: 10px; /* Espacio entre el logo y la imagen del sobre */
+}
+
+.imagen {
+    width: 50%; /* Ajusta el tamaño de la imagen */
+    height: auto; /* Mantener la proporción de la imagen */
+    margin-bottom: 15px; /* Espacio entre la imagen y el texto */
+    border-radius: 8px; /* Bordes redondeados para la imagen */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra para la imagen */
+}
+
+.texto {
+    position: relative;
+    color: #333; /* Color del texto */
+    font-weight: bold; /* Negrita */
+    text-align: center; /* Alinear texto al centro */
+    font-size: 20px; /* Tamaño de fuente ajustado */
+    transition: color 0.3s; /* Transición de color */
+}
+
+.subtexto {
+    color: #666; /* Color del subtítulo */
+    font-size: 16px; /* Tamaño de fuente del subtítulo */
+    text-align: center; /* Alinear subtítulo al centro */
+    margin-top: 5px; /* Espacio entre el texto principal y el subtítulo */
+}
+
+.sobre:hover .texto {
+    color: #007bff; /* Cambia el color del texto al pasar el mouse */
+}
