@@ -312,7 +312,7 @@ io.on("connection", (socket) => {
         if (!idSala) return;
         
         io.to(idSala).emit("sendProp", prop);
-        gameStatus[idSala].currentProp = prop;
+        gameStatus[idSala].currentProp = prop; 
     });
 
     // Evento para elegir una carta

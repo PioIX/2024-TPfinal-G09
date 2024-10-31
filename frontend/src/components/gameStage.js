@@ -36,11 +36,11 @@ export default function GameStage({
 }) {
 
   // Renderización del puntaje de cada jugador
-  const renderPuntos = () => (
+  const renderPuntos = () => ( 
     <div className={styles.puntosContainer}>
       {puntos.map((punto) => (
         <p key={punto.idUser}>
-          {punto.username}: {punto.puntaje} puntos
+          {punto.idUser}: {punto.puntaje} puntos
         </p>
       ))}
     </div>

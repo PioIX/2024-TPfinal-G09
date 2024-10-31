@@ -28,7 +28,7 @@ const useSocket = (options = { withCredentials: true }, serverUrl = "ws://localh
     // Listeners para eventos del servidor
     socketIo.on('readyRound', ({ loop, puntos }) => {
       console.log("llego el ready room",loop, puntos)
-      setGameData(prev => ({ ...prev, loop, puntos }));
+      setGameData(prev => ({ ...prev, loop:loop, puntos:puntos }));
     });
 
     socketIo.on('sendProp', (prop) => {
@@ -59,7 +59,7 @@ const useSocket = (options = { withCredentials: true }, serverUrl = "ws://localh
 
   const chooseProp = (prop) => {
     if (socket) socket.emit('chooseProp', prop);
-  };
+  }; 
 
   const chooseCard = (card) => {
     if (socket) socket.emit('chooseCard', card);
