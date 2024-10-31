@@ -1,8 +1,13 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --comun-color: linear-gradient(90deg, #c0c0c0, #fff, #c0c0c0) 1;
-  --legendaria-color: linear-gradient(90deg, #c5a35a, #fff, #c5a35a) 1;
+  --color-común: linear-gradient(90deg, #c0c0c0, #fff, #c0c0c0) 1;
+  --color-épica: linear-gradient(90deg, #8b00ff, #b19cd9, #8b00ff) 1;
+  --color-especial: linear-gradient(90deg, #32cd32, #90ee90, #32cd32) 1;
+  --color-icónicas: linear-gradient(90deg, #f0e68c, #fffacd, #f0e68c) 1;
+  --color-legendaria: linear-gradient(90deg, #d4af37, #ffecb3, #d4af37) 1;
+  --color-rara: linear-gradient(90deg, #1e90ff, #add8e6, #1e90ff) 1;
+  --color-flashback: linear-gradient(90deg, #ff69b4, #ffb6c1, #ff69b4) 1;
 }
 
 html,

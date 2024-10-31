@@ -5,3 +5,24 @@
     text-align: center;
     display: block;
 }
+
+/* page.module.css */
+
+.container {
+    padding: 16px;
+  }
+  
+  .header {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  .sobresContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    justify-content: center;
+  }
+  

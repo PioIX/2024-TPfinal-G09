@@ -1,14 +1,23 @@
 "use client"
-import Button from "@/components/button";
 import React, { useState, useEffect } from "react";
-import styles from "@/app/tienda/page.module.css"; // Estilos para el formulario
-import { useSearchParams } from 'next/navigation';
 import Sobre from "@/components/sobres";
+import styles from "@/app/tienda/page.module.css";
+import { useSearchParams } from 'next/navigation';
+
 export default function Home() {
 
-
+  const [sobres, setSobres] = useState([]);
   const searchParams = useSearchParams();
   const userId = searchParams.get('idUser');
+
+  useEffect(() => {
+    async function fetchSobres() {
+      const res = await fetch('http://localhost:3001/getSobres');
+      const data = await res.json();
+      setSobres(data);
+    }
+    fetchSobres();
+  }, []);
 
   async function goUsers(){
     window.location.href = `/user?idUser=${userId}`
@@ -27,21 +36,21 @@ export default function Home() {
   }
 
   return (
-    <div>
-      
-<div className={styles.header}>
-  TIENDA DE CARTAS
-</div>
-
-<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-            <Sobre 
-                imagenSrc="/calidad.png" 
-                texto="¡Colección de Figuritas!" 
-                subtitulo="Tipo de Sobre: Estándar" 
-            />
-        </div>
-
+    <div className={styles.container}>
+    <div className={styles.header}>TIENDA DE CARTAS</div>
+    
+    <div className={styles.sobresContainer}>
+      {sobres.map((sobre, index) => (
+        <Sobre
+          key={sobre.id}
+          imagenSrc={`/images/${sobre.name.toLowerCase()}.png`}
+          texto={sobre.name}
+          subtitulo={`Precio: ${sobre.price} monedas`}
+          rareza={sobre.name} // Utiliza `name` para definir la rareza
+        />
+      ))}
     </div>
-  );
+  </div>
+);
 }
 
