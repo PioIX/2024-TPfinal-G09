@@ -9,7 +9,7 @@ const ConfirmationModal = ({ sobre, onConfirm, onCancel }) => {
     <div className={styles.modalBackdrop}>
       <div className={styles.modalContent}>
         <h2>Confirmar compra</h2>
-        <p>¿Quieres comprar el sobre de categoria <strong>{sobre.name}</strong> por {sobre.price} monedas?</p>
+        <p>¿Quieres comprar el sobre de categoria < strong>{sobre.name}</> por {sobre.price} monedas?</p>
         <div className={styles.modalActions}>
           <Button onClick={onConfirm}>Confirmar</Button>
           <Button onClick={onCancel}>Cancelar</Button>
