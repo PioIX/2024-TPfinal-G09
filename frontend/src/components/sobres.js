@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './sobres.module.css';
 
-const Sobre = ({ imagenSrc, texto, subtitulo, rareza }) => {
+const Sobre = ({ imagenSrc, texto, subtitulo, rareza, onClick }) => {
     const rarityStyles = {
         Común: "var(--color-común)",
         Épica: "var(--color-épica)",
@@ -9,15 +9,17 @@ const Sobre = ({ imagenSrc, texto, subtitulo, rareza }) => {
         Icónicas: "var(--color-icónicas)",
         Legendaria: "var(--color-legendaria)",
         Rara: "var(--color-rara)",
-        Flashback: "var(--color-flashback)"
+        Flashback: "var(--color-flashback)",
+        Aleatorio: "var(--color-aleatorio)" // Nuevo color rojo para aleatorio
     };
 
     return (
-        <div className={styles.sobre} style={{ borderImage: rarityStyles[rareza] }}>
+        <div className={styles.sobre} style={{ borderImage: rarityStyles[rareza] }} onClick={onClick}>
             <div className={styles.contenido}>
                 <img 
                     src={"/panini-logo.png"} 
                     alt="Logo de Panini" 
+
                     className={styles.logo} 
                 />
                 <div className={styles.texto}>{texto}</div>

@@ -279,3 +279,17 @@ app.post("/postJuegoXUser", async function (req, res) {
     }
 });
 
+// Obtener el dinero del usuario
+app.get("/getUserMoney", async (req, res) => {
+    if (!req.query.idUser) {
+        return res.status(400).json({ message: "El parámetro idUser es obligatorio" });
+    }
+
+    try {
+        const query = `SELECT money FROM Users WHERE id = '${req.query.idUser}'`;
+        const [user] = await MySQL.realizarQuery(query); // Esperamos solo un usuario
+        res.status(200).json(user); // Respuesta con el dinero del usuario
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener el dinero del usuario", error });
+    }
+});
