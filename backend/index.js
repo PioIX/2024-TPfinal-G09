@@ -295,31 +295,23 @@ io.on("connection", (socket) => {
         room.puntos.push({ idUser, puntaje: 0 });
 
         // Inicia el timer si es el segundo jugador y no hay 4 jugadores
-        if (room.players.length > 2) {
+        if (room.players.length > 1) {
            startGame(idSala);
-        }
-        
-        // Comienza la partida si se alcanzan 4 jugadores
-        if (room.players.length === 4) {
-            clearTimeout(room.timer); // Cancela el timer si ya hay 4 jugadores
-            startGame(idSala);
         }
     });
 
     // Evento para seleccionar la propiedad
-    socket.on("chooseProp", (prop) => {
-        const idSala = Array.from(socket.rooms)[1];
+    socket.on("chooseProp", (prop, idSala) => {
         if (!idSala) return;
         
         io.to(idSala).emit("sendProp", prop);
-        gameStatus[idSala].currentProp = prop; 
+        gameStatus[idSala].propSeleccionada = prop; 
     });
 
     // Evento para elegir una carta
-    socket.on("chooseCard", (card) => {
-        const idSala = Array.from(socket.rooms)[1];
+    socket.on("chooseCard", (card, idSala) => {
         if (!idSala) return;
-        
+        room.cardsPlay = []; // Reinicia el vector de cartas jugadas para la próxima ronda
         const room = gameStatus[idSala];
         room.cardsPlay = room.cardsPlay || [];
         room.cardsPlay.push(card);
@@ -333,7 +325,6 @@ io.on("connection", (socket) => {
             const winner = room.puntos.find(p => p.idUser === winnerCard.idUser);
             if (winner) winner.puntaje += 3;
             io.to(idSala).emit("sendCardsYPoints", { cardsPlay: room.cardsPlay, puntos: room.puntos });
-            room.cardsPlay = []; // Reinicia el vector de cartas jugadas para la próxima ronda
         }
     });
 

@@ -10,6 +10,7 @@ const useSocket = (options = { withCredentials: true }, serverUrl = "ws://localh
     propSeleccionada: null,
     cardsPlay: [],
     endGameData: null,
+    fase:-1
   });
 
   useEffect(() => {
@@ -28,15 +29,15 @@ const useSocket = (options = { withCredentials: true }, serverUrl = "ws://localh
     // Listeners para eventos del servidor
     socketIo.on('readyRound', ({ loop, puntos }) => {
       console.log("llego el ready room",loop, puntos)
-      setGameData(prev => ({ ...prev, loop:loop, puntos:puntos }));
+      setGameData(prev => ({ ...prev, loop:loop, puntos:puntos, fase:0 }));
     });
 
     socketIo.on('sendProp', (prop) => {
-      setGameData(prev => ({ ...prev, propSeleccionada: prop }));
+      setGameData(prev => ({ ...prev, propSeleccionada: prop, fase:1}));
     });
 
     socketIo.on('sendCardsYPoints', ({ cardsPlay, puntos }) => {
-      setGameData(prev => ({ ...prev, cardsPlay, puntos }));
+      setGameData(prev => ({ ...prev, cardsPlay, puntos, fase:2 }));
     });
 
     socketIo.on('endGame', ({ idUser, puntos }) => {
@@ -57,12 +58,12 @@ const useSocket = (options = { withCredentials: true }, serverUrl = "ws://localh
     if (socket) socket.emit('joinRoom', { idUser, idSala });
   };
 
-  const chooseProp = (prop) => {
-    if (socket) socket.emit('chooseProp', prop);
+  const chooseProp = (prop, idSala) => {
+    if (socket) socket.emit('chooseProp', prop, idSala);
   }; 
 
-  const chooseCard = (card) => {
-    if (socket) socket.emit('chooseCard', card);
+  const chooseCard = (card, idSala) => {
+    if (socket) socket.emit('chooseCard', card, idSala);
   };
 
   const endRound = (points, loop) => {
