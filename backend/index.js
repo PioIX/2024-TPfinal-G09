@@ -31,6 +31,7 @@ const server = app.listen(LISTEN_PORT, () => {
     console.log('Rutas definidas:');
     console.log(`   [GET] http://localhost:${LISTEN_PORT}/`);
     console.log(`   [GET] http://localhost:${LISTEN_PORT}/getUsers`);
+    console.log(`   [GET] http://localhost:${LISTEN_PORT}/getUserById`);
     console.log(`   [GET] http://localhost:${LISTEN_PORT}/getSobres`);
     console.log(`   [GET] http://localhost:${LISTEN_PORT}/getCardModels`);
     console.log(`   [GET] http://localhost:${LISTEN_PORT}/getJuegos`);
@@ -83,6 +84,22 @@ app.get("/getUsers", async (req, res) => {
         res.status(200).json(users);  // Respuesta con estado 200 y los usuarios en formato JSON
     } catch (error) {
         res.status(500).json({ message: "Error al obtener los usuarios", error });  // Error del servidor
+    }
+});
+
+app.get("/getUserById", async (req, res) => {
+    if (!req.query.idUser) {
+        return res.status(400).json({ message: "El parámetro idUser es obligatorio" });
+    }
+
+    try {
+        // Usamos una consulta SQL que filtre por el idUser
+        const query = `SELECT * FROM Users WHERE id = '${req.query.idUser}'`;
+        const user = await MySQL.realizarQuery(query); // Pa?samos idUser como parámetro para prevenir SQL Injection
+        res.status(200).json(user);
+        console.log(user)
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener el usuario", error });
     }
 });
 
@@ -281,18 +298,18 @@ const loops = {}; // Guarda el loop actual de cada sala
 
 io.on("connection", (socket) => {
     // Evento para que un jugador se una a una sala
-    socket.on("joinRoom", ({ idUser, idSala }) => {
+    socket.on("joinRoom", ({ idUser, username, idSala }) => {
         socket.join(idSala);
         // Inicializa la sala si no existe
         if (!gameStatus[idSala]) {
-            gameStatus[idSala] = { players: [], timer: null, loop: [], puntos: [] };
+            gameStatus[idSala] = { players: [], timer: null, loop: [], puntos: [], cardsPlay:[], round:1};
         }
 
         const room = gameStatus[idSala];
         room.players.push(idUser);
         
         // Crea el vector de puntos si es un nuevo jugador
-        room.puntos.push({ idUser, puntaje: 0 });
+        room.puntos.push({ idUser, username, puntaje: 0 });
 
         // Inicia el timer si es el segundo jugador y no hay 4 jugadores
         if (room.players.length > 1) {
@@ -311,39 +328,49 @@ io.on("connection", (socket) => {
     // Evento para elegir una carta
     socket.on("chooseCard", (card, idSala) => {
         if (!idSala) return;
-        room.cardsPlay = []; // Reinicia el vector de cartas jugadas para la próxima ronda
         const room = gameStatus[idSala];
-        room.cardsPlay = room.cardsPlay || [];
         room.cardsPlay.push(card);
         
         // Si todos los jugadores enviaron sus cartas, determina el ganador
         if (room.cardsPlay.length === room.players.length) {
-            const winnerCard = determineWinner(room.cardsPlay, room.currentProp);
-            winnerCard.winner = true;
-            
-            // Sumar puntos al usuario ganador
-            const winner = room.puntos.find(p => p.idUser === winnerCard.idUser);
-            if (winner) winner.puntaje += 3;
+            const winnerCards = determineWinner(room.cardsPlay, room.propSeleccionada);
+            // Marcar las cartas ganadoras
+            winnerCards.forEach(card => card.winner = true);
+
+            if (winnerCards.length == 1) {
+            // Solo un ganador, suma 3 puntos
+                const singleWinner = room.puntos.find(p => p.idUser == winnerCards[0].playerId);
+                if (singleWinner) singleWinner.puntaje += 3;
+
+            } else {
+                // Más de un ganador, suma 1 punto a cada uno
+                winnerCards.forEach(card => {
+                const winner = room.puntos.find(p => p.idUser == card.playerId);
+                if (winner) winner.puntaje += 1;
+                });
+            }
             io.to(idSala).emit("sendCardsYPoints", { cardsPlay: room.cardsPlay, puntos: room.puntos });
+            console.log(room.cardsPlay)
+            room.cardsPlay = []; // Reinicia el vector de cartas jugadas para la próxima ronda
         }
     });
 
     // Evento para finalizar la ronda y rotar el loop
-    socket.on("endRound", () => {
-        const idSala = Array.from(socket.rooms)[1];
+    socket.on("endRound", (puntos, loop, idSala) => {
         if (!idSala) return;
-
         const room = gameStatus[idSala];
-        const totalPoints = room.puntos.reduce((sum, p) => sum + p.puntaje, 0);
-
-        if (totalPoints >= 15) {
+        room.loop=loop
+        room.puntos=puntos
+        const totalPoints = puntos.reduce((sum, p) => sum + p.puntaje, 0);
+        room.round++
+        if (room.round > 5) {
             const winner = room.puntos.reduce((max, player) => player.puntaje > max.puntaje ? player : max, room.puntos[0]);
             io.to(idSala).emit("endGame", { idUser: winner.idUser, puntos: winner.puntaje });
             resetRoom(idSala); // Reinicia el estado de la sala
         } else {
             // Rota el loop y envía la siguiente ronda
             room.loop.push(room.loop.shift()); // Rota el loop
-            io.to(idSala).emit("readyRound", room.loop);
+            io.to(idSala).emit("readyRound", { loop: room.loop, puntos: room.puntos });
         }
     });
 });
@@ -359,8 +386,13 @@ function startGame(idSala) {
 
 // Función para determinar la carta ganadora
 function determineWinner(cards, prop) {
-    return cards.reduce((bestCard, card) => card[prop] > bestCard[prop] ? card : bestCard, cards[0]);
+    // Encuentra el valor máximo de la propiedad seleccionada
+    const maxValue = Math.max(...cards.map(card => card[prop]));
+
+    // Retorna todas las cartas que tengan el valor máximo en la propiedad seleccionada
+    return cards.filter(card => card[prop] === maxValue);
 }
+
 
 // Función para resetear el estado de la sala al final del juego
 function resetRoom(idSala) {

@@ -30,6 +30,7 @@ export default function GameStage({
   selectedProp,
   selectedCard,
   puntos,
+  handleConexion,
   handleSendProp, 
   handleSendCard,
   nextRound
@@ -40,7 +41,7 @@ export default function GameStage({
     <div className={styles.puntosContainer}>
       {puntos.map((punto) => (
         <p key={punto.idUser}>
-          {punto.idUser}: {punto.puntaje} puntos
+          {punto.username }: {punto.puntaje} puntos
         </p>
       ))}
     </div>
@@ -52,6 +53,7 @@ export default function GameStage({
       return (
         <div className={styles.waitingContainer}>
           {renderPuntos()}
+          <Button onClick={() => handleConexion()}>Conectarte</Button>
           <div className={styles.waitingText}>Esperando a que se conecten todos los jugadores...</div>
         </div>
       );
@@ -94,7 +96,7 @@ export default function GameStage({
       );
 
     case 3:
-      const selectedCarta = cardsUser.find((carta) => carta.id === selectedCard);
+      const selectedCarta = cardsUser.find((carta) => carta.id == selectedCard);
       return (
         <div className={styles.selectedCardContainer}>
           {renderPuntos()}
@@ -111,8 +113,10 @@ export default function GameStage({
           {renderPuntos()}
           <div className={styles.selectedProp}>Propiedad elegida: {selectedProp}</div>
           <h3>Cartas elegidas:</h3>
-          <Cartas cards={cardsPlay} mostrarUsername={true} /> {/* Cartas en juego de la ronda */}
+          <Cartas cards={cardsPlay} mostrarUsername={true} /> 
+          <Button onClick={() => setStatus(5)}> continuar... </Button>
         </div>
+
       );
 
     case 5:
@@ -127,7 +131,7 @@ export default function GameStage({
             <h4>¡El ganador es {cartaGanadora.username}!</h4>
             {/* Usar el componente Cartas para mostrar la carta ganadora */}
             <Cartas cards={[cartaGanadora]}/>
-            <Button onClick={() => nextRound()}>Continuar</Button>
+            <Button onClick={() => nextRound()}>Proxima ronda...</Button>
           </div>
         );
 

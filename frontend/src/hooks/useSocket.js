@@ -28,15 +28,17 @@ const useSocket = (options = { withCredentials: true }, serverUrl = "ws://localh
 
     // Listeners para eventos del servidor
     socketIo.on('readyRound', ({ loop, puntos }) => {
-      console.log("llego el ready room",loop, puntos)
+      console.log("llego el ready room, loop:",loop,"   puntos:", puntos)
       setGameData(prev => ({ ...prev, loop:loop, puntos:puntos, fase:0 }));
     });
 
     socketIo.on('sendProp', (prop) => {
+      console.log("llego la propiedad, prop:",prop)
       setGameData(prev => ({ ...prev, propSeleccionada: prop, fase:1}));
     });
 
     socketIo.on('sendCardsYPoints', ({ cardsPlay, puntos }) => {
+      console.log("llegaron las, cartas:",cardsPlay ,"  y los puntos:", puntos)
       setGameData(prev => ({ ...prev, cardsPlay, puntos, fase:2 }));
     });
 
@@ -53,9 +55,9 @@ const useSocket = (options = { withCredentials: true }, serverUrl = "ws://localh
   }, [serverUrl, JSON.stringify(options)]);
 
   // Funciones para emitir eventos al servidor
-  const joinRoom = (idUser, idSala) => {
+  const joinRoom = (idUser, username, idSala) => {
     console.log('Enviando joinRoom con idUser:', idUser, 'y idSala:', idSala);
-    if (socket) socket.emit('joinRoom', { idUser, idSala });
+    if (socket) socket.emit('joinRoom', { idUser, username, idSala });
   };
 
   const chooseProp = (prop, idSala) => {
@@ -66,8 +68,8 @@ const useSocket = (options = { withCredentials: true }, serverUrl = "ws://localh
     if (socket) socket.emit('chooseCard', card, idSala);
   };
 
-  const endRound = (points, loop) => {
-    if (socket) socket.emit('endRound', { points, loop });
+  const endRound = (puntos, loop, idSala) => {
+    if (socket) socket.emit('endRound', puntos, loop, idSala);
   };
 
   return { socket, isConnected, gameData, joinRoom, chooseProp, chooseCard, endRound };

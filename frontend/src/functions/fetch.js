@@ -37,6 +37,16 @@ export async function getUsers() {
     }
 }
 
+export async function getUserById(idUser) {
+  try {
+      const response = await fetch(`${baseURL}/getUserById?idUser=${idUser}`);
+      const data = await response.json();
+      console.log(data)
+      return data;
+  } catch (error) {
+      console.error("Error al obtener el user:", error);
+  }
+}
 // Función para obtener los juegos
 export async function getJuegos() {
   try {

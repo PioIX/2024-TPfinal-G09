@@ -24,7 +24,8 @@ export function setCards(cardModels, cards, users) {
         let resultCard = {
           ...model,       // Copiamos las propiedades del cardModel
           playerId: card.idUser,  // Añadimos el id del jugador
-          username: users[findXByID(card.idUser,users)].username
+          id: card. id,
+          username: users[0].username
         };
 
         result.push(resultCard);  // Añadimos el resultado al array final
