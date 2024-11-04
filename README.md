@@ -43,15 +43,15 @@ Al final del juego, el jugador que haya sumado más puntos a lo largo de la part
 
 Imágenes: 
 ![image](imagen1.webp)
-// Esta imagen, es una representación gráfica de las cartas del juego. Ver la sección 1 a 2.a.
+// Imagen de representación visual de una partida en juego. 
 
 
 ![image](imagen2.webp)
-// 
+// Esta imagen representa las cartas aleatorias que, antes de comenzada la partida, el usuario seleccionará en conjunto con sus habilidades o características más fuertes/especiales. 
 
 
 ![image](imagen3.webp)
-//
+// Esta imagen, es una representación gráfica de las cartas del juego. Ver la sección 1 a 2.a.
 
 
 
