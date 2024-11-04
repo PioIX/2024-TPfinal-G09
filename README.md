@@ -17,7 +17,7 @@ Por otro lado todos los usuarios tendran una cantidad de cartas predeterminadas 
  2.a- Tipos de sobres:
 Además de tipos de cartas existen tipos de sobres, los cuales le darán de manera asegurada una cantidad de cartas, la cual irá variando en base a la calidad del sobre (por ejemplo, si el sobre es de calidad icónica, le dará al usuario una sola carta de esta calidad en el último lugar)
 
-2. b- Obtención de sobres exclusivos:
+ 2. b- Obtención de sobres exclusivos:
 A partir de códigos, los cuales serán secretos para la mayoria de los jugadores, se podrán visualizar y/o desbloquear sobres de cartas exclusivas con cartas especiales
 Ejemplo: sobre programadores el cual contiene cartas de los desarroladores del juego. 
 
@@ -34,13 +34,28 @@ Los usuarios recibirán sus cartas previamente seleccionadas en la seccion del m
  4.a- Finalización de la Partida
 Al final del juego, el jugador que haya sumado más puntos a lo largo de la partida será el ganador.
 
-5. Ranking e Historial
+5- Ranking e Historial
  5.a- Ranking:
- Todos los jugadores participarán de un ranking a lo largo de las partidas, el cual, como explicamos en la sección 4.a, al finalizar la totalidad de las rondas, se mostrarán los participantes que más puntos hayan sumado, y el ganador (quien será el que más puntaje haya acumulado)
-aqullos con mayor puntuacion se veran en los primeros 10. (FALTA DESARROLAR)
+ Todos los jugadores participarán de un ranking a lo largo de las partidas, el cual, como explicamos en la sección 4.a, al finalizar la totalidad de las rondas, se mostrarán los participantes que más puntos hayan sumado, y el ganador (quien se mostrará en la cima de dicho ranking y el cual será el que más puntaje haya acumulado). 
  
  5.b- Historial:
    Todas las partidas del jugador se podrán ver en ésta sección. (FALTA DESARROLAR)
 
+///
 
-  ![image](imagen3.webp)
+Imágenes: 
+
+![image](imagen1.jfif)
+
+// Imagen de representación visual de una partida en juego. 
+
+
+![image](imagen2.webp)
+// Esta imagen representa las cartas aleatorias que, antes de comenzada la partida, el usuario seleccionará en conjunto con sus habilidades o características más fuertes/especiales. 
+
+
+![image](imagen3.webp)
+// Esta imagen, es una representación gráfica de las cartas del juego. Ver la sección 1 a 2.a.
+
+
+
