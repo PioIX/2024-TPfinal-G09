@@ -41,8 +41,12 @@ Al final del juego, el jugador que haya sumado más puntos a lo largo de la part
  5.b- Historial:
    Todas las partidas del jugador se podrán ver en ésta sección. (FALTA DESARROLAR)
 
+///
+
 Imágenes: 
-![image](imagen1.webp)
+
+![image](imagen1.jfif)
+
 // Imagen de representación visual de una partida en juego. 
 
 
