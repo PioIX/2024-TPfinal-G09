@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import { getCardModels, getHandByUser, getUserById, getMazoByUser, getUsers } from "@/functions/fetch.js";
+import { getCardModels, getHandByUser, getUserById, getMazoByUser, getUsers, insertJuegoXUser } from "@/functions/fetch.js";
 import {findXByID, setCards } from "@/functions/javascript"
 import { useSearchParams } from "next/navigation";
 import GameStage from "@/components/gameStage";
@@ -17,6 +17,7 @@ export default function Home() {
   const [fase, setFase]= useState(-1)
   const [status, setStatus] = useState(-1);
   const [puntos, setPuntos] = useState([]);
+  const [idJuego, setIdJuego] = useState(-1)
   const { isConnected, gameData, socket, joinRoom, chooseProp, chooseCard, endRound } = useSocket();
   const [loop, setLoop] = useState([])//el loop es un vector que tiene los usuarios de la partida
   //y que uno de estos usuarios 
@@ -63,6 +64,13 @@ export default function Home() {
       setCardsUser(newCardsU)
       console.log("Cards User nuevas",cardsUser)
     }
+    if (fase==3){
+      console.log("id juego:", idJuego)
+      let newJXU = {idUser:idUser, idJuego:idJuego}
+      console.log("nuevo vinculo JXU")
+      insertJuegoXUser(newJXU)
+      window.location.href = `/endGame?idJuego=${idJuego}&idUser=${idUser}`
+    }
     
   }, [fase]);
   
@@ -72,6 +80,7 @@ export default function Home() {
     setCardsPlay(gameData.cardsPlay)
     setPropSelect(gameData.propSeleccionada)
     setFase(gameData.fase)
+    setIdJuego(gameData.idJuego)
   }, [gameData]);
 
   const handleConexion = async () => {
