@@ -42,8 +42,9 @@ const useSocket = (options = { withCredentials: true }, serverUrl = "ws://localh
       setGameData(prev => ({ ...prev, cardsPlay, puntos, fase:2 }));
     });
 
-    socketIo.on('endGame', ({ idUser, puntos }) => {
-      setGameData(prev => ({ ...prev, endGameData: { idUser, puntos } }));
+    socketIo.on('endGame', ({ juego }) => {
+      //Que reciba el idUser y el idJuego(juego.insert ID), postee el vinculo userXgame y luego
+      //te envie a una pagina endGame, que recibe el idUser y el idJuego y muestre
     });
 
     // Guardar el socket en el estado

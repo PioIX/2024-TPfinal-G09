@@ -20,7 +20,7 @@ export default function Home() {
   const { isConnected, gameData, socket, joinRoom, chooseProp, chooseCard, endRound } = useSocket();
   const [loop, setLoop] = useState([])//el loop es un vector que tiene los usuarios de la partida
   //y que uno de estos usuarios 
-  const idSala = "sala1"
+  const [idSala, setIdSala] = useState("")
   let cont=0
 
   async function cargarCartas() {
@@ -128,19 +128,11 @@ export default function Home() {
           handleConexion={handleConexion}
           handleSendProp={handleSendProp}
           handleSendCard={handleSendCard}
-          nextRound={handleNextRound}/>
+          nextRound={handleNextRound}
+          idSala={idSala}
+          setIdSala={setIdSala}
+          />
       </main>
     </div>
   );
 }
-
-
-/*<div>
-        <button onClick={() => setStatus(-1)}>Conexión</button>
-        <button onClick={() => setStatus(0)}>Elige Propiedad</button>
-        <button onClick={() => setStatus(1)}>Esperando Propiedad</button>
-        <button onClick={() => setStatus(2)}>Elige Carta</button>
-        <button onClick={() => setStatus(3)}>Esperando Cartas</button>
-        <button onClick={() => setStatus(4)}>Mostrar Cartas</button>
-        <button onClick={() => setStatus(5)}>Mostrar Ganador</button>
-        </div>*/

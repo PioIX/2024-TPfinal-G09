@@ -269,11 +269,11 @@ app.post("/postCard", async function (req, res) {
 // Insertar un nuevo juego A
 app.post("/postJuego", async function (req, res) {
     try {
-        const query = `INSERT INTO Juego (winner) VALUES ('${req.body.winner}')`;
+        const query = `INSERT INTO Juego (winner, points) VALUES ('${req.body.winner}', '${req.body.points}')`;
 
-        await MySQL.realizarQuery(query);
+        const result = await MySQL.realizarQuery(query);
 
-        res.status(201).send(true);
+        res.status(201).send({success:true, juego:result});
     } catch (error) {
         res.status(500).json({ message: "Error al insertar el juego", error });
     }
@@ -356,16 +356,18 @@ io.on("connection", (socket) => {
     });
 
     // Evento para finalizar la ronda y rotar el loop
-    socket.on("endRound", (puntos, loop, idSala) => {
+    socket.on("endRound", async(puntos, loop, idSala) => {
         if (!idSala) return;
         const room = gameStatus[idSala];
         room.loop=loop
         room.puntos=puntos
-        const totalPoints = puntos.reduce((sum, p) => sum + p.puntaje, 0);
         room.round++
         if (room.round > 5) {
             const winner = room.puntos.reduce((max, player) => player.puntaje > max.puntaje ? player : max, room.puntos[0]);
-            io.to(idSala).emit("endGame", { idUser: winner.idUser, puntos: winner.puntaje });
+            const newJuego = { winner: winner.idUser, points: winner.puntaje }
+            const juego = await insertJuego(newJuego)
+            io.to(idSala).emit("endGame", juego);
+            console.log(juego)
             resetRoom(idSala); // Reinicia el estado de la sala
         } else {
             // Rota el loop y envía la siguiente ronda
@@ -375,12 +377,37 @@ io.on("connection", (socket) => {
     });
 });
 
+//Funcion como fetch pero dentro del back que arma el juego
+async function insertJuego(newJuego) {
+    try {
+      const response = await fetch(`http://localhost:${LISTEN_PORT}/postJuego`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newJuego),
+      });
+  
+      // Verificamos si la respuesta fue exitosa
+      if (!response) {
+        throw new Error('Error al registrar el juego');
+      }
+  
+      // Parseamos la respuesta
+      const result = await response.json();
+      return result.juego;
+    } catch (error) {
+      console.error('Error en insertJuego:', error);
+      throw error; // Propagamos el error para manejarlo en el componente
+    }
+}
+
 // Función para inicializar el juego
 function startGame(idSala) {
     console.log("iniciando partida con", idSala)
     const room = gameStatus[idSala];
     room.loop = [...room.players]; // Inicializa el loop con los jugadores
-    console.log("salinha ", room)
+    console.log("sala ", room)
     io.to(idSala).emit("readyRound", { loop: room.loop, puntos: room.puntos });
 }
 

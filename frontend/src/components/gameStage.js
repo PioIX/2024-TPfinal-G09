@@ -14,7 +14,8 @@
   si el status es 4, que muestre todas las cartas elegidas, users y la prop
   si el status es 5, que muestre la carta y el user ganador
   */
- import React from 'react';
+import React from 'react';
+import Input from './input';
 import Cartas from "@/components/cartas"; // Importamos el componente Cartas
 import styles from "@/components/gameStage.module.css"; // CSS para estilos específicos del GameStage
 import { findXByID } from '@/functions/javascript';
@@ -33,7 +34,9 @@ export default function GameStage({
   handleConexion,
   handleSendProp, 
   handleSendCard,
-  nextRound
+  nextRound,
+  idSala,
+  setIdSala
 }) {
 
   // Renderización del puntaje de cada jugador
@@ -53,6 +56,12 @@ export default function GameStage({
       return (
         <div className={styles.waitingContainer}>
           {renderPuntos()}
+          <h3>Escribe tu código de sala:</h3>
+          <Input 
+            onChange={(event) => setIdSala(event.target.value)} 
+            value={idSala} 
+            placeholder="Ingrese el ID de la sala">
+          </Input>
           <Button onClick={() => handleConexion()}>Conectarte</Button>
           <div className={styles.waitingText}>Esperando a que se conecten todos los jugadores...</div>
         </div>
@@ -121,9 +130,7 @@ export default function GameStage({
 
     case 5:
         // Verificar si existe una carta ganadora marcada con `winner: true`
-        const cartaGanadora = cardsPlay.find((carta) => carta.winner == true)
-        // Sumar puntos al usuario ganador
-      
+        const cartaGanadora = cardsPlay.find((carta) => carta.winner == true)      
         return (
           <div className={styles.winnerContainer}>
             {renderPuntos()}
@@ -134,7 +141,7 @@ export default function GameStage({
             <Button onClick={() => nextRound()}>Proxima ronda...</Button>
           </div>
         );
-
+      
     default:
       return null;
   }
