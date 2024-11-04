@@ -172,16 +172,15 @@ app.get("/getMazoByUser", async (req, res) => {
 
 app.get("/getGamesByUser", async (req, res) => {
     if (!req.query.idUser) {
-        return res.status(400).json({ message: "El parámetro idUser es obligatorio" });
+        return res.status(400).json({ message: "idUser parameter is required" });
     }
-
     try {
-        // Usamos una consulta SQL que filtre por el idUser
-        const query = `SELECT * FROM JuegoXUser WHERE idUser = '${req.query.idUser}'`;
-        const cards = await MySQL.realizarQuery(query); // Pa?samos idUser como parámetro para prevenir SQL Injection
-        res.status(200).json(cards);
+        const query = `SELECT * FROM JuegoXUser WHERE idUser = ?`;
+        const games = await MySQL.realizarQuery(query, [req.query.idUser]);
+        res.status(200).json(games);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener los juegos", error });
+        console.error("Error getting games:", error);
+        res.status(500).json({ message: "Error getting games", error });
     }
 });
 
@@ -345,26 +344,4 @@ app.post('/generateCardPackage', async (req, res) => {
       res.status(500).json({ message: "Error al generar el paquete de cartas" });
     }
   });
-  
-
-
-// Función para seleccionar una carta según las probabilidades
-function seleccionarCartaPorProbabilidad(cartas, probabilidades) {
-    const rand = Math.random() * 100;
-    let filtro = 'Común';
-  
-    if (rand < probabilidades.comun) filtro = 'Común';
-    else if (rand < probabilidades.comun + probabilidades.rara) filtro = 'Rara';
-    else if (rand < probabilidades.comun + probabilidades.rara + probabilidades.epica) filtro = 'Épica';
-    else filtro = 'Legendaria';
-  
-    const cartasFiltradas = cartas.filter((carta) => carta.calidad === filtro);
-  
-    if (cartasFiltradas.length === 0) {
-      console.warn(`No cards found for quality ${filtro}`);
-      return cartas[Math.floor(Math.random() * cartas.length)]; // Fallback to any random card
-    }
-  
-    return cartasFiltradas[Math.floor(Math.random() * cartasFiltradas.length)];
-  }
   
