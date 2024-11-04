@@ -6,7 +6,7 @@ const Sobre = ({ imagenSrc, texto, subtitulo, rareza, onClick }) => {
         Común: "var(--color-común)",
         Épica: "var(--color-épica)",
         Especial: "var(--color-especial)",
-        Icónicas: "var(--color-icónicas)",
+        Icónica: "var(--color-icónica)",
         Legendaria: "var(--color-legendaria)",
         Rara: "var(--color-rara)",
         Flashback: "var(--color-flashback)",
@@ -31,3 +31,72 @@ const Sobre = ({ imagenSrc, texto, subtitulo, rareza, onClick }) => {
 
 export default Sobre;
 
+/*
+todos los sobres garantizan que su ultima carta sea de la rareza del sobre
+probabiliades de las cartas dentro de los sobres:
+Común: 
+    comun: 50,
+    especial: 35,
+    rara: 10,
+    epica: 0,
+    legendaria: 2,
+    iconicas: 3,
+    flashback: 0
+Especial:
+    comun: 30,
+    especial: 50,
+    rara: 15,
+    epica: 0,
+    legendaria: 2,
+    iconicas: 3,
+    flashback: 0
+Rara: 
+    comun: 25,
+    especial: 35,
+    rara: 20,
+    epica: 10,
+    legendaria: 2,
+    iconicas: 3,
+    flashback: 0
+Épica: 
+    comun: 25,
+    especial: 20,
+    rara: 15,
+    epica: 30,
+    legendaria: 5,
+    iconicas: 5,
+    flashback: 0
+Legendaria:  
+    comun: 0,
+    especial: 15,
+    rara: 25,
+    epica: 40,
+    legendaria: 20,
+    iconicas: 0,
+    flashback: 0
+Icónicas: 
+    comun: 0,
+    especial: 15,
+    rara: 25,
+    epica: 40,
+    legendaria: 0,
+    iconicas: 20,
+    flashback: 0
+
+Flashback: 
+    comun: 0,
+    especial: 0,
+    rara: 0,
+    epica: 0,
+    legendaria: 0,
+    iconicas: 0,
+    flashback: 100
+Aleatorio:
+    comun: 20,
+    especial: 20,
+    rara: 20,
+    epica: 20,
+    legendaria: 10,
+    iconicas: 10,
+    flashback: 0
+*/

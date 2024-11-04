@@ -293,3 +293,78 @@ app.get("/getUserMoney", async (req, res) => {
         res.status(500).json({ message: "Error al obtener el dinero del usuario", error });
     }
 });
+
+// En el archivo de rutas backend (Node.js)
+app.post("/purchaseSobre", async (req, res) => {
+    try {
+      const { idUser, idSobre } = req.body;
+      if (!idUser || !idSobre) {
+        throw new Error("Faltan parámetros necesarios (idUser, idSobre)");
+      }
+  
+      // Generar el paquete de cartas
+      const pack = await generateCardPack(idUser, idSobre);
+      if (!pack || pack.length === 0) {
+        throw new Error("No se pudo generar el paquete de cartas");
+      }
+  
+      // Guarda cada carta en la base de datos asociándola al usuario
+      for (const carta of pack) {
+        await MySQL.realizarQuery("INSERT INTO UserCards (idUser, idCard) VALUES (?, ?)", [idUser, carta.idModel]);
+      }
+  
+      // Actualiza el dinero del usuario (restando el costo del sobre)
+      const costoDelSobre = 100; // O el precio que corresponda
+      await MySQL.realizarQuery("UPDATE Users SET money = money - ? WHERE idUser = ?", [costoDelSobre, idUser]);
+  
+      // Responder con éxito y el paquete generado
+      res.status(200).json({ message: "Compra realizada con éxito", pack });
+    } catch (error) {
+      console.error("Error al generar el paquete de cartas:", error);
+      res.status(500).json({ message: "Error al generar el paquete de cartas", error: true });
+    }
+  });
+  
+  
+  
+  
+  
+
+app.post('/generateCardPackage', async (req, res) => {
+    const { idUser, idSobre } = req.body;
+  
+    if (!idUser || !idSobre) {
+      return res.status(400).json({ message: "Missing idUser or idSobre" });
+    }
+  
+    try {
+      // Your logic to generate the card package goes here
+      res.status(200).json({ success: true, message: "Paquete de cartas generado con éxito" });
+    } catch (error) {
+      console.error("Error al generar el paquete de cartas:", error);
+      res.status(500).json({ message: "Error al generar el paquete de cartas" });
+    }
+  });
+  
+
+
+// Función para seleccionar una carta según las probabilidades
+function seleccionarCartaPorProbabilidad(cartas, probabilidades) {
+    const rand = Math.random() * 100;
+    let filtro = 'Común';
+  
+    if (rand < probabilidades.comun) filtro = 'Común';
+    else if (rand < probabilidades.comun + probabilidades.rara) filtro = 'Rara';
+    else if (rand < probabilidades.comun + probabilidades.rara + probabilidades.epica) filtro = 'Épica';
+    else filtro = 'Legendaria';
+  
+    const cartasFiltradas = cartas.filter((carta) => carta.calidad === filtro);
+  
+    if (cartasFiltradas.length === 0) {
+      console.warn(`No cards found for quality ${filtro}`);
+      return cartas[Math.floor(Math.random() * cartas.length)]; // Fallback to any random card
+    }
+  
+    return cartasFiltradas[Math.floor(Math.random() * cartasFiltradas.length)];
+  }
+  
