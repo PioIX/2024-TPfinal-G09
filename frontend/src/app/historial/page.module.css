@@ -259,30 +259,26 @@
 
 .division {
   margin: 20px;
-  padding: 10px;
 }
 
 .table {
-  width: 100%; /* Make the table full width */
-  border-collapse: collapse; /* Merge border lines */
-  margin-bottom: 20px; /* Space between tables */
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .table th,
 .table td {
-  border: 1px solid #ddd; /* Light gray border */
-  padding: 8px; /* Padding in cells */
-  text-align: left; /* Align text to the left */
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
 }
 
-.table th {
-  background-color: #f2f2f2; /* Light gray background for headers */
+.winnerGreen {
+  color: green;
+  font-weight: bold;
 }
 
-.table tr:nth-child(even) {
-  background-color: #f9f9f9; /* Stripe effect for even rows */
-}
-
-.table tr:hover {
-  background-color: #ddd; /* Change background on hover */
+.winnerRed {
+  color: red;
+  font-weight: bold;
 }

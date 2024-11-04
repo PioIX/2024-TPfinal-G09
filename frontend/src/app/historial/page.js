@@ -1,104 +1,76 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getCardsByUser, getGamesByUser, getMazoByUser } from "@/functions/fetch.js";
-import styles from "@/app/user/page.module.css"; 
+import { getJuegos } from "@/functions/fetch.js";
+import styles from "@/app/user/page.module.css";
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
 
-export default function Home() {
+export default function UserGames() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const idUser = searchParams.get('idUser');
-  
-  const [userCards, setUserCards] = useState([]);
-  const [mazo, setMazo] = useState([]);
   const [games, setGames] = useState([]);
 
-  async function cargarPartidas() {
+  async function loadGames() {
     try {
-      const cards = await getCardsByUser(idUser);
-      const mazoData = await getMazoByUser(idUser);
-      const gamesData = await getGamesByUser(idUser);
+      const response = await getJuegos();
+      console.log("API response:", response); // Check the response structure
+      console.log("idUser:", idUser); // Verify idUser is correct
 
-      setUserCards(cards);
-      setMazo(mazoData);
-      if (Array.isArray(gamesData)) {
-        setGames(gamesData);
-      } else {
-        console.error("Expected games data to be an array, but received:", gamesData);
-        setGames([]);
-      }
+      // Ensure response is an array and filter games by idUser
+      
+      const userGames = Array.isArray(response)
+        ? response.filter(game => String(game.id) === String(idUser)) // Compare as strings for safety
+        : [];
+        console.log("API response:", userGames); // Check the response structure
+      setGames(userGames);
     } catch (error) {
-      console.error("Error loading data:", error);
-      setGames([]);
+      console.error("Error loading games:", error);
+      setGames([]); // Set to an empty array on error to prevent map errors
     }
   }
-  
+
   useEffect(() => {
-    cargarPartidas();
+    loadGames();
   }, [idUser]);
 
-  function linkBack() {
-    router.push('/'); 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString();
   }
 
   return (
     <main>
       <div className={styles.division}>
-        <button onClick={linkBack}>Back to Menu</button>
         <h2>User Games</h2>
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>Date</th>
               <th>Winner</th>
+              <th>Points</th>
+              <th>Date</th>
             </tr>
           </thead>
           <tbody>
             {games.length > 0 ? (
-              games.map(game => (
-                <tr key={game.id}>
-                  <td>{game.date}</td>
-                  <td>{game.winner}</td>
+              games.map((game, index) => (
+                <tr key={index}>
+                  <td
+                    className={
+                      game.winner === idUser
+                        ? styles.winnerGreen
+                        : styles.winnerRed
+                    }
+                  >
+                    {game.winner === idUser ? "You" : "Opponent"}
+                  </td>
+                  <td>{game.points}</td>
+                  <td>{formatDate(game.date)}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="2">No games found.</td>
+                <td colSpan="3">No games available.</td>
               </tr>
             )}
-          </tbody>
-        </table>
-
-        <h2>User Cards</h2>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>Card ID</th>
-            </tr>
-          </thead>
-          <tbody>
-            {userCards.map(card => (
-              <tr key={card.id}>
-                <td>{card.idModel}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <h2>User Mazo</h2>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>Card ID</th>
-            </tr>
-          </thead>
-          <tbody>
-            {mazo.map(card => (
-              <tr key={card.id}>
-                <td>{card.idModel}</td>
-              </tr>
-            ))}
           </tbody>
         </table>
       </div>
