@@ -1,74 +1,101 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getJuegos } from "@/functions/fetch.js";
-import styles from "@/app/user/page.module.css";
 import { useSearchParams } from 'next/navigation';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Importa Bootstrap
+import styles from "@/app/user/page.module.css";
 
 export default function UserGames() {
   const searchParams = useSearchParams();
   const idUser = searchParams.get('idUser');
   const [games, setGames] = useState([]);
+  const baseURL = 'http://localhost:3001';
 
-  async function loadGames() {
+  async function loadUserGames() {
     try {
-      const response = await getJuegos();
-      console.log("API response:", response); // Check the response structure
-      console.log("idUser:", idUser); // Verify idUser is correct
+      // Fetch para obtener las relaciones de juegos del usuario desde la tabla JuegoXUser
+      const responseJuegoXUser = await fetch(`${baseURL}/getJuegoXUsers`);
+      const juegoXUserData = await responseJuegoXUser.json();
 
-      // Ensure response is an array and filter games by idUser
-      
-      const userGames = Array.isArray(response)
-        ? response.filter(game => String(game.id) === String(idUser)) // Compare as strings for safety
-        : [];
-        console.log("API response:", userGames); // Check the response structure
-      setGames(userGames);
+      if (!Array.isArray(juegoXUserData)) {
+        throw new Error("Invalid data format from /getJuegoXUsers");
+      }
+
+      // Filtrar las partidas del usuario loggeado
+      const userGameRelations = juegoXUserData.filter(game => String(game.idUser) === String(idUser));
+
+      // Obtener detalles de cada partida en la tabla Juego
+      const gameDetailsPromises = userGameRelations.map(async relation => {
+        const responseJuego = await fetch(`${baseURL}/getJuegos`);
+        const juegosData = await responseJuego.json();
+
+        if (!Array.isArray(juegosData)) {
+          throw new Error("Invalid data format from /getJuegos");
+        }
+
+        // Buscar la partida en la tabla juegos y devolverla
+        return juegosData.find(game => game.id === relation.idJuego);
+      });
+
+      const detailedGames = await Promise.all(gameDetailsPromises);
+      setGames(detailedGames.filter(game => game !== undefined)); // Filtrar resultados undefined
     } catch (error) {
-      console.error("Error loading games:", error);
-      setGames([]); // Set to an empty array on error to prevent map errors
+      console.error("Error loading user games:", error);
+      setGames([]); // Vaciar el estado en caso de error
     }
   }
 
   useEffect(() => {
-    loadGames();
+    if (idUser) {
+      loadUserGames();
+    }
   }, [idUser]);
 
   function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString();
+    if (!dateString) return "Invalid Date";
+  
+    // Reemplazar el espacio por una 'T' para convertirlo a un formato ISO
+    const formattedDateString = dateString.replace(' ', 'T');
+    const date = new Date(formattedDateString);
+  
+    return !isNaN(date.getTime()) ? date.toLocaleDateString() : "Invalid Date";
   }
 
   return (
     <main>
-      <div className={styles.division}>
+      <div className="container mt-4">
         <h2>User Games</h2>
-        <table className={styles.table}>
+        <table className="table table-hover table-dark">
           <thead>
             <tr>
-              <th>Winner</th>
-              <th>Points</th>
-              <th>Date</th>
+              <th scope="col">#</th>
+              <th scope="col">Winner</th>
+              <th scope="col">Points</th>
+              <th scope="col">Date</th>
             </tr>
           </thead>
           <tbody>
             {games.length > 0 ? (
-              games.map((game, index) => (
-                <tr key={index}>
-                  <td
-                    className={
-                      game.winner === idUser
-                        ? styles.winnerGreen
-                        : styles.winnerRed
-                    }
-                  >
-                    {game.winner === idUser ? "You" : "Opponent"}
-                  </td>
-                  <td>{game.points}</td>
-                  <td>{formatDate(game.date)}</td>
-                </tr>
-              ))
+              games.map((game, index) => {
+                return (
+                  <tr key={index}>
+                    <th scope="row">{index + 1}</th>
+                    <td
+                      className={
+                        game.winner === idUser
+                          ? styles.winnerGreen
+                          : styles.winnerRed
+                      }
+                    >
+                      {game.winner === idUser ? "You" : "Opponent"}
+                    </td>
+                    <td>{game.points}</td>
+                    <td>{formatDate(game.created_at)}</td> {/* Usar created_at */}
+                  </tr>
+                );
+              })
             ) : (
               <tr>
-                <td colSpan="3">No games available.</td>
+                <td colSpan="4">No games available.</td>
               </tr>
             )}
           </tbody>

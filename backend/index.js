@@ -113,13 +113,14 @@ app.get("/getCardModels", async (req, res) => {
 // Obtener juegos A
 app.get("/getJuegos", async (req, res) => {
     try {
-        const juegos = await MySQL.realizarQuery("SELECT * FROM Juego");
-        res.status(200).json(juegos);
+      const query = `SELECT id, winner, points, created_at FROM Juego`; // Incluye created_at
+      const juegos = await MySQL.realizarQuery(query);
+      res.status(200).json(juegos);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener los juegos", error });
+      res.status(500).json({ message: "Error al obtener los juegos", error });
     }
-});
-
+  });
+  
 // Obtener relaciones de juegos y usuarios A
 app.get("/getJuegoXUsers", async (req, res) => {
     try {
