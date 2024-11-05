@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import { getCardModels, getHandByUser, getUserById, getMazoByUser, getUsers, insertJuegoXUser } from "@/functions/fetch.js";
+import { getCardModels, getUserById, getMazoByUser, getUsers, insertJuegoXUser } from "@/functions/fetch.js";
 import {findXByID, setCards } from "@/functions/javascript"
 import { useSearchParams } from "next/navigation";
 import GameStage from "@/components/gameStage";
@@ -69,7 +69,7 @@ export default function Home() {
       let newJXU = {idUser:idUser, idJuego:idJuego}
       console.log("nuevo vinculo JXU")
       insertJuegoXUser(newJXU)
-      window.location.href = `/endGame?idJuego=${idJuego}&idUser=${idUser}`
+      window.location.href = `/endGame?idJuegoXUser=${idJuego}`
     }
     
   }, [fase]);
@@ -115,6 +115,7 @@ export default function Home() {
     console.log("pido nueva ronda")
     endRound(puntos, loop, idSala);
   };
+
   useEffect(() => {
     if (cont<1){
       cargarCartas();

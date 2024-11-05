@@ -273,7 +273,7 @@ app.post("/postJuego", async function (req, res) {
 
         const result = await MySQL.realizarQuery(query);
 
-        res.status(201).send({success:true, juego:result});
+        res.status(201).send({success:true, insertId:result.insertId});
     } catch (error) {
         res.status(500).json({ message: "Error al insertar el juego", error });
     }
@@ -284,9 +284,11 @@ app.post("/postJuegoXUser", async function (req, res) {
     try {
         const query = `INSERT INTO JuegoXUser (idUser, idJuego) VALUES (${req.body.idUser}, ${req.body.idJuego})`;
 
-        await MySQL.realizarQuery(query);
+        // Ejecuta la consulta de inserción y guarda el ID insertado
+        const result = await MySQL.realizarQuery(query);
 
-        res.status(201).send(true);
+        // result.insertId contiene el ID recién insertado en MySQL
+        res.status(201).json({ success: true, insertId: result.insertId });
     } catch (error) {
         res.status(500).json({ message: "Error al insertar la relación", error });
     }
@@ -365,9 +367,9 @@ io.on("connection", (socket) => {
         if (room.round > 5) {
             const winner = room.puntos.reduce((max, player) => player.puntaje > max.puntaje ? player : max, room.puntos[0]);
             const newJuego = { winner: winner.idUser, points: winner.puntaje }
-            const juego = await insertJuego(newJuego)
-            io.to(idSala).emit("endGame", juego);
-            console.log(juego)
+            const idJuego = await insertJuego(newJuego)
+            io.to(idSala).emit("endGame", idJuego);
+            console.log(idJuego)
             resetRoom(idSala); // Reinicia el estado de la sala
         } else {
             // Rota el loop y envía la siguiente ronda
