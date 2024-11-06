@@ -160,18 +160,18 @@ app.get("/getJuegoXUsers", async (req, res) => {
 });
 
 app.get("/getJuegoXUserById", async (req, res) => {
-    if (!req.query.juegoXUser) {
-        return res.status(400).json({ message: "El parámetro JuegoXUser es obligatorio" });
+    if (!req.query.idJuegoXUser) {
+        return res.status(400).json({ message: "El parámetro idJuegoXUser es obligatorio" });
     }
 
     try {
         // Usamos una consulta SQL que filtre por el idUser
-        const query = `SELECT * FROM JuegoXUser WHERE id = '${req.query.juegoXUser}'`;
+        const query = `SELECT * FROM JuegoXUser WHERE id = '${req.query.idJuegoXUser}'`;
         const user = await MySQL.realizarQuery(query); // Pa?samos idUser como parámetro para prevenir SQL Injection
         res.status(200).json(user);
         console.log(user)
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener el JuegoXUser", error });
+        res.status(500).json({ message: "Error al obtener el idJuegoXUser", error });
     }
 });
 

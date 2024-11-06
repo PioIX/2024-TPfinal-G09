@@ -42,7 +42,7 @@ export async function getUserById(idUser) {
       const response = await fetch(`${baseURL}/getUserById?idUser=${idUser}`);
       const data = await response.json();
       console.log(data)
-      return data;
+      return data[0];
   } catch (error) {
       console.error("Error al obtener el user:", error);
   }
@@ -63,7 +63,7 @@ export async function getJuegoById(idJuego) {
       const response = await fetch(`${baseURL}/getJuegoById?idJuego=${idJuego}`);
       const data = await response.json();
       console.log(data)
-      return data;
+      return data[0];
   } catch (error) {
       console.error("Error al obtener el juego:", error);
   }
@@ -85,7 +85,7 @@ export async function getJuegoXUserById(idJuegoXUser) {
       const response = await fetch(`${baseURL}/getJuegoXUserById?idJuegoXUser=${idJuegoXUser}`);
       const data = await response.json();
       console.log(data)
-      return data;
+      return data[0];
   } catch (error) {
       console.error("Error al obtener el user:", error);
   }

@@ -1,9 +1,10 @@
 "use client"
-import Button from "@/components/button";
 import React, { useState, useEffect } from "react";
 import styles from "@/app/page.module.css"; // Estilos para el formulario
 import { useSearchParams } from 'next/navigation';
-import { getJuegoXUserById, getUserById } from "@/functions/fetch";
+import { getJuegoXUserById, getUserById, getJuegoById } from "@/functions/fetch";
+import { setGame } from "@/functions/javascript";
+import GameInfo from "@/components/gameInfo";
 
 export default function Home() {
   
@@ -20,12 +21,12 @@ export default function Home() {
     const juegoXUser= await getJuegoXUserById(idJuegoXUser)
     const juego = await getJuegoById(juegoXUser.idJuego)
     const user = await getUserById(juegoXUser.idUser)
-    const match = setGame(juego, user)
-    console.log(match)
+    const match = setGame(juego, user, juegoXUser)
+    console.log("Match: ", match)
     
     setMatch(match)
     //Que cargue todas las cartas que correspondan al usuario
-  };
+  }; 
 
   useEffect(() => {
     if (cont<1){
@@ -37,7 +38,8 @@ export default function Home() {
 
   return (
       <main>
-        <h2>Bienvenido a PioCards</h2>      
+        <h2>Bienvenido a PioCards</h2>   
+        <GameInfo partida={match} />   
       </main>
   );
 }

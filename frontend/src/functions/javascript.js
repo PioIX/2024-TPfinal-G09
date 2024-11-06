@@ -36,3 +36,11 @@ export function setCards(cardModels, cards, users) {
 
   return result;
 }
+
+export function setGame(juego, user, juegoXUser) {
+  // Combina las propiedades de `juego`, `user`, y `juegoXUser` en un nuevo objeto `match`
+  const match = { ...juego, ...user, ...juegoXUser };
+  
+  return match;
+}
+
