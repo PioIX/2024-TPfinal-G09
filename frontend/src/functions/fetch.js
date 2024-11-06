@@ -58,6 +58,17 @@ export async function getJuegos() {
   }
 }
 
+export async function getJuegoById(idJuego) {
+  try {
+      const response = await fetch(`${baseURL}/getJuegoById?idJuego=${idJuego}`);
+      const data = await response.json();
+      console.log(data)
+      return data;
+  } catch (error) {
+      console.error("Error al obtener el juego:", error);
+  }
+}
+
 // Función para obtener los vinculos juego usuario
 export async function getJuegoXUsers() {
   try {
@@ -66,6 +77,17 @@ export async function getJuegoXUsers() {
       return data;
   } catch (error) {
       console.error("Error al obtener las relaciones de juegos y usuarios:", error);
+  }
+}
+
+export async function getJuegoXUserById(idJuegoXUser) {
+  try {
+      const response = await fetch(`${baseURL}/getJuegoXUserById?idJuegoXUser=${idJuegoXUser}`);
+      const data = await response.json();
+      console.log(data)
+      return data;
+  } catch (error) {
+      console.error("Error al obtener el user:", error);
   }
 }
 
