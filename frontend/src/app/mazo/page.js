@@ -1,22 +1,34 @@
 "use client"
 import { useEffect } from "react";
 import React, { useState } from "react";
-import { getCardsByUser, getGamesByUser, getMazoByUser } from "@/functions/fetch.js";
+import { getCardModels, getCardsByUser, getUserById, getMazoByUser } from "@/functions/fetch.js";
+import { setCards } from "@/functions/javascript";
 import styles from "@/app/user/page.module.css"; 
 import { useSearchParams } from 'next/navigation';
-
+import Cartas from "@/components/cartas";
+import Header from "@/components/header";
+import Loading from "@/components/loading";
 
 export default function Home() {
   const searchParams = useSearchParams();
   const idUser = searchParams.get('idUser');
-  const [userCards, setUsers] = useState([]);
-  
+  const [cardsUser, setCardsUser] = useState([]);
+  const [user, setUser] = useState([]);
+  const [selectedCards, setSelectedCards] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga
+  let cont=0
+
   async function cargarCartas() {
-    getCardsByUser(idUser)
-    getMazoByUser(idUser)
-    getGamesByUser(idUser)
+    console.log("cargarCartas")
+    const user =await getUserById(idUser)
+    const cardsU= await getCardsByUser(idUser)
+    const cardsM = await getCardModels()
+    console.log(user, cardsU, cardsM)
+    const cardsD = await setCards(cardsM, cardsU, user)
+    setCardsUser(cardsD)
+    setUser(user)
+    setIsLoading(false)
     //Que cargue todas las cartas que correspondan al usuario
-    //hacer del back que traiga solo esas
   };
 
   async function linkUpdate() {
@@ -25,7 +37,10 @@ export default function Home() {
   
   
   useEffect(() => {
+    if(cont<1){
     cargarCartas()
+    }
+    cont++
     //CARGAR Y MOSTRAR CARTAS;
   }, []);
 
@@ -37,9 +52,9 @@ export default function Home() {
 //QUE SE PUEDA ACTUALIZAR LAS CARTAS ELEGIDAS Y QUE PUTEE LAS CARTAS AHORA EDITADAS(TODAS LAS QUE APARECEN EN PANTALLA)
   return (
     <main>
-      <div className={styles.division}>
-        
-      </div>
+      {isLoading ? ( <Loading/>) : (<></>)} 
+      <Header username={user.username} profileImage={user.image} idUser={user.id} />
+      <Cartas cards={cardsUser} ></Cartas>
     </main>
   );
 }

@@ -37,6 +37,37 @@ export function setCards(cardModels, cards, user) {
   return result;
 }
 
+
+export function setCardsMazo(cardModels, cards, user, selectedCards) {
+  //Que haga esto y además que le ponga el atributo elegido=false a las que no esten en selectedCards
+  let result = [];
+
+  // Recorremos el array de cards
+  for (let i = 0; i < cards.length; i++) {
+    let card = cards[i];
+
+    // Buscamos el cardModel que coincida con el idModel del card
+    for (let j = 0; j < cardModels.length; j++) {
+      let model = cardModels[j];
+
+      if (model.id === card.idModel) {
+        // Creamos el objeto resultante combinando el modelo y el id del jugador
+        let resultCard = {
+          ...model,       // Copiamos las propiedades del cardModel
+          playerId: card.idUser,  // Añadimos el id del jugador
+          id: card. id,
+          username: user.username
+        };
+
+        result.push(resultCard);  // Añadimos el resultado al array final
+        break;  // Terminamos la búsqueda una vez encontrado el modelo
+      }
+    }
+  }
+
+  return result;
+}
+
 export function setGame(juego, winner, user, juegoXUser) {
   // Combina las propiedades de `juego`, `user`, y `juegoXUser` en un nuevo objeto `match`
   const match = { ...juego, ...winner, ...juegoXUser, nombre:user.name, pic:user.image};
