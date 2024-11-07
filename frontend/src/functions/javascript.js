@@ -8,7 +8,7 @@ export function findXByID(id, vector) {
   return -1; // Si no se encuentra el cliente, devuelve -1
 }
 
-export function setCards(cardModels, cards, users) {
+export function setCards(cardModels, cards, user) {
   let result = [];
 
   // Recorremos el array de cards
@@ -25,7 +25,7 @@ export function setCards(cardModels, cards, users) {
           ...model,       // Copiamos las propiedades del cardModel
           playerId: card.idUser,  // Añadimos el id del jugador
           id: card. id,
-          username: users[0].username
+          username: user.username
         };
 
         result.push(resultCard);  // Añadimos el resultado al array final
@@ -37,10 +37,9 @@ export function setCards(cardModels, cards, users) {
   return result;
 }
 
-export function setGame(juego, user, juegoXUser) {
+export function setGame(juego, winner, user, juegoXUser) {
   // Combina las propiedades de `juego`, `user`, y `juegoXUser` en un nuevo objeto `match`
-  const match = { ...juego, ...user, ...juegoXUser };
-  
+  const match = { ...juego, ...winner, ...juegoXUser, nombre:user.name, pic:user.image};
   return match;
 }
 

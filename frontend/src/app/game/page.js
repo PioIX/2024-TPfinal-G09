@@ -1,16 +1,19 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import { getCardModels, getUserById, getMazoByUser, getUsers, insertJuegoXUser } from "@/functions/fetch.js";
+import { getCardModels, getUserById, getMazoByUser, insertJuegoXUser } from "@/functions/fetch.js";
 import {findXByID, setCards } from "@/functions/javascript"
 import { useSearchParams } from "next/navigation";
 import GameStage from "@/components/gameStage";
 import { useSocket } from "@/hooks/useSocket";
+import Button from "@/components/button";
+import Header from "@/components/header";
+import Loading from "@/components/loading"
 
 export default function Home() {
   const searchParams = useSearchParams();
   const idUser = searchParams.get('idUser');
   const [cardsUser, setCardsUser] = useState([])
-  const [username, setUsername] = useState("")
+  const [user, setUser] = useState({})
   const [cardsPlay, setCardsPlay] = useState([]); 
   const [propSelect, setPropSelect] = useState("");
   const [cardSelect, setCardSelect] = useState(-1);
@@ -23,26 +26,29 @@ export default function Home() {
   //y que uno de estos usuarios 
   const [idSala, setIdSala] = useState("")
   let cont=0
+  const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga
 
   async function cargarCartas() {
     console.log("cargarCartas")
-    const users =await getUserById(idUser)
-    setUsername(users[0].username)
+    const user =await getUserById(idUser)
     const cardsU= await getMazoByUser(idUser)
     const cardsM = await getCardModels()
-    const cardsD = await setCards(cardsM, cardsU, users)
+    const cardsD = await setCards(cardsM, cardsU, user)
     console.log(cardsD)
     setCardsUser(cardsD)
+    setUser(user)
+    setIsLoading(false)
     //Que cargue todas las cartas que correspondan al usuario
   };
-/* Unirse a la sala al cargar la página
-  useEffect(() => {
-    if(!socket)return;
-      joinRoom(idUser, idSala  );
 
-  }, [isConnected, idUser]);
-*/
-// Efecto para cambiar el estado al recibir el loop
+  useEffect(() => {
+    if (cont<1){
+      cargarCartas();
+      cont++
+    }
+  }, []);
+
+  // Efecto para cambiar el estado al recibir el loop
   useEffect(() => {
     console.log("cambio game data")
     if (fase==0){
@@ -67,9 +73,8 @@ export default function Home() {
     if (fase==3){
       console.log("id juego:", idJuego)
       let newJXU = {idUser:idUser, idJuego:idJuego}
-      console.log("nuevo vinculo JXU")
-      insertJuegoXUser(newJXU)
-      window.location.href = `/endGame?idJuegoXUser=${idJuego}`
+
+      endGame(newJXU)
     }
     
   }, [fase]);
@@ -83,13 +88,13 @@ export default function Home() {
     setIdJuego(gameData.idJuego)
   }, [gameData]);
 
-  const handleConexion = async () => {
+  async function handleConexion() {
     if (!socket) return;
-    joinRoom(idUser, username, idSala); // Se ejecuta solo después de que cargarCartas termine
+    joinRoom(idUser, user.username, idSala); // Se ejecuta solo después de que cargarCartas termine
   };
 
   // Handler para enviar la propiedad seleccionada
-  const handleSendProp = () => {
+  function handleSendProp() {
     if(propSelect!=""){
       console.log("enviando propiedad:", propSelect)
       chooseProp(propSelect, idSala);
@@ -100,7 +105,7 @@ export default function Home() {
   };
 
   // Handler para enviar la carta seleccionada
-  const handleSendCard = () => {
+  function handleSendCard(){
     if(cardSelect!=-1){
       console.log("enviando carta:", cardSelect)
       chooseCard(cardsUser[findXByID(cardSelect,cardsUser)], idSala);
@@ -111,20 +116,39 @@ export default function Home() {
   };
 
   // Handler para continuar a la siguiente ronda
-  const handleNextRound = () => {
+  function handleNextRound() {
     console.log("pido nueva ronda")
     endRound(puntos, loop, idSala);
   };
 
-  useEffect(() => {
-    if (cont<1){
-      cargarCartas();
-      cont++
-    }
-  }, []);
+  async function endGame(newJXU){
+    console.log("nuevo vinculo JXU", newJXU)
+    let idJXU =await insertJuegoXUser(newJXU)
+    window.location.href = `/endGame?idJuegoXUser=${idJXU}`
+  }
+  /*
+  function cProp() {
+      chooseProp("conocimiento", idSala);
+  };
+
+  function cCard() {
+      chooseCard(cardsUser[prueba], idSala);
+      prueba++
+  };
+
+  function eRound() {
+      endRound(puntos, loop, idSala);
+  };*/
+
   return (
     <div>
       <main>
+        <Header username={user.username} profileImage={user.image} idUser={user.id} />
+        {/* <Button onClick={cProp}>prop</Button> 
+        <Button onClick={cCard}>card</Button>
+        <Button onClick={eRound}>end round</Button>*/}
+        {isLoading ? (<Loading/>
+        ) : (
         <GameStage 
           status={status} 
           cardsUser={cardsUser}
@@ -141,7 +165,7 @@ export default function Home() {
           nextRound={handleNextRound}
           idSala={idSala}
           setIdSala={setIdSala}
-          />
+          />)} 
       </main>
     </div>
   );

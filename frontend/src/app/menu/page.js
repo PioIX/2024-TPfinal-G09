@@ -2,34 +2,57 @@
 import Button from "@/components/button";
 import React, { useState, useEffect } from "react";
 import styles from "@/app/page.module.css"; // Estilos para el formulario
+import { getUserById } from "@/functions/fetch";
 import { useSearchParams } from 'next/navigation';
+import Header from "@/components/header";
+import Loading from "@/components/loading";
 
 export default function Home() {
-  
+  const [user, setUser] = useState({})
   const searchParams = useSearchParams();
-  const userId = searchParams.get('idUser');
+  const idUser = searchParams.get('idUser');
+  const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga
+  let cont=0
+
+  async function cargarUser() {
+    console.log("cargarUser")
+    const user = await getUserById(idUser)
+    setUser(user)
+    setIsLoading(false)
+    //Que cargue todas las cartas que correspondan al usuario
+  }; 
+
+  useEffect(() => {
+    if (cont<1){
+      cargarUser();
+      cont++
+    }
+  }, []);
 
   async function goUsers(){
-    window.location.href = `/user?idUser=${userId}`
+    window.location.href = `/user?idUser=${idUser}`
   }
   async function goPlay(){
-    window.location.href = `/game?idUser=${userId}`
+    window.location.href = `/game?idUser=${idUser}`
   }
   async function goRecord(){
-    window.location.href = `/historial?idUser=${userId}`
+    window.location.href = `/historial?idUser=${idUser}`
   }
   async function goMazo(){
-    window.location.href = `/mazo?idUser=${userId}`
+    window.location.href = `/mazo?idUser=${idUser}`
   }
   async function goTienda(){
-    window.location.href = `/tienda?idUser=${userId}`
+    window.location.href = `/tienda?idUser=${idUser}`
   }
 
   return (
     <div>
       <main>
-        <div className={styles.container}>
+        <Header username={user.username} profileImage={user.image} idUser={user.id} />
         <h2>Bienvenido a PioCards</h2>
+        {isLoading ? (
+        <Loading/>
+      ) : (<></>)} 
           <Button onClick={goPlay}>Jugar</Button>
           <Button onClick={goMazo}>Mazo</Button>
           <Button onClick={goRecord}>Historial</Button>
@@ -52,7 +75,6 @@ export default function Home() {
             <li> elegir una carta para jugar esa ronda</li>
           </ol>
 
-        </div>
       </main>
     </div>
   );

@@ -305,7 +305,7 @@ app.post("/postJuego", async function (req, res) {
 
         const result = await MySQL.realizarQuery(query);
 
-        res.status(201).send({success:true, insertId:result.insertId});
+        res.status(201).send(result);
     } catch (error) {
         res.status(500).json({ message: "Error al insertar el juego", error });
     }
@@ -401,7 +401,6 @@ io.on("connection", (socket) => {
             const newJuego = { winner: winner.idUser, points: winner.puntaje }
             const idJuego = await insertJuego(newJuego)
             io.to(idSala).emit("endGame", idJuego);
-            console.log(idJuego)
             resetRoom(idSala); // Reinicia el estado de la sala
         } else {
             // Rota el loop y envía la siguiente ronda
@@ -429,7 +428,7 @@ async function insertJuego(newJuego) {
   
       // Parseamos la respuesta
       const result = await response.json();
-      return result.juego;
+      return result.insertId;
     } catch (error) {
       console.error('Error en insertJuego:', error);
       throw error; // Propagamos el error para manejarlo en el componente

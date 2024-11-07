@@ -1,6 +1,6 @@
 "use client"
 import React from "react";
-import styles from "./Loading.module.css"; // Importa los estilos CSS
+import styles from "./loading.module.css"; // Importa los estilos CSS
 
 export default function Loading() {
   return (

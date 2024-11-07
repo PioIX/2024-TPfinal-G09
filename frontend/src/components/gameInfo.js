@@ -1,4 +1,6 @@
 import React from 'react';
+import styles from './gameInfo.module.css';
+import ActualProfilePic from './actualProfilePic';
 
 export default function GameInfo({ partida }) {
   const {
@@ -8,13 +10,12 @@ export default function GameInfo({ partida }) {
     idUser,
     image,
     mail,
-    money,
     name,
-    password,
     points,
     surname,
     username,
-    winner
+    winner,
+    nombre
   } = partida;
 
   // Formatear la fecha para una mejor visualización
@@ -24,24 +25,30 @@ export default function GameInfo({ partida }) {
   const isWinner = idUser === winner;
 
   return (
-    <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px', maxWidth: '400px' }}>
-      <h2>Información de la Partida</h2>
-      <img src={image} alt={`${username}'s avatar`} style={{ width: '100%', borderRadius: '8px' }} />
-      
-      <div style={{ marginTop: '10px' }}>
-        <p><strong>Nombre:</strong> {name} {surname}</p>
-        <p><strong>Usuario:</strong> {username}</p>
-        <p><strong>Email:</strong> {mail}</p>
-        <p><strong>Dinero:</strong> ${money}</p>
-        <p><strong>Puntos:</strong> {points}</p>
-        <p><strong>Juego ID:</strong> {idJuego}</p>
-        <p><strong>Fecha de creación:</strong> {formattedDate}</p>
-        
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h2 className={styles.header}>Información de la partida</h2>
+
         {isWinner ? (
-          <p style={{ color: 'green', fontWeight: 'bold' }}>¡Ganador!</p>
+          <p className={styles.winner}>¡Ganaste {nombre}!</p>
         ) : (
-          <p style={{ color: 'red' }}>Perdedor</p>
+          <p className={styles.loser}>Perdiste {nombre}...</p>
         )}
+        <p><span className={styles.label}>Juego ID:</span> {idJuego}</p>
+        <p><span className={styles.label}>Fecha de juego:</span> {formattedDate}</p>
+        {/* Estado de ganador o perdedor */}
+        <br></br>
+        <h2 className={styles.header}>Información de ganador</h2>
+        <ActualProfilePic imageUrl={image} className={styles.profilePic} />
+
+        <div className={styles.info}>
+          <p><span className={styles.label}>Nombre:</span> {name} {surname}</p>
+          <p><span className={styles.label}>Usuario:</span> {username}</p>
+          <p><span className={styles.label}>Email:</span> {mail}</p>
+          <p><span className={styles.label}>Puntos:</span> {points}</p>
+        </div>
+
+        
       </div>
     </div>
   );

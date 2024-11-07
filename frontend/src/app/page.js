@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { getUsers, fetchRegister } from "@/functions/fetch.js";
 import Input from "@/components/input"; // Importamos el componente Input
 import styles from "@/app/page.module.css"; // Estilos para el formulario
+import Header from "@/components/header";
 
 export default function Home() {
 
@@ -87,53 +88,25 @@ export default function Home() {
     }
   }
   return (
-    <div className={styles.login}>
     <main>
+      <Header></Header>
+      <div className={styles.login}>
       <div className={styles.container}>
-      <h2>Login / Sign-Up</h2>
-      <Input
-          label="Usuario"
-          type="text"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <Input
-          label="Contraseña"
-          type="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Input
-          label="Correo Electrónico"
-          type="mail"
-          name="mail"
-          value={mail}
-          onChange={(e) => setMail(e.target.value)}
-        />
-        <Input
-          label="Nombre"
-          type="text"
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <Input
-          label="Apellido"
-          type="text"
-          name="surname"
-          value={surname}
-          onChange={(e) => setSurname(e.target.value)}
-        />
-        <Button  onClick={linkLogin}>
-          Login
-        </Button>
-        <Button onClick={linkRegister}>
-          Registrarse
-        </Button>
+        <h2>Login / Sign-Up</h2>
+        <Input label="Usuario" type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
+
+        <Input label="Contraseña" type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+      
+        <Input label="Correo Electrónico" type="mail" name="mail" value={mail} onChange={(e) => setMail(e.target.value)}/>
+      
+        <Input label="Nombre" type="text" name="name" value={name} onChange={(e) => setName(e.target.value)}/>
+        
+        <Input label="Apellido" type="text" name="surname" value={surname} onChange={(e) => setSurname(e.target.value)}/>
+        
+        <Button  onClick={linkLogin}>Login</Button>
+        <Button onClick={linkRegister}>Registrarse</Button>
+      </div>
       </div>
     </main>
-    </div>
   );
 }

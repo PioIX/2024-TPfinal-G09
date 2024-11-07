@@ -2,9 +2,9 @@
 
 import clsx from "clsx"
 import React from 'react';
-import style from "@/components/userProfilePic.module.css"
+import style from "@/components/profilePic.module.css"
 
-export default function UserProfilePic({ imageUrl }) {
+export default function ProfilePic({ imageUrl }) {
 
   return <img src={imageUrl} alt="Profile" className={style.profilePic}
   />;

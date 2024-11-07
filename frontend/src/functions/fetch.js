@@ -250,7 +250,7 @@ export async function insertJuegoXUser(newJuegoXUser) {
   
       // Parseamos la respuesta
       const result = await response.json();
-      return result;
+      return result.insertId;
     } catch (error) {
       console.error('Error en insertJuegoXUser:', error);
       throw error; // Propagamos el error para manejarlo en el componente
