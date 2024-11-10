@@ -38,3 +38,8 @@ export function setCards(cardModels, cards, user) {
   return result;
 }
 
+export function setGame(juego, winner, user, juegoXUser) {
+  // Combina las propiedades de `juego`, `user`, y `juegoXUser` en un nuevo objeto `match`
+  const match = { ...juego, ...winner, ...juegoXUser, nombre:user.name, pic:user.image};
+  return match;
+}

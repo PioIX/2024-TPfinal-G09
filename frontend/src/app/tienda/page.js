@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Sobre from "@/components/sobres";
-import ConfirmationModal from "@/components/ConfirmationModal";
+import ConfirmationModal from "@/components/confirmationModal";
 import Carta from "@/components/carta";
 import styles from "@/app/tienda/page.module.css";
 import { useSearchParams } from 'next/navigation';

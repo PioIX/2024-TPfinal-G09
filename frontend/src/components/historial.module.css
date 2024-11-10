@@ -1,0 +1,12 @@
+.historial {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.partidasContainer {
+  display: flex;
+  flex-direction: column; /* Acomoda las partidas en forma de tabla vertical */
+}
