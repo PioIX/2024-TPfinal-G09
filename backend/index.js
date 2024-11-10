@@ -273,12 +273,29 @@ app.post("/postUser", async function (req, res) {
             VALUES ('${req.body.username}', '${req.body.password}', '${req.body.name}', '${req.body.surname}', 0, '${req.body.mail}', '${req.body.image}')
         `;
 
-        await MySQL.realizarQuery(query);
+        result=await MySQL.realizarQuery(query);
 
-        res.status(200).send({ success: true, message: "Usuario creado exitosamente." });
+        res.status(200).send(result);
     } catch (error) {
         console.error("Error al crear el usuario: ", error);
         res.status(500).send({ success: false, message: "Error en el servidor." });
+    }
+});
+
+// Actualizar plata usuario A
+app.put("/putCardHand", async function (req, res) {
+    try {
+        const query = `
+            UPDATE Cards 
+            SET  hand = ${req.body.hand} 
+            WHERE id = ${req.body.id}
+        `;
+
+        await MySQL.realizarQuery(query);
+
+        res.status(200).send("Carta actualizada con éxito.");
+    } catch (error) {
+        res.status(500).json({ message: "Error al actualizar el usuario", error });
     }
 });
 

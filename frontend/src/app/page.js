@@ -1,7 +1,7 @@
 "use client"
 import Button from "@/components/button";
 import React, { useState, useEffect } from "react";
-import { getUsers, fetchRegister } from "@/functions/fetch.js";
+import { getUsers, fetchRegister, insertCard } from "@/functions/fetch.js";
 import Input from "@/components/input"; // Importamos el componente Input
 import styles from "@/app/page.module.css"; // Estilos para el formulario
 import Header from "@/components/header";
@@ -72,8 +72,16 @@ export default function Home() {
           console.log(newUser)
               // Llamamos a fetchRegister para registrar el nuevo usuario en el backend
         const result = await fetchRegister(newUser);
-
         if (result) {
+          //Crea las 5 cartas iniciales
+          let cardsU=[1,2,3,4,5]
+          const postCards = cardsU.map((cardMId) => 
+            insertCard({idModel:cardMId, idUser:result, hand:1})
+          );
+      
+          // Esperar a que todas las cartas se completen
+          await Promise.all(postCards);
+
           window.alert("Registro exitoso");
           linkLogin()
         } else {

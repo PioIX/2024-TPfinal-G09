@@ -156,7 +156,7 @@ export async function fetchRegister(newUser) {
   
       // Parseamos la respuesta
       const result = await response.json();
-      return result;
+      return result.insertId;
     } catch (error) {
       console.error('Error en fetchRegister:', error);
       throw error; // Propagamos el error para manejarlo en el componente
@@ -188,7 +188,7 @@ export async function fetchUpdateUser(user) {
 //función para actualizar la plata del usuario
 export async function fetchUpdateUserMoney(user) {
     try {
-        const response = await fetch(`${baseURL}/putUser`, {
+        const response = await fetch(`${baseURL}/putUserMoney`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -279,5 +279,27 @@ export async function insertCard(newCard) {
     } catch (error) {
       console.error('Error en insertCard:', error);
       throw error; // Propagamos el error para manejarlo en el componente
+    }
+  }
+
+export async function fetchUpdateCardHand(card) {
+    try {
+        console.log("fetch: ", card)
+        const response = await fetch(`${baseURL}/putCardHand`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(card)
+        });
+
+        if (response.ok) {
+            const result = await response.text();
+            console.log(result); // "Usuario actualizado con éxito."
+        } else {
+            console.error('Error al actualizar el usuario:', response.status);
+        }
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
     }
   }
