@@ -1,13 +1,14 @@
 "use client"
 import Button from "@/components/button";
-import { useEffect } from "react";
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { getUsers, fetchUpdateUser} from "@/functions/fetch.js";
 import { findXByID } from "@/functions/javascript";
 import Input from "@/components/input"; // Importamos el componente Input
 import styles from "@/app/user/page.module.css"; // Estilos para el formulario
-import UserProfilePic from "@/components/userProfilePic";
+import ProfilePic from "@/components/profilePic";
 import { useSearchParams } from 'next/navigation';
+import Header from "@/components/header";
+import Loading from "@/components/loading";
 
 
 export default function Home() {
@@ -19,7 +20,9 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const [mail, setEmail] = useState("");
   const [image, setImage] = useState("");
-  
+  const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga
+  let cont = 0
+
   async function cargarUsuario() {
     try {
       const users = await getUsers();
@@ -32,7 +35,7 @@ export default function Home() {
       setPassword(user.password);
       setEmail(user.mail);
       setImage(user.image);
-
+      setIsLoading(false)
     } catch (error) {
       console.error("Error cargando los deportistas:", error);
     } 
@@ -53,7 +56,10 @@ export default function Home() {
   }
   
   useEffect(() => {
+    if (cont<1){
     cargarUsuario();
+        }
+    cont++
   }, []);
 
   function linkBack() {
@@ -63,8 +69,12 @@ export default function Home() {
 
   return (
     <main>
+      <Header username={username} profileImage={image} idUser={idUser} /> 
       <div className={styles.division}>
-      <UserProfilePic imageUrl={image}/>
+      <ProfilePic imageUrl={image}/>
+      {isLoading ? (
+        <Loading/>
+      ) : (<></>)}  
       <div className={styles.container}>
       <h2>Editar perfil</h2>
       <br/>

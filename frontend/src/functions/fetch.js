@@ -37,6 +37,16 @@ export async function getUsers() {
     }
 }
 
+export async function getUserById(idUser) {
+  try {
+      const response = await fetch(`${baseURL}/getUserById?idUser=${idUser}`);
+      const data = await response.json();
+      console.log(data)
+      return data[0];
+  } catch (error) {
+      console.error("Error al obtener el user:", error);
+  }
+}
 // Función para obtener los juegos
 export async function getJuegos() {
   try {
@@ -48,6 +58,17 @@ export async function getJuegos() {
   }
 }
 
+export async function getJuegoById(idJuego) {
+  try {
+      const response = await fetch(`${baseURL}/getJuegoById?idJuego=${idJuego}`);
+      const data = await response.json();
+      console.log(data)
+      return data[0];
+  } catch (error) {
+      console.error("Error al obtener el juego:", error);
+  }
+}
+
 // Función para obtener los vinculos juego usuario
 export async function getJuegoXUsers() {
   try {
@@ -56,6 +77,17 @@ export async function getJuegoXUsers() {
       return data;
   } catch (error) {
       console.error("Error al obtener las relaciones de juegos y usuarios:", error);
+  }
+}
+
+export async function getJuegoXUserById(idJuegoXUser) {
+  try {
+      const response = await fetch(`${baseURL}/getJuegoXUserById?idJuegoXUser=${idJuegoXUser}`);
+      const data = await response.json();
+      console.log(data)
+      return data[0];
+  } catch (error) {
+      console.error("Error al obtener el user:", error);
   }
 }
 
@@ -124,7 +156,7 @@ export async function fetchRegister(newUser) {
   
       // Parseamos la respuesta
       const result = await response.json();
-      return result;
+      return result.insertId;
     } catch (error) {
       console.error('Error en fetchRegister:', error);
       throw error; // Propagamos el error para manejarlo en el componente
@@ -156,7 +188,7 @@ export async function fetchUpdateUser(user) {
 //función para actualizar la plata del usuario
 export async function fetchUpdateUserMoney(user) {
     try {
-        const response = await fetch(`${baseURL}/putUser`, {
+        const response = await fetch(`${baseURL}/putUserMoney`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -218,7 +250,7 @@ export async function insertJuegoXUser(newJuegoXUser) {
   
       // Parseamos la respuesta
       const result = await response.json();
-      return result;
+      return result.insertId;
     } catch (error) {
       console.error('Error en insertJuegoXUser:', error);
       throw error; // Propagamos el error para manejarlo en el componente
@@ -247,5 +279,27 @@ export async function insertCard(newCard) {
     } catch (error) {
       console.error('Error en insertCard:', error);
       throw error; // Propagamos el error para manejarlo en el componente
+    }
+  }
+
+export async function fetchUpdateCardHand(card) {
+    try {
+        console.log("fetch: ", card)
+        const response = await fetch(`${baseURL}/putCardHand`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(card)
+        });
+
+        if (response.ok) {
+            const result = await response.text();
+            console.log(result); // "Usuario actualizado con éxito."
+        } else {
+            console.error('Error al actualizar el usuario:', response.status);
+        }
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
     }
   }

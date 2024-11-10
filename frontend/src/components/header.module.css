@@ -1,0 +1,44 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #eeeeee; /* Fondo oscuro */
+  color: #ffffff;
+}
+
+.logo h1 {
+  font-size: 34px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.logoPrimary {
+  color: #1f3a93; /* Color azul oscuro para "PIO" */
+}
+
+.logoSecondary {
+  color: #f0c419; /* Color dorado para "CARDS" */
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+
+.username {
+  margin-right: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #1f3a93;
+}
+
+.profilePic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+
+  border: 5px solid #1f3a93; /* Borde dorado */
+}

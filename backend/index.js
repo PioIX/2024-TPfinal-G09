@@ -4,10 +4,6 @@ var bodyParser = require("body-parser"); //Convierte los JSON
 const MySQL = require("./modulos/mysql.js");//Declaro SQL
 const session = require('express-session');// Para el manejo de las variables de sesión
 
-
-
-
-
 // Paquetes instalados: -g nodemon, express, body-parser, mysql2, socket.io
 // Agregado al archivo "package.json" la línea --> "start": "nodemon index"
 
@@ -21,7 +17,7 @@ const session = require('express-session');// Para el manejo de las variables de
 
 const app = express();	
 app.use(cors({
-    origin: ['http://127.0.0.1:5500', 'http://localhost:3000', 'http://localhost:3001','http://localhost:4000']
+    origin: ['http://127.0.0.1:5500', 'http://localhost:3000', 'http://localhost:3001','http://localhost:3002']
 }));								// Inicializo express para el manejo de las peticiones
 
 app.use(bodyParser.urlencoded({ extended: false }));	// Inicializo el parser JSON
@@ -35,6 +31,7 @@ const server = app.listen(LISTEN_PORT, () => {
     console.log('Rutas definidas:');
     console.log(`   [GET] http://localhost:${LISTEN_PORT}/`);
     console.log(`   [GET] http://localhost:${LISTEN_PORT}/getUsers`);
+    console.log(`   [GET] http://localhost:${LISTEN_PORT}/getUserById`);
     console.log(`   [GET] http://localhost:${LISTEN_PORT}/getSobres`);
     console.log(`   [GET] http://localhost:${LISTEN_PORT}/getCardModels`);
     console.log(`   [GET] http://localhost:${LISTEN_PORT}/getJuegos`);
@@ -53,7 +50,7 @@ const server = app.listen(LISTEN_PORT, () => {
 const io = require('socket.io')(server, {
 	cors: {
 		// IMPORTANTE: REVISAR PUERTO DEL FRONTEND
-		origin: ["http://localhost:3000","http://localhost:4000"],            	// Permitir el origen localhost:3000
+		origin: ["http://localhost:3000","http://localhost:3001","http://localhost:3002"],            	// Permitir el origen localhost:3000
 		methods: ["GET", "POST", "PUT", "DELETE"],  	// Métodos permitidos
 		credentials: true                           	// Habilitar el envío de cookies
 	}
@@ -90,6 +87,22 @@ app.get("/getUsers", async (req, res) => {
     }
 });
 
+app.get("/getUserById", async (req, res) => {
+    if (!req.query.idUser) {
+        return res.status(400).json({ message: "El parámetro idUser es obligatorio" });
+    }
+
+    try {
+        // Usamos una consulta SQL que filtre por el idUser
+        const query = `SELECT * FROM Users WHERE id = '${req.query.idUser}'`;
+        const user = await MySQL.realizarQuery(query); // Pa?samos idUser como parámetro para prevenir SQL Injection
+        res.status(200).json(user);
+        console.log(user)
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener el usuario", error });
+    }
+});
+
 // Obtener sobres A
 app.get("/getSobres", async (req, res) => {
     try {
@@ -113,14 +126,29 @@ app.get("/getCardModels", async (req, res) => {
 // Obtener juegos A
 app.get("/getJuegos", async (req, res) => {
     try {
-      const query = `SELECT id, winner, points, created_at FROM Juego`; // Incluye created_at
-      const juegos = await MySQL.realizarQuery(query);
-      res.status(200).json(juegos);
+        const juegos = await MySQL.realizarQuery("SELECT * FROM Juego");
+        res.status(200).json(juegos);
     } catch (error) {
-      res.status(500).json({ message: "Error al obtener los juegos", error });
+        res.status(500).json({ message: "Error al obtener los juegos", error });
     }
-  });
-  
+});
+
+app.get("/getJuegoById", async (req, res) => {
+    if (!req.query.idJuego) {
+        return res.status(400).json({ message: "El parámetro Juego es obligatorio" });
+    }
+
+    try {
+        // Usamos una consulta SQL que filtre por el idUser
+        const query = `SELECT * FROM Juego WHERE id = '${req.query.idJuego}'`;
+        const user = await MySQL.realizarQuery(query); // Pa?samos idUser como parámetro para prevenir SQL Injection
+        res.status(200).json(user);
+        console.log(user)
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener el Juego", error });
+    }
+});
+
 // Obtener relaciones de juegos y usuarios A
 app.get("/getJuegoXUsers", async (req, res) => {
     try {
@@ -128,6 +156,22 @@ app.get("/getJuegoXUsers", async (req, res) => {
         res.status(200).json(juegoXUsers);
     } catch (error) {
         res.status(500).json({ message: "Error al obtener los registros", error });
+    }
+});
+
+app.get("/getJuegoXUserById", async (req, res) => {
+    if (!req.query.idJuegoXUser) {
+        return res.status(400).json({ message: "El parámetro idJuegoXUser es obligatorio" });
+    }
+
+    try {
+        // Usamos una consulta SQL que filtre por el idUser
+        const query = `SELECT * FROM JuegoXUser WHERE id = '${req.query.idJuegoXUser}'`;
+        const user = await MySQL.realizarQuery(query); // Pa?samos idUser como parámetro para prevenir SQL Injection
+        res.status(200).json(user);
+        console.log(user)
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener el idJuegoXUser", error });
     }
 });
 
@@ -173,15 +217,16 @@ app.get("/getMazoByUser", async (req, res) => {
 
 app.get("/getGamesByUser", async (req, res) => {
     if (!req.query.idUser) {
-        return res.status(400).json({ message: "idUser parameter is required" });
+        return res.status(400).json({ message: "El parámetro idUser es obligatorio" });
     }
+
     try {
-        const query = `SELECT * FROM JuegoXUser WHERE idUser = ?`;
-        const games = await MySQL.realizarQuery(query, [req.query.idUser]);
-        res.status(200).json(games);
+        // Usamos una consulta SQL que filtre por el idUser
+        const query = `SELECT * FROM JuegoXUser WHERE idUser = '${req.query.idUser}'`;
+        const cards = await MySQL.realizarQuery(query); // Pa?samos idUser como parámetro para prevenir SQL Injection
+        res.status(200).json(cards);
     } catch (error) {
-        console.error("Error getting games:", error);
-        res.status(500).json({ message: "Error getting games", error });
+        res.status(500).json({ message: "Error al obtener los juegos", error });
     }
 });
 
@@ -228,12 +273,29 @@ app.post("/postUser", async function (req, res) {
             VALUES ('${req.body.username}', '${req.body.password}', '${req.body.name}', '${req.body.surname}', 0, '${req.body.mail}', '${req.body.image}')
         `;
 
-        await MySQL.realizarQuery(query);
+        result=await MySQL.realizarQuery(query);
 
-        res.status(200).send({ success: true, message: "Usuario creado exitosamente." });
+        res.status(200).send(result);
     } catch (error) {
         console.error("Error al crear el usuario: ", error);
         res.status(500).send({ success: false, message: "Error en el servidor." });
+    }
+});
+
+// Actualizar plata usuario A
+app.put("/putCardHand", async function (req, res) {
+    try {
+        const query = `
+            UPDATE Cards 
+            SET  hand = ${req.body.hand} 
+            WHERE id = ${req.body.id}
+        `;
+
+        await MySQL.realizarQuery(query);
+
+        res.status(200).send("Carta actualizada con éxito.");
+    } catch (error) {
+        res.status(500).json({ message: "Error al actualizar el usuario", error });
     }
 });
 
@@ -256,11 +318,11 @@ app.post("/postCard", async function (req, res) {
 // Insertar un nuevo juego A
 app.post("/postJuego", async function (req, res) {
     try {
-        const query = `INSERT INTO Juego (winner) VALUES ('${req.body.winner}')`;
+        const query = `INSERT INTO Juego (winner, points) VALUES ('${req.body.winner}', '${req.body.points}')`;
 
-        await MySQL.realizarQuery(query);
+        const result = await MySQL.realizarQuery(query);
 
-        res.status(201).send(true);
+        res.status(201).send(result);
     } catch (error) {
         res.status(500).json({ message: "Error al insertar el juego", error });
     }
@@ -271,78 +333,146 @@ app.post("/postJuegoXUser", async function (req, res) {
     try {
         const query = `INSERT INTO JuegoXUser (idUser, idJuego) VALUES (${req.body.idUser}, ${req.body.idJuego})`;
 
-        await MySQL.realizarQuery(query);
+        // Ejecuta la consulta de inserción y guarda el ID insertado
+        const result = await MySQL.realizarQuery(query);
 
-        res.status(201).send(true);
+        // result.insertId contiene el ID recién insertado en MySQL
+        res.status(201).json({ success: true, insertId: result.insertId });
     } catch (error) {
         res.status(500).json({ message: "Error al insertar la relación", error });
     }
 });
 
-// Obtener el dinero del usuario
-app.get("/getUserMoney", async (req, res) => {
-    if (!req.query.idUser) {
-        return res.status(400).json({ message: "El parámetro idUser es obligatorio" });
-    }
+const players = {}; // Guarda los jugadores en la sala y sus puntajes
+const gameStatus = {}; // Estado del juego por sala
+const loops = {}; // Guarda el loop actual de cada sala
 
-    try {
-        const query = `SELECT money FROM Users WHERE id = '${req.query.idUser}'`;
-        const [user] = await MySQL.realizarQuery(query); // Esperamos solo un usuario
-        res.status(200).json(user); // Respuesta con el dinero del usuario
-    } catch (error) {
-        res.status(500).json({ message: "Error al obtener el dinero del usuario", error });
-    }
+io.on("connection", (socket) => {
+    // Evento para que un jugador se una a una sala
+    socket.on("joinRoom", ({ idUser, username, idSala }) => {
+        socket.join(idSala);
+        // Inicializa la sala si no existe
+        if (!gameStatus[idSala]) {
+            gameStatus[idSala] = { players: [], timer: null, loop: [], puntos: [], cardsPlay:[], round:1};
+        }
+
+        const room = gameStatus[idSala];
+        room.players.push(idUser);
+        
+        // Crea el vector de puntos si es un nuevo jugador
+        room.puntos.push({ idUser, username, puntaje: 0 });
+
+        // Inicia el timer si es el segundo jugador y no hay 4 jugadores
+        if (room.players.length > 1) {
+           startGame(idSala);
+        }
+    });
+
+    // Evento para seleccionar la propiedad
+    socket.on("chooseProp", (prop, idSala) => {
+        if (!idSala) return;
+        
+        io.to(idSala).emit("sendProp", prop);
+        gameStatus[idSala].propSeleccionada = prop; 
+    });
+
+    // Evento para elegir una carta
+    socket.on("chooseCard", (card, idSala) => {
+        if (!idSala) return;
+        const room = gameStatus[idSala];
+        room.cardsPlay.push(card);
+        
+        // Si todos los jugadores enviaron sus cartas, determina el ganador
+        if (room.cardsPlay.length === room.players.length) {
+            const winnerCards = determineWinner(room.cardsPlay, room.propSeleccionada);
+            // Marcar las cartas ganadoras
+            winnerCards.forEach(card => card.winner = true);
+
+            if (winnerCards.length == 1) {
+            // Solo un ganador, suma 3 puntos
+                const singleWinner = room.puntos.find(p => p.idUser == winnerCards[0].playerId);
+                if (singleWinner) singleWinner.puntaje += 3;
+
+            } else {
+                // Más de un ganador, suma 1 punto a cada uno
+                winnerCards.forEach(card => {
+                const winner = room.puntos.find(p => p.idUser == card.playerId);
+                if (winner) winner.puntaje += 1;
+                });
+            }
+            io.to(idSala).emit("sendCardsYPoints", { cardsPlay: room.cardsPlay, puntos: room.puntos });
+            console.log(room.cardsPlay)
+            room.cardsPlay = []; // Reinicia el vector de cartas jugadas para la próxima ronda
+        }
+    });
+
+    // Evento para finalizar la ronda y rotar el loop
+    socket.on("endRound", async(puntos, loop, idSala) => {
+        if (!idSala) return;
+        const room = gameStatus[idSala];
+        room.loop=loop
+        room.puntos=puntos
+        room.round++
+        if (room.round > 5) {
+            const winner = room.puntos.reduce((max, player) => player.puntaje > max.puntaje ? player : max, room.puntos[0]);
+            const newJuego = { winner: winner.idUser, points: winner.puntaje }
+            const idJuego = await insertJuego(newJuego)
+            io.to(idSala).emit("endGame", idJuego);
+            resetRoom(idSala); // Reinicia el estado de la sala
+        } else {
+            // Rota el loop y envía la siguiente ronda
+            room.loop.push(room.loop.shift()); // Rota el loop
+            io.to(idSala).emit("readyRound", { loop: room.loop, puntos: room.puntos });
+        }
+    });
 });
 
-// En el archivo de rutas backend (Node.js)
-app.post("/purchaseSobre", async (req, res) => {
+//Funcion como fetch pero dentro del back que arma el juego
+async function insertJuego(newJuego) {
     try {
-      const { idUser, idSobre } = req.body;
-      if (!idUser || !idSobre) {
-        throw new Error("Faltan parámetros necesarios (idUser, idSobre)");
+      const response = await fetch(`http://localhost:${LISTEN_PORT}/postJuego`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newJuego),
+      });
+  
+      // Verificamos si la respuesta fue exitosa
+      if (!response) {
+        throw new Error('Error al registrar el juego');
       }
   
-      // Generar el paquete de cartas
-      const pack = await generateCardPack(idUser, idSobre);
-      if (!pack || pack.length === 0) {
-        throw new Error("No se pudo generar el paquete de cartas");
-      }
-  
-      // Guarda cada carta en la base de datos asociándola al usuario
-      for (const carta of pack) {
-        await MySQL.realizarQuery("INSERT INTO UserCards (idUser, idCard) VALUES (?, ?)", [idUser, carta.idModel]);
-      }
-  
-      // Actualiza el dinero del usuario (restando el costo del sobre)
-      const costoDelSobre = 100; // O el precio que corresponda
-      await MySQL.realizarQuery("UPDATE Users SET money = money - ? WHERE idUser = ?", [costoDelSobre, idUser]);
-  
-      // Responder con éxito y el paquete generado
-      res.status(200).json({ message: "Compra realizada con éxito", pack });
+      // Parseamos la respuesta
+      const result = await response.json();
+      return result.insertId;
     } catch (error) {
-      console.error("Error al generar el paquete de cartas:", error);
-      res.status(500).json({ message: "Error al generar el paquete de cartas", error: true });
+      console.error('Error en insertJuego:', error);
+      throw error; // Propagamos el error para manejarlo en el componente
     }
-  });
-  
-  
-  
-  
-  
+}
 
-app.post('/generateCardPackage', async (req, res) => {
-    const { idUser, idSobre } = req.body;
-  
-    if (!idUser || !idSobre) {
-      return res.status(400).json({ message: "Missing idUser or idSobre" });
-    }
-  
-    try {
-      // Your logic to generate the card package goes here
-      res.status(200).json({ success: true, message: "Paquete de cartas generado con éxito" });
-    } catch (error) {
-      console.error("Error al generar el paquete de cartas:", error);
-      res.status(500).json({ message: "Error al generar el paquete de cartas" });
-    }
-  });
-  
+// Función para inicializar el juego
+function startGame(idSala) {
+    console.log("iniciando partida con", idSala)
+    const room = gameStatus[idSala];
+    room.loop = [...room.players]; // Inicializa el loop con los jugadores
+    console.log("sala ", room)
+    io.to(idSala).emit("readyRound", { loop: room.loop, puntos: room.puntos });
+}
+
+// Función para determinar la carta ganadora
+function determineWinner(cards, prop) {
+    // Encuentra el valor máximo de la propiedad seleccionada
+    const maxValue = Math.max(...cards.map(card => card[prop]));
+
+    // Retorna todas las cartas que tengan el valor máximo en la propiedad seleccionada
+    return cards.filter(card => card[prop] === maxValue);
+}
+
+
+// Función para resetear el estado de la sala al final del juego
+function resetRoom(idSala) {
+    delete gameStatus[idSala];
+}
+

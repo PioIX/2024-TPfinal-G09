@@ -1,14 +1,19 @@
+
 .button {
-  padding: 10px;
-  background-color: #323335;
-  color: white;
+  width: 100%;
+  padding: 12px;
+  margin-top: 16px;
+  border-radius: 8px;
   border: none;
-  border-radius: 15px;
-  font-size: 1rem;
+  font-size: 16px;
   cursor: pointer;
-  margin: 10px;
+  color: #ffffff;
+  background-color: #1e3c72;
+  transition: background-color 0.3s ease;
 }
 
+
+/* Efecto hover en los botones */
 .button:hover {
-  background-color: #565e66;
+  background-color: #3e6892;
 }

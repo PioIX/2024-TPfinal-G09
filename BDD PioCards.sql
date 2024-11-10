@@ -56,8 +56,10 @@ where id=5;
 CREATE TABLE Juego (
     id INT AUTO_INCREMENT PRIMARY KEY,
     winner INT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (winner) REFERENCES Users(id) ON DELETE SET NULL
 );
+
 
 INSERT INTO Juego (winner) VALUES 
 (1),    -- Juego 1: Ganador es el usuario con id 1
@@ -90,22 +92,27 @@ CREATE TABLE Cards (
 );
 -- Cartas para el Usuario 1
 INSERT INTO Cards (idModel, idUser, hand) VALUES
-(1, 1, TRUE),   -- Usuario 1 tiene la carta 1 en mano
-(2, 1, FALSE),  -- Usuario 1 tiene la carta 2 fuera de mano
-(3, 1, TRUE),  -- Usuario 1 tiene la carta 3 fuera de mano
-(4, 1, TRUE),   -- Usuario 1 tiene la carta 4 en mano
-(5, 1, FALSE),  -- Usuario 1 tiene la carta 5 fuera de mano
+(1, 1, FALSE),   -- Usuario 1 tiene laS siguientes cartas
+(2, 1, TRUE),  
+(3, 1, FALSE),  
+(4, 1, TRUE),   
+(5, 1, TRUE),  
+(7, 1, TRUE)
+(8, 1, TRUE)
 -- Cartas para el Usuario 2
-(2, 2, TRUE),   -- Usuario 2 tiene la carta 2 en mano
-(3, 2, FALSE),  -- Usuario 2 tiene la carta 3 fuera de mano
-(4, 2, TRUE),   -- Usuario 2 tiene la carta 4 en mano
-(5, 2, FALSE),  -- Usuario 2 tiene la carta 5 fuera de mano
-(6, 2, TRUE),   -- Usuario 2 tiene la carta 6 en mano
+(2, 2, TRUE),   -- Usuario 2 tiene las siguientes cartas
+(3, 2, FALSE),  
+(4, 2, TRUE),  
+(5, 2, TRUE), 
+(6, 2, TRUE),   
+(7, 2, TRUE),
+(6, 2, FALSE),
 -- Cartas para el Usuario 3
-(1, 3, FALSE),  -- Usuario 3 tiene la carta 1 fuera de mano
+(1, 3, TRUE),  -- Usuario 3 tiene la carta 1 fuera de mano
 (3, 3, TRUE),   -- Usuario 3 tiene la carta 3 en mano
 (5, 3, TRUE),   -- Usuario 3 tiene la carta 5 en mano
-(6, 3, FALSE),  -- Usuario 3 tiene la carta 6 fuera de mano
+(6, 3, TRUE),  -- Usuario 3 tiene la carta 6 fuera de mano
 (4, 3, TRUE);  -- Usuario 3 tiene la carta 4 fuera de mano
+(8, 3, FALSE);  -- Usuario 3 tiene la carta 4 fuera de mano
 
 

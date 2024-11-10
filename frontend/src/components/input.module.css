@@ -3,6 +3,7 @@
   flex-direction: column; /* Columna para expandirse verticalmente */
   flex: 1;
   margin-bottom: 15px;
+  align-items: center;
   overflow: visible; /* El contenedor también permite el crecimiento sin restricciones */
 }
 
@@ -10,20 +11,22 @@
   margin-bottom: 5px;
   font-weight: bold;
 }
-
+  
 .input {
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
   width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
   box-sizing: border-box;
-  overflow: visible; /* Oculta el scroll vertical y crece automáticamente */
-  min-height: 40px; /* Altura mínima */
-  text-align: left;
-  padding-left: 5%;
+  transition: all 0.3s ease;
 }
 
+
+
 .input:focus {
-  border-color: #007bff;
+  border-color: #1e3c72;
   outline: none;
+  box-shadow: 0 0 8px rgba(30, 60, 114, 0.2);
 }
