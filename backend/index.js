@@ -475,3 +475,4 @@ function determineWinner(cards, prop) {
 function resetRoom(idSala) {
     delete gameStatus[idSala];
 }
+
