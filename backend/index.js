@@ -229,6 +229,31 @@ app.get("/getGamesByUser", async (req, res) => {
         res.status(500).json({ message: "Error al obtener los juegos", error });
     }
 });
+// Obtener dinero del usuario
+app.get("/getUserMoney", async (req, res) => {
+    const { idUser } = req.query;
+
+    if (!idUser) {
+        return res.status(400).json({ message: "El parámetro idUser es obligatorio" });
+    }
+
+    console.log("idUser recibido:", idUser); // Verifica que el idUser esté llegando correctamente
+
+    try {
+        const query = "SELECT money FROM Users WHERE id = ?";
+        const result = await MySQL.realizarQuery(query, [idUser]);
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+
+        res.status(200).json({ money: result[0].money });
+    } catch (error) {
+        console.error("Error al obtener el dinero del usuario:", error);
+        res.status(500).json({ message: "Error al obtener el dinero del usuario", error });
+    }
+});
+
 
 // Actualizar plata usuario A
 app.put("/putUserMoney", async function (req, res) {

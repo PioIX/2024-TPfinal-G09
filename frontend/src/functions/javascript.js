@@ -43,3 +43,4 @@ export function setGame(juego, winner, user, juegoXUser) {
   const match = { ...juego, ...winner, ...juegoXUser, nombre:user.name, pic:user.image};
   return match;
 }
+

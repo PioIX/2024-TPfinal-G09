@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Sobre from "@/components/sobres";
-import ConfirmationModal from "@/components/confirmationModal";
+import ConfirmationModal from "@/components/ConfirmationModal";
 import Carta from "@/components/carta";
 import styles from "@/app/tienda/page.module.css";
 import { useSearchParams } from 'next/navigation';
@@ -41,12 +41,12 @@ export default function Home() {
     fetchUserMoney();
   }, [userId]);
 
-  // Function to open confirmation modal
+  // Abre el modal de confirmación de compra
   const handleSobreClick = (sobre) => {
     setSelectedSobre(sobre);
   };
 
-  // Confirm purchase function
+  // Confirma la compra y genera las cartas si es exitosa
   const confirmPurchase = async () => {
     if (userMoney >= selectedSobre.price) {
       try {
@@ -59,22 +59,16 @@ export default function Home() {
         if (!res.ok) {
           const errorData = await res.json();
           console.error("Error en la respuesta del servidor:", errorData);
-          alert("Error al generar el paquete de cartas: " + errorData.message);
+          alert("Error al realizar la compra: " + errorData.message);
           setPackCartas([]);
           return;
         }
   
+        // Generar y mostrar el paquete de cartas
         const result = await res.json();
-        if (!Array.isArray(result)) {
-          console.error("Formato de datos inesperado:", result);
-          alert("Error al generar el paquete de cartas: " + result.message);
-          setPackCartas([]);
-          return;
-        }
-  
         setPackCartas(result);
   
-        // Llamar a la función para refrescar el dinero del usuario
+        // Refresca el dinero del usuario después de la compra
         await fetchUserMoney();
   
         setSelectedSobre(null);
@@ -87,81 +81,11 @@ export default function Home() {
       alert("No tienes suficientes monedas para esta compra.");
     }
   };
-  
-  // Close the modal
+
+  // Cierra el modal de confirmación sin comprar
   const cancelPurchase = () => {
     setSelectedSobre(null);
   };
-  function seleccionarCartaPorProbabilidad(cartas, probabilidades) {
-    const rand = Math.random() * 100;
-    let cumulativeProbability = 0;
-    let filtro;
-  
-    // Determine the rarity based on cumulative probability ranges
-    for (const [rarity, probability] of Object.entries(probabilidades)) {
-      cumulativeProbability += probability;
-      if (rand <= cumulativeProbability) {
-        filtro = rarity;
-        break;
-      }
-    }
-  
-    const cartasFiltradas = cartas.filter((carta) => carta.calidad === filtro);
-  
-    if (cartasFiltradas.length === 0) {
-      console.warn(`No cards found for quality ${filtro}. Returning a random card as fallback.`);
-      return cartas[Math.floor(Math.random() * cartas.length)];
-    }
-  
-    return cartasFiltradas[Math.floor(Math.random() * cartasFiltradas.length)];
-  }
-  
-  
-// Function to generate a pack of cards for a user
-async function generateCardPack(idUser, idSobre) {
-  try {
-    const packConfig = packageProbabilities[idSobre] || packageProbabilities.Aleatorio;
-    if (!packConfig) throw new Error(`Configuración no encontrada para idSobre ${idSobre}`);
-    
-    const probabilities = packConfig.commonDraws;
-    const guaranteedRarity = packConfig.guaranteedRarity;
-
-    const allCards = await MySQL.realizarQuery("SELECT * FROM CardModels");
-    if (!Array.isArray(allCards) || allCards.length === 0) {
-      console.error("No se encontraron cartas en la tabla CardModels");
-      throw new Error("La tabla de modelos de cartas está vacía o la consulta falló");
-    }
-
-    const generatedPack = [];
-    // Log de inicio de generación
-    console.log("Generando cartas basadas en probabilidades");
-
-    for (let i = 0; i < 4; i++) {
-      const selectedCard = seleccionarCartaPorProbabilidad(allCards, probabilities);
-      if (selectedCard) {
-        generatedPack.push(selectedCard);
-      }
-    }
-
-    console.log("Cartas generadas:", generatedPack);
-
-    const lastCardOptions = allCards.filter((carta) => carta.calidad === guaranteedRarity);
-    if (lastCardOptions.length > 0) {
-      const guaranteedCard = lastCardOptions[Math.floor(Math.random() * lastCardOptions.length)];
-      generatedPack.push(guaranteedCard);
-    } else {
-      console.warn(`No hay cartas disponibles para la rareza garantizada ${guaranteedRarity}`);
-    }
-
-    return generatedPack;
-  } catch (error) {
-    console.error("Error en generateCardPack:", error);
-    throw new Error("Error al generar el paquete de cartas");
-  }
-}
-
-
-
 
   return (
     <div className={styles.container}>
@@ -175,24 +99,26 @@ async function generateCardPack(idUser, idSobre) {
             imagenSrc={`/images/${sobre.name.toLowerCase()}.png`}
             texto={sobre.name}
             subtitulo={`Precio: ${sobre.price} monedas`}
-            rareza={sobre.name}
-            onClick={() => handleSobreClick(sobre)} // Handle click
+            rareza={sobre.name.toLowerCase()}
+            onClick={() => handleSobreClick(sobre)}
+            allCards={[]} // Aquí iría la lista de cartas disponibles
           />
         ))}
       </div>
 
-      {/* Confirmation Modal */}
-      <ConfirmationModal
-        sobre={selectedSobre}
-        onConfirm={confirmPurchase}
-        onCancel={() => setSelectedSobre(null)}
-      />
-<div className={styles.packCartasContainer}>
-  {Array.isArray(packCartas) && packCartas.map((carta, index) => (
-    <Carta key={index} {...carta} />
-  ))}
-</div>
+      {selectedSobre && (
+        <ConfirmationModal
+          sobre={selectedSobre}
+          onConfirm={confirmPurchase}
+          onCancel={cancelPurchase}
+        />
+      )}
 
+      {packCartas.length > 0 && (
+        <div className={styles.packCartasContainer}>
+          {packCartas.map((carta, index) => <Carta key={index} {...carta} />)}
+        </div>
+      )}
     </div>
   );
 }
