@@ -6,8 +6,8 @@ const mySql = require("mysql2/promise");
  */
 const SQL_CONFIGURATION_DATA =
 {
-    //host: "10.1.5.205", //IP privada del servidor del colegio
-    host: "181.47.29.35", //IP pública del servidor del colegio
+    host: "10.1.5.205", //IP privada del servidor del colegio
+    //host: "181.47.29.35", //IP pública del servidor del colegio
     user: "2024-5AINF-G09",
     password: "elchavo",
     database: "2024-5AINF-G09",
@@ -19,7 +19,7 @@ const SQL_CONFIGURATION_DATA =
 /**
  * Realiza una query a la base de datos MySQL indicada en el archivo "mysql.js".
  * @param {String} queryString Query que se desea realizar. Textual como se utilizaría en el MySQL Workbench.
- * @returns Respuesta de la base de datos. Suele ser un vector de objetos.
+ * @returns Respuesta de la base de datos. Swdwqrfqwruele ser un vector de objetos.
  */
 exports.realizarQuery = async function (queryString)
 {
