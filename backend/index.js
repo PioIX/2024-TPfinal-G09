@@ -369,46 +369,28 @@ app.post("/postJuegoXUser", async function (req, res) {
 });
 
 // Function to generate a pack of cards for a user
-async function generateCardPack(idUser, idSobre) {
-    try {
-      const packConfig = packageProbabilities[idSobre] || packageProbabilities.Aleatorio;
-      if (!packConfig) throw new Error(`Configuración no encontrada para idSobre ${idSobre}`);
-      
-      const probabilities = packConfig.commonDraws;
-      const guaranteedRarity = packConfig.guaranteedRarity;
+async function generateCardPack(idUser, sobreName) {
+    const probabilities = SOBRE_PROBABILIDADES[sobreName] || SOBRE_PROBABILIDADES.Aleatorio;
+    const allCards = await MySQL.realizarQuery("SELECT * FROM CardModels");
   
-      const allCards = await MySQL.realizarQuery("SELECT * FROM CardModels");
-      if (!Array.isArray(allCards) || allCards.length === 0) {
-        console.error("No se encontraron cartas en la tabla CardModels");
-        throw new Error("La tabla de modelos de cartas está vacía o la consulta falló");
-      }
-  
-      const generatedPack = [];
-      // Log de inicio de generación
-      console.log("Generando cartas basadas en probabilidades");
-  
-      for (let i = 0; i < 4; i++) {
-        const selectedCard = seleccionarCartaPorProbabilidad(allCards, probabilities);
-        if (selectedCard) {
-          generatedPack.push(selectedCard);
-        }
-      }
-  
-      console.log("Cartas generadas:", generatedPack);
-  
-      const lastCardOptions = allCards.filter((carta) => carta.calidad === guaranteedRarity);
-      if (lastCardOptions.length > 0) {
-        const guaranteedCard = lastCardOptions[Math.floor(Math.random() * lastCardOptions.length)];
-        generatedPack.push(guaranteedCard);
-      } else {
-        console.warn(`No hay cartas disponibles para la rareza garantizada ${guaranteedRarity}`);
-      }
-  
-      return generatedPack;
-    } catch (error) {
-      console.error("Error en generateCardPack:", error);
-      throw new Error("Error al generar el paquete de cartas");
+    const packCartas = [];
+    
+    // Select the first 4 cards based on probabilities
+    for (let i = 0; i < 4; i++) {
+      packCartas.push(selectCardByProbability(allCards, probabilities));
     }
+  
+    // Last card has guaranteed rarity of the `Sobre`, if applicable
+    if (sobreName !== "Flashback" && sobreName !== "Aleatorio") {
+      const lastCardOptions = allCards.filter(carta => carta.calidad === sobreName);
+      const lastCard = lastCardOptions[Math.floor(Math.random() * lastCardOptions.length)];
+      packCartas.push(lastCard);
+    } else {
+      // For "Aleatorio" and "Flashback", all cards follow normal probabilities
+      packCartas.push(selectCardByProbability(allCards, probabilities));
+    }
+  
+    return packCartas;
   }
 
 // En el archivo de rutas backend (Node.js)

@@ -48,6 +48,7 @@ export default function Home() {
 
   // Confirma la compra y genera las cartas si es exitosa
   const confirmPurchase = async () => {
+    console.log(selectedSobre);
     if (userMoney >= selectedSobre.price) {
       try {
         const res = await fetch(`http://localhost:3001/purchaseSobre`, {
