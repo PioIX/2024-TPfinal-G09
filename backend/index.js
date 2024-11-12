@@ -240,8 +240,8 @@ app.get("/getUserMoney", async (req, res) => {
     console.log("idUser recibido:", idUser); // Verifica que el idUser esté llegando correctamente
 
     try {
-        const query = "SELECT money FROM Users WHERE id = ?";
-        const result = await MySQL.realizarQuery(query, [idUser]);
+        const query = `SELECT money FROM Users WHERE id = ${idUser}`;
+        const result = await MySQL.realizarQuery(query);
 
         if (result.length === 0) {
             return res.status(404).json({ message: "Usuario no encontrado" });
