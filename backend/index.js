@@ -368,6 +368,81 @@ app.post("/postJuegoXUser", async function (req, res) {
     }
 });
 
+// Function to generate a pack of cards for a user
+async function generateCardPack(idUser, idSobre) {
+    try {
+      const packConfig = packageProbabilities[idSobre] || packageProbabilities.Aleatorio;
+      if (!packConfig) throw new Error(`Configuración no encontrada para idSobre ${idSobre}`);
+      
+      const probabilities = packConfig.commonDraws;
+      const guaranteedRarity = packConfig.guaranteedRarity;
+  
+      const allCards = await MySQL.realizarQuery("SELECT * FROM CardModels");
+      if (!Array.isArray(allCards) || allCards.length === 0) {
+        console.error("No se encontraron cartas en la tabla CardModels");
+        throw new Error("La tabla de modelos de cartas está vacía o la consulta falló");
+      }
+  
+      const generatedPack = [];
+      // Log de inicio de generación
+      console.log("Generando cartas basadas en probabilidades");
+  
+      for (let i = 0; i < 4; i++) {
+        const selectedCard = seleccionarCartaPorProbabilidad(allCards, probabilities);
+        if (selectedCard) {
+          generatedPack.push(selectedCard);
+        }
+      }
+  
+      console.log("Cartas generadas:", generatedPack);
+  
+      const lastCardOptions = allCards.filter((carta) => carta.calidad === guaranteedRarity);
+      if (lastCardOptions.length > 0) {
+        const guaranteedCard = lastCardOptions[Math.floor(Math.random() * lastCardOptions.length)];
+        generatedPack.push(guaranteedCard);
+      } else {
+        console.warn(`No hay cartas disponibles para la rareza garantizada ${guaranteedRarity}`);
+      }
+  
+      return generatedPack;
+    } catch (error) {
+      console.error("Error en generateCardPack:", error);
+      throw new Error("Error al generar el paquete de cartas");
+    }
+  }
+
+// En el archivo de rutas backend (Node.js)
+app.post("/purchaseSobre", async (req, res) => {
+    try {
+      const { idUser, idSobre } = req.body;
+      if (!idUser || !idSobre) {
+        throw new Error("Faltan parámetros necesarios (idUser, idSobre)");
+      }
+  
+      // Generar el paquete de cartas
+      const pack = await generateCardPack(idUser, idSobre);
+      if (!pack || pack.length === 0) {
+        throw new Error("No se pudo generar el paquete de cartas");
+      }
+  
+      // Guarda cada carta en la base de datos asociándola al usuario
+      for (const carta of pack) {
+        //await MySQL.realizarQuery("INSERT INTO UserCards (idUser, idCard) VALUES (?, ?)", [idUser, carta.idModel]);
+        await MySQL.realizarQuery(`INSERT INTO UserCards (idUser, idCard) VALUES (${idUser}, ${carta.idModel})`);
+      }
+  
+      // Actualiza el dinero del usuario (restando el costo del sobre)
+      const costoDelSobre = 100; // O el precio que corresponda
+      await MySQL.realizarQuery(`UPDATE Users SET money = money - ${costoDelSobre} WHERE idUser = ${idUser}`);
+  
+      // Responder con éxito y el paquete generado
+      res.status(200).json({ message: "Compra realizada con éxito", pack });
+    } catch (error) {
+      console.error("Error al generar el paquete de cartas:", error);
+      res.status(500).json({ message: "Error al generar el paquete de cartas", error: true });
+    }
+  });
+
 const players = {}; // Guarda los jugadores en la sala y sus puntajes
 const gameStatus = {}; // Estado del juego por sala
 const loops = {}; // Guarda el loop actual de cada sala
