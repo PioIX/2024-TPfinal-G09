@@ -1,14 +1,14 @@
-"use client"
+"use client";
 import React from "react";
-import styles from "./loading.module.css"; // Importa los estilos CSS
+import styles from "./loading.module.css";
 
 export default function Loading() {
   return (
-    <div className={styles.loadingContainer}>
+    <div className={styles.loadingContainer} role="status" aria-label="Cargando...">
       <div className={styles.loadingContent}>
-        {/* Puedes poner aquí tu logo */}
-        <div className={styles.spinner}></div>
-        <p className="p">Cargando...</p>
+        <div className={styles.spinner}>
+          <div className={styles.inner}></div>
+        </div>
       </div>
     </div>
   );

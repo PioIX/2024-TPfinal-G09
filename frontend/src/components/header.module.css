@@ -2,9 +2,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  background-color: #eeeeee; /* Fondo oscuro */
-  color: #ffffff;
+  padding-left: 40px;
+  padding-right: 40px;
+  background-color: #666666; /* Fondo oscuro */
 }
 
 .logo h1 {
