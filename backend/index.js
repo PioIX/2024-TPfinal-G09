@@ -307,9 +307,9 @@ app.post("/postCard", async function (req, res) {
             VALUES (${req.body.idModel}, ${req.body.idUser}, '${req.body.hand}')
         `;
 
-        await MySQL.realizarQuery(query);
+        card= await MySQL.realizarQuery(query);
 
-        res.status(201).send(true);
+        res.status(201).send(card);
     } catch (error) {
         res.status(500).json({ message: "Error al insertar la carta", error });
     }

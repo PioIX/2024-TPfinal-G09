@@ -1,15 +1,16 @@
 import React from 'react';
 import Button from './button';
-import styles from './confirmationModal.module.css';
+import styles from './confirmation.module.css';
 
-const ConfirmationModal = ({ sobre, onConfirm, onCancel }) => {
-  if (!sobre) return null;
-
+export default function Confirmation({ sobre, onConfirm, onCancel }) {
   return (
     <div className={styles.modalBackdrop}>
       <div className={styles.modalContent}>
         <h2>Confirmar compra</h2>
-        <p>¿Quieres comprar el sobre de categoria <strong>{sobre.name}</strong> por {sobre.price} monedas?</p>
+        <p>
+          ¿Quieres comprar el sobre de categoría <strong>{sobre.name}</strong> 
+           por {sobre.price} monedas?
+        </p>
         <div className={styles.modalActions}>
           <Button onClick={onConfirm}>Confirmar</Button>
           <Button onClick={onCancel}>Cancelar</Button>
@@ -17,6 +18,4 @@ const ConfirmationModal = ({ sobre, onConfirm, onCancel }) => {
       </div>
     </div>
   );
-};
-
-export default ConfirmationModal;
+}

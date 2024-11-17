@@ -3,7 +3,7 @@ import React from "react";
 import Carta from "@/components/carta";
 import styles from "@/components/carta.module.css";
 
-export default function Cartas({ cards, mostrarUsername = false, seleccionable = false, setSelectCard }) {
+export default function Cartas({ cards, mostrarUsername = false, seleccionable = false, setSelectCard, sobre=false }) {
   // Maneja la selección de la carta si `seleccionable` es true
   const handleCardClick = (id) => {
     if (seleccionable && setSelectCard) {
@@ -33,6 +33,7 @@ export default function Cartas({ cards, mostrarUsername = false, seleccionable =
             autoridad={carta.autoridad}
             winner={carta.winner}
             hand={carta.hand}
+            sobre={sobre}
           />
         </div>
       ))}

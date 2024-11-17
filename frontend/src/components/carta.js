@@ -14,13 +14,14 @@ export default function Carta({
   popularidad,
   autoridad,
   hand,
+  sobre,
   winner = false
 }) {
   return (
     <div
       className={`${styles.carta} ${styles[calidad.toLowerCase()]} ${
         winner ? styles.winner : ""
-      } ${!hand ? styles.noElegido : ""}`}  // Aplica estilo condicional para fondo gris
+      } ${hand || sobre ? "" : styles.noElegido}`}  // Modificada la condición
     >
       <div className={styles.cartaHeader}>
         <div className={styles.calidad}>

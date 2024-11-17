@@ -275,7 +275,7 @@ export async function insertCard(newCard) {
   
       // Parseamos la respuesta
       const result = await response.json();
-      return result;
+      return result.insertId;
     } catch (error) {
       console.error('Error en insertCard:', error);
       throw error; // Propagamos el error para manejarlo en el componente

@@ -55,7 +55,6 @@ export default function GameStage({
     case -1:
       return (
         <div className={styles.waitingContainer}>
-          {renderPuntos()}
           <h3>Escribe tu código de sala:</h3>
           <Input 
             onChange={(event) => setIdSala(event.target.value)} 

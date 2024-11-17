@@ -1,0 +1,93 @@
+.sobre {
+  border: 6px solid; /* Cambiará según la calidad */
+  border-radius: 12px;
+  padding: 16px; 
+  margin: 30px;
+  width: 220px;
+  height: 300px;
+  background-color: #ffffff; /* Fondo blanco predeterminado */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.sobre:hover {
+  transform: scale(1.05);
+}
+
+/* Colores del marco y fondo según calidad */
+.comun {
+  background-color: #ffffff; /* Fondo blanco */
+  border-color: #000000;     /* Borde negro */
+}
+
+.especial {
+  background-color: #abffa8; /* Fondo verde claro */
+  border-color: #4caf50;     /* Borde verde */
+}
+
+.rara {
+  background-color: #b6e7ff; /* Fondo azul claro */
+  border-color: #3498db;     /* Borde azul */
+}
+
+.epica {
+  background-color: #dda0f5; /* Fondo morado claro */
+  border-color: #9b59b6;     /* Borde morado */
+}
+
+.legendaria {
+  background: linear-gradient(45deg, rgb(247, 35, 35), rgb(255, 220, 25)); /* Fondo degradado */
+  border-color: #e61d1d;     /* Borde rojo oscuro */
+}
+
+.iconica {
+  background: linear-gradient(25deg, #ffd700, #fff5c7); /* Fondo degradado dorado */
+  border-color: #ffbb0e;     /* Borde dorado */
+}
+
+.flashback {
+  background: linear-gradient(45deg, #09ecf8, hsl(335, 100%, 55%)); /* Fondo azul neón a rosa */
+  border-color: hsl(180, 98%, 52%); /* Borde verde azulado */
+}
+
+.default {
+  background-color: #ffffff;
+  border-color: #cccccc;
+}
+
+/* Estilo del contenido */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Estilo para el logo */
+.logo {
+  margin-bottom: 16px;
+}
+
+.pio {
+  color: #1f3a93; /* Azul */
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.cards {
+  color: #f0c419; /* Dorado */
+  font-weight: bold;
+  font-size: 1.2rem; 
+}
+
+/* Estilo del logo Panini */
+.paniniLogo {
+  width: 80px; /* Ajusta el tamaño */
+  margin-top: 10px;
+  align-self: center;
+}

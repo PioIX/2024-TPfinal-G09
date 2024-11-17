@@ -5,7 +5,6 @@ import {findXByID, setCards } from "@/functions/javascript"
 import { useSearchParams } from "next/navigation";
 import GameStage from "@/components/gameStage";
 import { useSocket } from "@/hooks/useSocket";
-import Button from "@/components/button";
 import Header from "@/components/header";
 import Loading from "@/components/loading"
 

@@ -8,7 +8,7 @@ import Loading from "@/components/loading";
 import Header from "@/components/header";
 import Historial from "@/components/historial";
 
-export default function UserGames() {
+export default function Home() {
   const searchParams = useSearchParams();
   const idUser = searchParams.get('idUser');
   const [games, setGames] = useState([]);
