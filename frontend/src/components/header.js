@@ -19,7 +19,7 @@ export default function Header({ username, profileImage, idUser, money }) {
 
       {/* Mostrar el dinero del usuario */}
       <div className={styles.money}>
-        <span className={styles.username}>Money: </span>
+        <span className={styles.username}>Dinero: </span>
         <span className={styles.logoSecondary}>${money}</span>
       </div>
 

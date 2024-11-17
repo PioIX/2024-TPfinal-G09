@@ -48,7 +48,7 @@ export default function Home() {
   return (
     <div>
       <main>
-        <Header username={user.username} profileImage={user.image} idUser={user.id} />
+        <Header username={user.username} money={user.money} profileImage={user.image} idUser={user.id} />
         <h2>Bienvenido a PioCards</h2>
         {isLoading ? ( <Loading/>) : (<></>)} 
           <Button onClick={goPlay}>Jugar</Button>

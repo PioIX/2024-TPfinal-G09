@@ -20,6 +20,7 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const [mail, setEmail] = useState("");
   const [image, setImage] = useState("");
+  const [money, setMoney] = useState(0)
   const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga
   let cont = 0
 
@@ -35,6 +36,7 @@ export default function Home() {
       setPassword(user.password);
       setEmail(user.mail);
       setImage(user.image);
+      setMoney(user.money)
       setIsLoading(false)
     } catch (error) {
       console.error("Error cargando los deportistas:", error);
@@ -69,7 +71,7 @@ export default function Home() {
 
   return (
     <main>
-      <Header username={username} profileImage={image} idUser={idUser} /> 
+      <Header username={username} profileImage={image} money={money} idUser={idUser} /> 
       <div className={styles.division}>
       <ProfilePic imageUrl={image}/>
       {isLoading ? (

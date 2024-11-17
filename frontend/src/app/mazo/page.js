@@ -82,7 +82,7 @@ export default function Home() {
     <main>
       {isLoading ? <Loading /> : (
         <>
-          <Header username={user.username} profileImage={user.image} idUser={user.id} />
+          <Header username={user.username} money={user.money} profileImage={user.image} idUser={user.id} />
           <Cartas
             cards={cardsUser}
             setSelectCard={toggleCardSelection}

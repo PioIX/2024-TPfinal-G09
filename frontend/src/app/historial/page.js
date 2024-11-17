@@ -71,7 +71,7 @@ export default function Home() {
       {isLoading ? (
         <Loading/>
       ) : (<></>)}
-      <Header username={user.username} profileImage={user.image} idUser={user.id} /> 
+      <Header username={user.username} money={user.money} profileImage={user.image} idUser={user.id} /> 
       <Historial partidas={games} idUser={idUser} linkEndGame={linkEndGame}/> 
     </main>
   );

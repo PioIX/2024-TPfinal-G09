@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import { getCardModels, getUserById, getMazoByUser, insertJuegoXUser } from "@/functions/fetch.js";
+import { getCardModels, getUserById, getMazoByUser, insertJuegoXUser, fetchUpdateUserMoney } from "@/functions/fetch.js";
 import {findXByID, setCards } from "@/functions/javascript"
 import { useSearchParams } from "next/navigation";
 import GameStage from "@/components/gameStage";
@@ -26,6 +26,7 @@ export default function Home() {
   const [idSala, setIdSala] = useState("")
   let cont=0
   const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga
+  const [winner, setWinner]= useState(-1)
 
   async function cargarCartas() {
     console.log("cargarCartas")
@@ -85,6 +86,7 @@ export default function Home() {
     setPropSelect(gameData.propSeleccionada)
     setFase(gameData.fase)
     setIdJuego(gameData.idJuego)
+    setWinner(gameData.winner)
   }, [gameData]);
 
   async function handleConexion() {
@@ -123,26 +125,22 @@ export default function Home() {
   async function endGame(newJXU){
     console.log("nuevo vinculo JXU", newJXU)
     let idJXU =await insertJuegoXUser(newJXU)
+    let nuevoDinero = -1
+    window.alert(gameData)
+    if(parseInt(winner)==idUser){
+      nuevoDinero = user.money + 1000;
+    }else{
+      nuevoDinero = user.money + 400
+    }
+    const usuarioActualizado = { ...user, money: nuevoDinero };
+    await fetchUpdateUserMoney(usuarioActualizado);
     window.location.href = `/endGame?idJuegoXUser=${idJXU}`
   }
-  /*
-  function cProp() {
-      chooseProp("conocimiento", idSala);
-  };
-
-  function cCard() {
-      chooseCard(cardsUser[prueba], idSala);
-      prueba++
-  };
-
-  function eRound() {
-      endRound(puntos, loop, idSala);
-  };*/
 
   return (
     <div>
       <main>
-        <Header username={user.username} profileImage={user.image} idUser={user.id} />
+        <Header username={user.username} money={user.money} profileImage={user.image} idUser={user.id} />
         {/* <Button onClick={cProp}>prop</Button> 
         <Button onClick={cCard}>card</Button>
         <Button onClick={eRound}>end round</Button>*/}
