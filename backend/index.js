@@ -417,7 +417,8 @@ io.on("connection", (socket) => {
             const winner = room.puntos.reduce((max, player) => player.puntaje > max.puntaje ? player : max, room.puntos[0]);
             const newJuego = { winner: winner.idUser, points: winner.puntaje }
             const idJuego = await insertJuego(newJuego)
-            io.to(idSala).emit("endGame", idJuego, winner);
+            console.log(idJuego, winner)
+            io.to(idSala).emit("endGame", idJuego, winner.idUser);
             resetRoom(idSala); // Reinicia el estado de la sala
         } else {
             // Rota el loop y envía la siguiente ronda

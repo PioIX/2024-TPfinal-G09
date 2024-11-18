@@ -2,21 +2,14 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from 'next/navigation';
 import styles from "@/app/user/page.module.css";
-import { 
-  getUserById, 
-  getCardModels, 
-  getCardsByUser, 
-  getSobres, 
-  insertCard, 
-  fetchUpdateUserMoney 
-} from "@/functions/fetch";
+import {getUserById, getCardModels, getCardsByUser, getSobres, insertCard, fetchUpdateUserMoney} from "@/functions/fetch";
 import { generarSobre } from "@/functions/javascript";
 import Loading from "@/components/loading";
 import Header from "@/components/header";
 import Sobres from "@/components/sobres";
 import Cartas from "@/components/cartas";
 import Button from "@/components/button";
-import Confirmation from "@/components/Confirmation";
+import Confirmation from "@/components/confirmation";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -89,6 +82,7 @@ async function postCartas(modelosCartas) {
   async function abrirSobre() {
     try {
       setIsLoading(true);
+      console.log("sobre select",sobreSelect,"cardModels",cardModels,"cards", cards)
       const modelosCartas = generarSobre(sobreSelect, cardModels, cards);
       const cartasObtenidas = await postCartas(modelosCartas);
       setSobre(cartasObtenidas);

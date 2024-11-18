@@ -7,6 +7,7 @@ import GameStage from "@/components/gameStage";
 import { useSocket } from "@/hooks/useSocket";
 import Header from "@/components/header";
 import Loading from "@/components/loading"
+import Button from "@/components/button";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -25,6 +26,7 @@ export default function Home() {
   //y que uno de estos usuarios 
   const [idSala, setIdSala] = useState("")
   let cont=0
+  let prueba=0
   const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga
   const [winner, setWinner]= useState(-1)
 
@@ -136,12 +138,25 @@ export default function Home() {
     await fetchUpdateUserMoney(usuarioActualizado);
     window.location.href = `/endGame?idJuegoXUser=${idJXU}`
   }
+  /*
+  function cProp() {
+      chooseProp("conocimiento", idSala);
+  };
 
+  function cCard() {
+      chooseCard(cardsUser[prueba], idSala);
+      prueba++
+  };
+
+  function eRound() {
+      endRound(puntos, loop, idSala);
+  };
+*/
   return (
     <div>
       <main>
         <Header username={user.username} money={user.money} profileImage={user.image} idUser={user.id} />
-        {/* <Button onClick={cProp}>prop</Button> 
+        {/*<Button onClick={cProp}>prop</Button> 
         <Button onClick={cCard}>card</Button>
         <Button onClick={eRound}>end round</Button>*/}
         {isLoading ? (<Loading/>
