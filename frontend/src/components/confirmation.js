@@ -8,7 +8,7 @@ export default function Confirmation({ sobre, onConfirm, onCancel }) {
       <div className={styles.modalContent}>
         <h2>Confirmar compra</h2>
         <p>
-          ¿Quieres comprar el sobre de categoría <strong>{sobre.name}</strong> 
+          ¿Quieres comprar el sobre de categoría <strong>{sobre.name} </strong> 
            por {sobre.price} monedas?
         </p>
         <div className={styles.modalActions}>

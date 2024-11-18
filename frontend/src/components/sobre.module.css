@@ -1,7 +1,7 @@
 .sobre {
-  border: 6px solid; /* Cambiará según la calidad */
+  padding: 0;
+  border: 6px solid transparent; /* Establecemos un borde de 6px transparente */
   border-radius: 12px;
-  padding: 16px; 
   margin: 30px;
   width: 220px;
   height: 300px;
@@ -15,79 +15,73 @@
   transition: transform 0.2s;
 }
 
+/* Efecto de hover */
 .sobre:hover {
   transform: scale(1.05);
 }
 
-/* Colores del marco y fondo según calidad */
+/* Estilo para .comun */
 .comun {
   background-color: #ffffff; /* Fondo blanco */
-  border-color: #000000;     /* Borde negro */
+  border: 6px solid transparent; /* Borde transparente para aplicar la imagen de borde */
+  border-radius: 12px;
+  border-image: var(--color-común) 1; /* Usamos la variable de gradiente definida en globals.css */
 }
 
+/* Otros estilos de clases como .especial, .rara, etc. */
 .especial {
+  background: linear-gradient(45deg, #32cd32,#90ee90 ,rgb(229, 232, 228)z);
   background-color: #abffa8; /* Fondo verde claro */
-  border-color: #4caf50;     /* Borde verde */
+  border: 6px solid transparent; /* Borde transparente para aplicar gradiente */
+  border-radius: 12px;
+  border-image: var(--color-especial) 1;
 }
 
 .rara {
-  background-color: #b6e7ff; /* Fondo azul claro */
-  border-color: #3498db;     /* Borde azul */
+  background: linear-gradient(45deg, #1e90ff,#75d2f0 ,rgb(232, 228, 228));
+  border: 6px solid transparent;
+  border-radius: 12px;
+  border-image: var(--color-rara) 1;
 }
 
 .epica {
-  background-color: #dda0f5; /* Fondo morado claro */
-  border-color: #9b59b6;     /* Borde morado */
+  /* background-color: #dda0f5; Fondo morado claro */
+  background: linear-gradient(45deg, #dda0f5,#8a00c1 ,rgb(53, 53, 53));
+  border: 6px solid transparent;
+  border-radius: 12px;
+  border-image: var(--color-épica) 1;
 }
 
 .legendaria {
-  background: linear-gradient(45deg, rgb(247, 35, 35), rgb(255, 220, 25)); /* Fondo degradado */
-  border-color: #e61d1d;     /* Borde rojo oscuro */
+  background: linear-gradient(45deg, #fff5c7,#ffd700 ,rgb(156, 156, 156));
+  border: 6px solid transparent;
+  border-radius: 12px;
+  border-image: var(--color-legendaria) 1;
 }
 
 .iconica {
   background: linear-gradient(25deg, #ffd700, #fff5c7); /* Fondo degradado dorado */
-  border-color: #ffbb0e;     /* Borde dorado */
+  border: 6px solid transparent;
+  border-radius: 12px;
+  border-image: var(--color-icónica) 1;
 }
 
 .flashback {
   background: linear-gradient(45deg, #09ecf8, hsl(335, 100%, 55%)); /* Fondo azul neón a rosa */
-  border-color: hsl(180, 98%, 52%); /* Borde verde azulado */
+  border: 6px solid transparent;
+  border-radius: 12px;
+  border-image: var(--color-flashback) 1;
 }
 
 .default {
   background-color: #ffffff;
-  border-color: #cccccc;
+  border: 6px solid transparent;
+  border-radius: 12px;
+  border-image: var(--color-común) 1;
 }
 
-/* Estilo del contenido */
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
 
-/* Estilo para el logo */
-.logo {
-  margin-bottom: 16px;
-}
-
-.pio {
-  color: #1f3a93; /* Azul */
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
-.cards {
-  color: #f0c419; /* Dorado */
-  font-weight: bold;
-  font-size: 1.2rem; 
-}
-
-/* Estilo del logo Panini */
 .paniniLogo {
-  width: 80px; /* Ajusta el tamaño */
-  margin-top: 10px;
-  align-self: center;
+width: 80%;
+height: 50%;
 }
