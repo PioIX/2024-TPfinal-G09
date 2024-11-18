@@ -32,7 +32,7 @@ const useSocket = (options = { withCredentials: true }, serverUrl = "ws://localh
       console.log("llego el ready room, loop:",loop,"   puntos:", puntos)
       setGameData(prev => ({ ...prev, loop:loop, puntos:puntos, fase:0 }));
     });
-
+d
     socketIo.on('sendProp', (prop) => {
       console.log("llego la propiedad, prop:",prop)
       setGameData(prev => ({ ...prev, propSeleccionada: prop, fase:1}));

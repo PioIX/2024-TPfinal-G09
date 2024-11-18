@@ -6,6 +6,7 @@
   justify-content: center;
   margin-top: 40px ;
   background: #ffffff; /* Fondo degradado */
+  font-family: 'Exo 2', sans-serif;
 }
 
 .container {
@@ -16,6 +17,7 @@
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   text-align: center;
+  font-family: 'Exo 2', sans-serif;
 }
 
 
