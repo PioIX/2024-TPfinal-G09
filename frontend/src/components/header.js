@@ -5,24 +5,13 @@ import { getUserById } from "@/functions/fetch.js";
 import ActualProfilePic from './actualProfilePic';
 
 export default function Header({ username, profileImage, idUser, money }) {
-  const [userData, setUserData] = useState(null);
-
-  // Función para obtener los datos del usuario
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const data = await getUserById(idUser);
-      setUserData(data); // Guardamos los datos del usuario
-    };
-
-    fetchUserData();
-  }, [idUser]);
 
   async function menu() {
     window.location.href = `/menu?idUser=${idUser}`;
   }
 
   // Condicional para mostrar el dinero solo si userData es un objeto válido
-  const shouldShowMoney = userData !== null && userData !== undefined;
+  const shouldShowMoney = money !== null && money !== undefined;
 
   return (
     <header className={styles.header}>
