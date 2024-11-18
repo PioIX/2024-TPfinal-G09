@@ -1,7 +1,7 @@
 "use client"
 import Button from "@/components/button";
 import React, { useState, useEffect } from "react";
-import styles from "@/app/page.module.css"; // Estilos para el formulario
+import styles from "@/app/menu/page.module.css"; // Estilos para el formulario
 import { getUserById } from "@/functions/fetch";
 import { useSearchParams } from 'next/navigation';
 import Header from "@/components/header";
@@ -47,33 +47,38 @@ export default function Home() {
 
   return (
     <div>
-      <main>
+      
+      {isLoading ? ( <Loading/>) : (      <main>
         <Header username={user.username} money={user.money} profileImage={user.image} idUser={user.id} />
-        <h2>Bienvenido a PioCards</h2>
-        {isLoading ? ( <Loading/>) : (<></>)} 
-          <Button onClick={goPlay}>Jugar</Button>
-          <Button onClick={goMazo}>Mazo</Button>
-          <Button onClick={goRecord}>Historial</Button>
-          <Button onClick={goUsers}>Perfil</Button>        
-          <Button onClick={goTienda}>Tienda</Button>        
+        <div className={styles.container}>
+          <div>
+            <h2>Bienvenido a PioCards</h2> 
+              <Button onClick={goPlay}>Jugar</Button>
+              <Button onClick={goMazo}>Mazo</Button>
+              <Button onClick={goRecord}>Historial</Button>
+              <Button onClick={goUsers}>Perfil</Button>        
+              <Button onClick={goTienda}>Tienda</Button>        
+          </div>
+        <div className={styles.reglas}>
+            <h2>REGLAS DEL JUEGO</h2>
+              <h3>
+                En este juego competiras con tus 5 cartas contra las 5 cartas del jugador de la otra maquina
+              </h3>
+              <ol>
+                  <li>Leer todas las consignas</li>
+                  <li>Elegir las 5 cartas para jugar dentro de la pestaña mazo    </li>
+                  <li>Ir a la pestaña Jugar y esperar a que empiece el juego</li>
+                 </ol>
+              <h3> Una vez en el juego, podrás ver tus cartas junto con un mensaje que indicará si eres tú quien debe elegir la característica o no.</h3>
+                <ol>
+                  <li>elegir la caracterista con para empezar y esperar al rival</li>
+                  <li>elegir una carta para jugar esa ronda</li>
+                  <li>elegir una carta para jugar esa ronda</li>
+                </ol>
+        </div>          
+        </div>
+      </main>)}
 
-<h2>REGLAS DEL JUEGO</h2>
-
-          <h3>
-            En este juego competiras con tus 5 cartas contra las 5 cartas del jugador de la otra maquina
-          </h3>
-          <ol style={{marginLeft : "100px"}}>
-              <li>Leer todas las consignas</li>
-              <li>Elegir las 5 cartas para jugar dentro de la pestaña mazo</li>
-              <li>Ir a la pestaña Jugar y esperar a que empiece el juego</li>
-          </ol>
-          <h3> Una vez en el juego, podrás ver tus cartas junto con un mensaje que indicará si eres tú quien debe elegir la característica o no.</h3>
-          <ol>
-            <li> elegir la caracterista con la que deseas empezar la primera ronda // esperar a que tu rival eliga</li>
-            <li> elegir una carta para jugar esa ronda</li>
-          </ol>
-
-      </main>
     </div>
   );
 }

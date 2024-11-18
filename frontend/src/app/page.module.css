@@ -4,16 +4,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background: #ffffff; /* Fondo degradado */
+  background: var(--background); /* Fondo degradado */
 }
 
 .container {
-  background: #eeeeee;
+  background: #efefef;
   padding: 20px;
   width: 100%;
   max-width: 400px;
+  margin-top: 5%;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
+
+
+
+
+
