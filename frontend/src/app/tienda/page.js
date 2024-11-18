@@ -140,6 +140,9 @@ async function postCartas(modelosCartas) {
       ) : (
         <>
           <Header username={user.username} profileImage={user.image} idUser={user.id} money={user.money} />
+          <div>
+          <p> AVISO LOS SOBRES DAN CARTAS SEGUN SU RAREZA, SI YA OBTUVISTE TODAS LAS CARTAS DE ESA RAREZA NO OBTENDRAS NINGUNA CARTA</p>
+          </div>
           {(() => {
             switch (status) {
               case 0:
