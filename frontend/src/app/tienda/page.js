@@ -10,7 +10,7 @@ import Sobres from "@/components/sobres";
 import Cartas from "@/components/cartas";
 import Button from "@/components/button";
 import Confirmation from "@/components/confirmation";
-
+import SecretCode from "@/components/SecretCode";
 export default function Home() {
   const searchParams = useSearchParams();
   const idUser = searchParams.get('idUser');
@@ -144,6 +144,8 @@ async function postCartas(modelosCartas) {
       <p className={styles.aviso}>
         AVISO LOS SOBRES DAN CARTAS SEGÚN SU RAREZA, SI YA OBTUVISTE TODAS LAS CARTAS DE ESA RAREZA NO OBTENDRÁS NINGUNA CARTA
       </p>
+
+      <SecretCode></SecretCode>
     </div>
           {(() => {
             switch (status) {

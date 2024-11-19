@@ -21,6 +21,8 @@ export default function Sobre({ sobre, setSobreSelect }) {
               return styles.iconica;
             case 'Flashback':
               return styles.flashback;
+            case 'Gold':
+              return styles.gold;
             default:
               return styles.default;
           }

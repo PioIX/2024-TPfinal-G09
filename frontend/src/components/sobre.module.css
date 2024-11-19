@@ -22,7 +22,7 @@
 
 /* Estilo para .comun */
 .comun {
-  background-color: #ffffff; /* Fondo blanco */
+  background-color: #d7d7d7; /* Fondo blanco */
   border: 6px solid transparent; /* Borde transparente para aplicar la imagen de borde */
   border-radius: 12px;
   border-image: var(--color-común) 1; /* Usamos la variable de gradiente definida en globals.css */
@@ -80,12 +80,13 @@
   border-image: var(--color-común) 1;
 }
 
-.sobre.GOD {
+.sobre.gold {
+  display: none;
   background: linear-gradient(45deg, rgb(247, 35, 35), rgb(255, 220, 25)); /* Fondo degradado */
   border: 6px solid transparent; /* Borde transparente para el gradiente */
   border-radius: 12px;
   padding: 16px;
-  margin: 30px;
+  margin: 20px;
   width: 220px;
   height: 300px;
   display: flex;
@@ -116,8 +117,8 @@
 }
 
 /* Efecto de hover y foco */
-.sobre.GOD:hover,
-.sobre.GOD:focus {
+.sobre.gold:hover,
+.sobre.gold:focus {
   background-size: 150% 150%;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23),
     inset 0 -2px 5px 1px #b17d10, inset 0 -1px 1px 3px rgba(250, 227, 133, 1);
@@ -125,7 +126,7 @@
   color: rgba(120, 50, 5, 0.8);
 }
 
-.sobre.GOD:active {
+.sobre.gold:active {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(110, 80, 20, 0.4),
     inset 0 -2px 5px 1px #b17d10, inset 0 -1px 1px 3px rgba(250, 227, 133, 1);
 }

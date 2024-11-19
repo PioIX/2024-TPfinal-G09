@@ -332,6 +332,32 @@ function obtenerProbabilidadesPorPosicion(tipoSobre) {
         { calidad: "Legendaria", probabilidad: 0.05 },
       ],
     ],
+    "Gold": [
+      [
+        { calidad: "Legendaria", probabilidad: 1 },
+      ],
+      [
+        { calidad: "Flashback", probabilidad: 0.3 },
+        { calidad: "Épica", probabilidad: 0.6 },
+        { calidad: "Legendaria", probabilidad: 0.1 },
+        { calidad: "Icónica", probabilidad: 0.05 },
+      ],
+      [
+        { calidad: "Flashback", probabilidad: 0.3 },
+        { calidad: "Legendaria", probabilidad: 0.1 },
+        { calidad: "Icónica", probabilidad: 0.05 },
+      ],
+      [
+        { calidad: "Épica", probabilidad: 0.2 },
+        { calidad: "Flashback", probabilidad: 0.15 },
+        { calidad: "Legendaria", probabilidad: 0.05 },
+      ],
+      [
+        { calidad: "Épica", probabilidad: 0.2 },
+        { calidad: "Flashback", probabilidad: 0.15 },
+        { calidad: "Legendaria", probabilidad: 0.05 },
+      ],
+    ],
   };
   return probabilidades[tipoSobre];
 }
