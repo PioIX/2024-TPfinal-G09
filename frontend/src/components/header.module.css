@@ -21,6 +21,7 @@
 }
 
 .logoSecondary {
+  font-size: 30px;
   color: #f0c419; /* Color dorado para "CARDS" */
 }
 
@@ -31,7 +32,7 @@
 
 .username {
   margin-right: 15px;
-  font-size: 18px;
+  font-size: 25px;
   font-weight: bold;
   color: #1f3a93;
 }

@@ -83,12 +83,12 @@ export default function Home() {
       {isLoading ? <Loading /> : (
         <>
           <Header username={user.username} money={user.money} profileImage={user.image} idUser={user.id} />
+          <Button onClick={linkUpdate} className={styles.updateButton}>Guardar mazo</Button>
           <Cartas
             cards={cardsUser}
             setSelectCard={toggleCardSelection}
             seleccionable={true}  // Hacemos que las cartas sean seleccionables
           />
-          <Button onClick={linkUpdate} className={styles.updateButton}>Guardar mazo</Button>
         </>
       )}
     </main>
