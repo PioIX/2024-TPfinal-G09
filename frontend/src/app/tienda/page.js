@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSearchParams } from 'next/navigation';
-import styles from "@/app/user/page.module.css";
+import styles from "@/app/tienda/page.module.css";
 import {getUserById, getCardModels, getCardsByUser, getSobres, insertCard, fetchUpdateUserMoney} from "@/functions/fetch";
 import { generarSobre } from "@/functions/javascript";
 import Loading from "@/components/loading";
@@ -140,9 +140,11 @@ async function postCartas(modelosCartas) {
       ) : (
         <>
           <Header username={user.username} profileImage={user.image} idUser={user.id} money={user.money} />
-          <div>
-          <p> AVISO LOS SOBRES DAN CARTAS SEGUN SU RAREZA, SI YA OBTUVISTE TODAS LAS CARTAS DE ESA RAREZA NO OBTENDRAS NINGUNA CARTA</p>
-          </div>
+          <div className={styles.avisoContainer}>
+      <p className={styles.aviso}>
+        AVISO LOS SOBRES DAN CARTAS SEGÚN SU RAREZA, SI YA OBTUVISTE TODAS LAS CARTAS DE ESA RAREZA NO OBTENDRÁS NINGUNA CARTA
+      </p>
+    </div>
           {(() => {
             switch (status) {
               case 0:
