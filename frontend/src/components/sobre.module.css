@@ -81,6 +81,7 @@
 }
 
 .sobre.gold {
+  visibility: hidden;
   display: none;
   background: linear-gradient(45deg, rgb(247, 35, 35), rgb(255, 220, 25)); /* Fondo degradado */
   border: 6px solid transparent; /* Borde transparente para el gradiente */
