@@ -23,9 +23,17 @@ CREATE TABLE Sobre (
 );
 
 INSERT INTO Sobre (name, price) VALUES
-('Básico', 100),
-('Avanzado', 500),
-('Legendario', 1000);
+('Común', 100),
+('Especial', 250),
+('Rara', 500),
+('Épica', 1000),
+('Legendaria', 1500),
+('Flashback', 1800),
+('Future Star', 2000),
+('Aleatorio', 2250),
+('Icónica', 2500),
+('Gold', 3000);
+
 
 CREATE TABLE CardModels (
     id INT AUTO_INCREMENT PRIMARY KEY,

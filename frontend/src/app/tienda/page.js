@@ -142,7 +142,7 @@ export default function Home() {
           <Header username={user.username} profileImage={user.image} idUser={user.id} money={user.money} />
           <div className={styles.avisoContainer}>
       <p className={styles.aviso}>
-        AVISO!! LOS SOBRES DAN CARTAS SEGÚN SU RAREZA, SI YA OBTUVISTE TODAS LAS CARTAS DE ESA RAREZA NO OBTENDRÁS NINGUNA CARTA
+        ¡¡AVISO!!   SI   TENES   CARTAS,   LOS   SOBRES   PUEDEN   CONTENER   MENOS   DE   5   CARTAS   O   INCLUSO   PUEDEN   NO   CONTENER   NINGUNA.   ¡PRUEBA   ABRIR   OTRA   CLASE   DE   SOBRE!
       </p>
     </div>
           {(() => {
