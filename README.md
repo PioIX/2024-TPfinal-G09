@@ -45,16 +45,16 @@ Al final del juego, el jugador que haya sumado más puntos a lo largo de la part
 
 Imágenes: 
 
-![image](frontend\public\jugando.png)
+![image](frontend/public/jugando.png)
 
 // Imagen de representación visual de una partida en juego. 
 
 
-![image](frontend\public\baraja.png)
+![image](frontend/public/baraja.png)
 // Esta imagen representa las cartas aleatorias que, antes de comenzada la partida, el usuario seleccionará en conjunto con sus habilidades o características más fuertes/especiales. 
 
 
-![image](frontend\public\esperando.png)
+![image](frontend/public/esperando.png)
 // Esta imagen, es una representación gráfica de las cartas del juego. miestras espera su turno Ver la sección 1 a 2.a.
 
 
