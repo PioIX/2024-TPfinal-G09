@@ -128,7 +128,6 @@ export default function Home() {
     console.log("nuevo vinculo JXU", newJXU)
     let idJXU =await insertJuegoXUser(newJXU)
     let nuevoDinero = -1
-    window.alert(gameData)
     if(parseInt(winner)==idUser){
       nuevoDinero = user.money + 1000;
     }else{
