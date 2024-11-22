@@ -3,10 +3,11 @@
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  background-color: #f9f9f9;
+  background: var(--background); /* Fondo degradado */
 }
 
 .partidasContainer {
   display: flex;
+  background: var(--background); /* Fondo degradado */
   flex-direction: column; /* Acomoda las partidas en forma de tabla vertical */
 }

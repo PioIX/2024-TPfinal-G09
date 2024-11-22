@@ -270,7 +270,7 @@ app.post("/postUser", async function (req, res) {
     try {
         const query = `
             INSERT INTO Users (username, password, name, surname, money, mail, image) 
-            VALUES ('${req.body.username}', '${req.body.password}', '${req.body.name}', '${req.body.surname}', 0, '${req.body.mail}', '${req.body.image}')
+            VALUES ('${req.body.username}', '${req.body.password}', '${req.body.name}', '${req.body.surname}', 3000, '${req.body.mail}', '${req.body.image}')
         `;
 
         result=await MySQL.realizarQuery(query);
@@ -318,7 +318,7 @@ app.post("/postCard", async function (req, res) {
 // Insertar un nuevo juego A
 app.post("/postJuego", async function (req, res) {
     try {
-        const query = `INSERT INTO Juego (winner, points) VALUES ('${req.body.winner}', '${req.body.points}')`;
+        const query = `INSERT INTO Juego (winner, points) VALUES (${req.body.winner}, ${req.body.points})`;
 
         const result = await MySQL.realizarQuery(query);
 
@@ -414,12 +414,30 @@ io.on("connection", (socket) => {
         room.puntos=puntos
         room.round++
         if (room.round > 5) {
-            const winner = room.puntos.reduce((max, player) => player.puntaje > max.puntaje ? player : max, room.puntos[0]);
-            const newJuego = { winner: winner.idUser, points: winner.puntaje }
-            const idJuego = await insertJuego(newJuego)
-            console.log(idJuego, winner)
-            io.to(idSala).emit("endGame", idJuego, winner.idUser);
-            resetRoom(idSala); // Reinicia el estado de la sala
+             const result = room.puntos.reduce((acc, player) => {
+            if (player.puntaje > acc.maxPuntaje) {
+                return { maxPuntaje: player.puntaje, winner: player, empate: false };
+            } else if (player.puntaje === acc.maxPuntaje) {
+                return { ...acc, empate: true };
+            }
+            return acc;
+        }, { maxPuntaje: -Infinity, winner: null, empate: false });
+
+        const winner = result.empate ? -1 : result.winner;
+        console.log("ganador", winner, result.maxPuntaje)
+        let newJuego= {}
+        if (winner == -1) {
+            // En caso de empate
+            newJuego = { winner: null, points: result.maxPuntaje };
+        } else {
+            // Si hay un ganador
+            newJuego = { winner: winner.idUser, points: winner.puntaje };
+            
+        }
+        const idJuego = await insertJuego(newJuego);
+        console.log(idJuego, winner);
+        io.to(idSala).emit("endGame", idJuego, newJuego.winner);
+        resetRoom(idSala); // Reinicia el estado de la sala
         } else {
             // Rota el loop y envía la siguiente ronda
             room.loop.push(room.loop.shift()); // Rota el loop

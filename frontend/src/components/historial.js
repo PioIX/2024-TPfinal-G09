@@ -1,6 +1,6 @@
 import React from 'react';
 import PartidaHistorial from '@/components/partidaHistorial';
-import styles from './Historial.module.css';
+import styles from './historial.module.css';
 
 function Historial({ partidas, idUser, linkEndGame}) {
   return (

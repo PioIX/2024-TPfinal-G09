@@ -4,8 +4,7 @@
   display: flex;
   flex-direction: column;
   width: 100vw;
-  height: 100vh;
-  background-color: #f7f7f7;
+  background-color: var(--background);
   justify-content: start;
   align-items: center;
 }
@@ -55,6 +54,14 @@
 
 .loser {
   color: #dc3545;
+  font-weight: bold;
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.draw {
+  color: #ffc107; /* Amarillo dorado para representar neutralidad */
   font-weight: bold;
   font-size: 1.2em;
   text-align: center;

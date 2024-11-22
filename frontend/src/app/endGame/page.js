@@ -1,11 +1,12 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import styles from "@/app/page.module.css"; // Estilos para el formulario
+import styles from "@/app/endGame/page.module.css"; // Estilos para el formulario
 import { useSearchParams } from 'next/navigation';
 import { getJuegoXUserById, getUserById, getJuegoById } from "@/functions/fetch";
 import { setGame } from "@/functions/javascript";
 import GameInfo from "@/components/gameInfo";
 import Loading from "@/components/loading";
+import Button from "@/components/button";
 import Header from "@/components/header";
 export default function Home() {
   
@@ -39,14 +40,24 @@ export default function Home() {
     }
   }, []);
 
+  async function historial() {
+    window.location.href = `/historial?idUser=${user.id}`;
+  }
+
   return (
       <main>
         <Header username={user.username} money={user.money} profileImage={user.image} idUser={user.id} /> 
         {isLoading ? (
         <Loading/>
       ) : (
+        <>
+        <div className={styles.historial}>
+            <Button onClick={historial}>Historial</Button> 
+        </div>
         <GameInfo partida={match} />
+        </>
       )}  
+            
       </main>
   );
 }

@@ -67,14 +67,14 @@ export default function Home() {
             username,
             password,
             mail,
-            image
+            image,
           };
           console.log(newUser)
               // Llamamos a fetchRegister para registrar el nuevo usuario en el backend
         const result = await fetchRegister(newUser);
         if (result) {
           //Crea las 5 cartas iniciales
-          let cardsU=[1,2,3,4,5]
+          let cardsU=[70,71,72,73,74]
           const postCards = cardsU.map((cardMId) => 
             insertCard({idModel:cardMId, idUser:result, hand:1})
           );

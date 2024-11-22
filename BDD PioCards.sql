@@ -63,7 +63,8 @@ where id=5;
 
 CREATE TABLE Juego (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    winner INT,
+    winner INT NULL, -- Permite valores NULL para el ganador
+    points INT, 
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (winner) REFERENCES Users(id) ON DELETE SET NULL
 );

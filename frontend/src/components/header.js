@@ -1,19 +1,25 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import styles from './header.module.css';
-import ActualProfilePic from './actualProfilePic';
+import React from "react";
+import styles from "./header.module.css";
+import ActualProfilePic from "./actualProfilePic";
 
 export default function Header({ username, profileImage, idUser, money }) {
+  const notLogin = username !== null && username !== undefined;
 
   async function menu() {
-    if(notLogin){
-    window.location.href = `/menu?idUser=${idUser}`;
+    if (notLogin) {
+      window.location.href = `/menu?idUser=${idUser}`;
     }
   }
 
-  // Condicional para mostrar el dinero solo si userData es un objeto válido
+  async function logout() {
+    if (notLogin) {
+      window.location.href = `/`;
+    }
+  }
+
   const shouldShowMoney = money !== null && money !== undefined;
-  const notLogin = username !== null && username !== undefined;
+
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
@@ -23,7 +29,6 @@ export default function Header({ username, profileImage, idUser, money }) {
         </h1>
       </div>
 
-      {/* Solo mostrar el div de dinero si userData es un objeto válido */}
       {shouldShowMoney && (
         <div className={styles.money}>
           <span className={styles.username}>Dinero: </span>
@@ -34,7 +39,14 @@ export default function Header({ username, profileImage, idUser, money }) {
       <div className={styles.userInfo}>
         <span className={styles.username}>{username}</span>
         <ActualProfilePic imageUrl={profileImage} className={styles.profilePic} />
+        {shouldShowMoney && (<img
+          src="/logout.png"
+          alt="Logout"
+          className={styles.logoutIcon}
+          onClick={logout}
+        />)}
       </div>
+      
     </header>
   );
 }
