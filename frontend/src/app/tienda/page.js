@@ -43,7 +43,7 @@ export default function Home() {
   }
 
   // Postear las cartas obtenidas al abrir un sobre
-async function postCartas(modelosCartas) {
+  async function postCartas(modelosCartas) {
   try {
     // Crear y guardar cada carta en la base de datos
     for (let x = 0; x < modelosCartas.length; x++) {
@@ -75,7 +75,7 @@ async function postCartas(modelosCartas) {
     console.error("Error al procesar la compra de sobres:", error);
     return [];
   }
-}
+  }
 
 
   // Abrir sobre y generar las cartas correspondientes
@@ -142,7 +142,7 @@ async function postCartas(modelosCartas) {
           <Header username={user.username} profileImage={user.image} idUser={user.id} money={user.money} />
           <div className={styles.avisoContainer}>
       <p className={styles.aviso}>
-        AVISO LOS SOBRES DAN CARTAS SEGÚN SU RAREZA, SI YA OBTUVISTE TODAS LAS CARTAS DE ESA RAREZA NO OBTENDRÁS NINGUNA CARTA
+        AVISO!! LOS SOBRES DAN CARTAS SEGÚN SU RAREZA, SI YA OBTUVISTE TODAS LAS CARTAS DE ESA RAREZA NO OBTENDRÁS NINGUNA CARTA
       </p>
     </div>
           {(() => {

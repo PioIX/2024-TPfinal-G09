@@ -85,7 +85,7 @@ function obtenerIds(vectorObjetos) {
 }
 
 function clasificarCartasPorCalidad(cardModels) {
-  const calidades = ["Común", "Especial", "Rara", "Épica","Flashback", "Legendaria", "Icónica"];
+  const calidades = ["Común", "Especial", "Rara", "Épica","Flashback", "Future Star", "Legendaria", "Icónica"];
   return calidades.reduce((acc, calidad) => {
       acc[calidad] = cardModels.filter(card => card.calidad === calidad);
       return acc;
@@ -105,8 +105,10 @@ function obtenerProbabilidadesPorPosicion(tipoSobre) {
       ],
       [
         { calidad: "Común", probabilidad: 0.55 },
-        { calidad: "Especial", probabilidad: 0.4 },
+        { calidad: "Especial", probabilidad: 0.3 },
         { calidad: "Rara", probabilidad: 0.05 },
+        { calidad: "Flashback", probabilidad: 0.05 },
+        { calidad: "Future Star", probabilidad: 0.05 },
       ],
       [
         { calidad: "Común", probabilidad: 0.55 },
@@ -129,7 +131,9 @@ function obtenerProbabilidadesPorPosicion(tipoSobre) {
         { calidad: "Icónica", probabilidad: 0.025 },
       ],
       [
-        { calidad: "Especial", probabilidad: 1 },
+        { calidad: "Especial", probabilidad: 0.9 },
+        { calidad: "Flashback", probabilidad: 0.05 },
+        { calidad: "Future Star", probabilidad: 0.05 },
       ],
       [
         { calidad: "Especial", probabilidad: 1 },
@@ -151,7 +155,9 @@ function obtenerProbabilidadesPorPosicion(tipoSobre) {
         { calidad: "Icónica", probabilidad: 0.025 },
       ],
       [
-        { calidad: "Rara", probabilidad: 1 },
+        { calidad: "Rara", probabilidad: 0.9 },
+        { calidad: "Flashback", probabilidad: 0.05 },
+        { calidad: "Future Star", probabilidad: 0.05 },
       ],
       [
         { calidad: "Rara", probabilidad: 1 },
@@ -174,7 +180,9 @@ function obtenerProbabilidadesPorPosicion(tipoSobre) {
         { calidad: "Icónica", probabilidad: 0.05 },
       ],
       [
-        { calidad: "Épica", probabilidad: 1 },
+        { calidad: "Épica", probabilidad: 0.8 },
+        { calidad: "Flashback", probabilidad: 0.1 },
+        { calidad: "Future Star", probabilidad: 0.1 },
       ],
       [
         { calidad: "Épica", probabilidad: 1 },
@@ -200,7 +208,9 @@ function obtenerProbabilidadesPorPosicion(tipoSobre) {
       ],
       [
         { calidad: "Legendaria", probabilidad: 0.1 },
-        { calidad: "Épica", probabilidad: 0.5 },
+        { calidad: "Flashback", probabilidad: 0.15 },
+        { calidad: "Future Star", probabilidad: 0.15 },
+        { calidad: "Épica", probabilidad: 0.2 },
         { calidad: "Rara", probabilidad: 0.25 },
         { calidad: "Especial", probabilidad: 0.15 },
       ],
@@ -234,17 +244,21 @@ function obtenerProbabilidadesPorPosicion(tipoSobre) {
         { calidad: "Icónica", probabilidad: 0.1 },
       ],
       [
-        { calidad: "Épica", probabilidad: 0.5 },
+        { calidad: "Épica", probabilidad: 0.3 },
         { calidad: "Rara", probabilidad: 0.2 },
         { calidad: "Especial", probabilidad: 0.1 },
+        { calidad: "Flashback", probabilidad: 0.1 },
+        { calidad: "Future Star", probabilidad: 0.1 },
         { calidad: "Legendaria", probabilidad: 0.15 },
         { calidad: "Icónica", probabilidad: 0.05 },
       ],
       [
-        { calidad: "Épica", probabilidad: 0.5 },
-        { calidad: "Rara", probabilidad: 0.2 },
-        { calidad: "Especial", probabilidad: 0.1 },
-        { calidad: "Legendaria", probabilidad: 0.15 },
+        { calidad: "Épica", probabilidad: 0.3 },
+        { calidad: "Rara", probabilidad: 0.1 },
+        { calidad: "Especial", probabilidad: 0.05 },
+        { calidad: "Flashback", probabilidad: 0.2 },
+        { calidad: "Future Star", probabilidad: 0.2 },
+        { calidad: "Legendaria", probabilidad: 0.1 },
         { calidad: "Icónica", probabilidad: 0.05 },
       ],
     ],
@@ -255,7 +269,8 @@ function obtenerProbabilidadesPorPosicion(tipoSobre) {
         { calidad: "Especial", probabilidad: 0.15 },
         { calidad: "Legendaria", probabilidad: 0.1 },
         { calidad: "Común", probabilidad: 0.15 },
-        { calidad: "Flashback", probabilidad: 0.2 },
+        { calidad: "Flashback", probabilidad: 0.1 },
+        { calidad: "Future Star", probabilidad: 0.1 },
         { calidad: "Icónica", probabilidad: 0.1 },
       ],
       [
@@ -264,7 +279,8 @@ function obtenerProbabilidadesPorPosicion(tipoSobre) {
         { calidad: "Especial", probabilidad: 0.15 },
         { calidad: "Legendaria", probabilidad: 0.1 },
         { calidad: "Común", probabilidad: 0.15 },
-        { calidad: "Flashback", probabilidad: 0.2 },
+        { calidad: "Flashback", probabilidad: 0.1 },
+        { calidad: "Future Star", probabilidad: 0.1 },
         { calidad: "Icónica", probabilidad: 0.1 },
       ],
       [
@@ -273,7 +289,8 @@ function obtenerProbabilidadesPorPosicion(tipoSobre) {
         { calidad: "Especial", probabilidad: 0.15 },
         { calidad: "Legendaria", probabilidad: 0.1 },
         { calidad: "Común", probabilidad: 0.15 },
-        { calidad: "Flashback", probabilidad: 0.2 },
+        { calidad: "Flashback", probabilidad: 0.1 },
+        { calidad: "Future Star", probabilidad: 0.1 },
         { calidad: "Icónica", probabilidad: 0.1 },
       ],
       [
@@ -282,7 +299,8 @@ function obtenerProbabilidadesPorPosicion(tipoSobre) {
         { calidad: "Especial", probabilidad: 0.15 },
         { calidad: "Legendaria", probabilidad: 0.1 },
         { calidad: "Común", probabilidad: 0.15 },
-        { calidad: "Flashback", probabilidad: 0.2 },
+        { calidad: "Flashback", probabilidad: 0.1 },
+        { calidad: "Future Star", probabilidad: 0.1 },
         { calidad: "Icónica", probabilidad: 0.1 },
       ],
       [
@@ -291,7 +309,8 @@ function obtenerProbabilidadesPorPosicion(tipoSobre) {
         { calidad: "Especial", probabilidad: 0.15 },
         { calidad: "Legendaria", probabilidad: 0.1 },
         { calidad: "Común", probabilidad: 0.15 },
-        { calidad: "Flashback", probabilidad: 0.2 },
+        { calidad: "Flashback", probabilidad: 0.1 },
+        { calidad: "Future Star", probabilidad: 0.1 },
         { calidad: "Icónica", probabilidad: 0.1 },
       ],
     ],
@@ -301,15 +320,17 @@ function obtenerProbabilidadesPorPosicion(tipoSobre) {
       ],
       [
         { calidad: "Flashback", probabilidad: 0.3 },
-        { calidad: "Épica", probabilidad: 0.4 },
+        { calidad: "Épica", probabilidad: 0.2 },
+        { calidad: "Future Star", probabilidad: 0.1 },
         { calidad: "Legendaria", probabilidad: 0.1 },
         { calidad: "Rara", probabilidad: 0.2 },
         { calidad: "Icónica", probabilidad: 0.05 },
         { calidad: "Especial", probabilidad: 0.05 },
       ],
       [
-        { calidad: "Flashback", probabilidad: 0.3 },
-        { calidad: "Épica", probabilidad: 0.4 },
+        { calidad: "Flashback", probabilidad: 0.25 },
+        { calidad: "Future Star", probabilidad: 0.1 },
+        { calidad: "Épica", probabilidad: 0.25 },
         { calidad: "Legendaria", probabilidad: 0.1 },
         { calidad: "Rara", probabilidad: 0.2 },
         { calidad: "Icónica", probabilidad: 0.05 },
@@ -319,7 +340,8 @@ function obtenerProbabilidadesPorPosicion(tipoSobre) {
         { calidad: "Épica", probabilidad: 0.2 },
         { calidad: "Rara", probabilidad: 0.3 },
         { calidad: "Flashback", probabilidad: 0.15 },
-        { calidad: "Especial", probabilidad: 0.15 },
+        { calidad: "Future Star", probabilidad: 0.05 },
+        { calidad: "Especial", probabilidad: 0.1 },
         { calidad: "Común", probabilidad: 0.15 },
         { calidad: "Legendaria", probabilidad: 0.05 },
       ],
@@ -327,15 +349,93 @@ function obtenerProbabilidadesPorPosicion(tipoSobre) {
         { calidad: "Épica", probabilidad: 0.2 },
         { calidad: "Rara", probabilidad: 0.3 },
         { calidad: "Flashback", probabilidad: 0.15 },
+        { calidad: "Future Star", probabilidad: 0.05 },
         { calidad: "Especial", probabilidad: 0.15 },
+        { calidad: "Común", probabilidad: 0.1 },
+        { calidad: "Legendaria", probabilidad: 0.05 },
+      ],
+    ],
+    "Future Star": [
+      [
+        { calidad: "Future Star", probabilidad: 1 },
+      ],
+      [
+        { calidad: "Future Star", probabilidad: 0.3 },
+        { calidad: "Épica", probabilidad: 0.2 },
+        { calidad: "Flashback", probabilidad: 0.1 },
+        { calidad: "Legendaria", probabilidad: 0.1 },
+        { calidad: "Rara", probabilidad: 0.2 },
+        { calidad: "Icónica", probabilidad: 0.05 },
+        { calidad: "Especial", probabilidad: 0.05 },
+      ],
+      [
+        { calidad: "Future Star", probabilidad: 0.25 },
+        { calidad: "Flashback", probabilidad: 0.1 },
+        { calidad: "Épica", probabilidad: 0.25 },
+        { calidad: "Legendaria", probabilidad: 0.1 },
+        { calidad: "Rara", probabilidad: 0.2 },
+        { calidad: "Icónica", probabilidad: 0.05 },
+        { calidad: "Especial", probabilidad: 0.05 },
+      ],
+      [
+        { calidad: "Épica", probabilidad: 0.2 },
+        { calidad: "Rara", probabilidad: 0.3 },
+        { calidad: "Future Star", probabilidad: 0.15 },
+        { calidad: "Flashback", probabilidad: 0.05 },
+        { calidad: "Especial", probabilidad: 0.1 },
         { calidad: "Común", probabilidad: 0.15 },
         { calidad: "Legendaria", probabilidad: 0.05 },
+      ],
+      [
+        { calidad: "Épica", probabilidad: 0.2 },
+        { calidad: "Rara", probabilidad: 0.3 },
+        { calidad: "Future Star", probabilidad: 0.15 },
+        { calidad: "Flashback", probabilidad: 0.05 },
+        { calidad: "Especial", probabilidad: 0.15 },
+        { calidad: "Común", probabilidad: 0.1 },
+        { calidad: "Legendaria", probabilidad: 0.05 },
+      ],
+    ],
+    "Gold": [
+      [
+        { calidad: "Future Star", probabilidad: 0.2 },
+        { calidad: "Épica", probabilidad: 0.2 },
+        { calidad: "Flashback", probabilidad: 0.2 },
+        { calidad: "Legendaria", probabilidad: 0.2 },
+        { calidad: "Icónica", probabilidad: 0.2 },
+      ],
+      [
+        { calidad: "Future Star", probabilidad: 0.2 },
+        { calidad: "Épica", probabilidad: 0.2 },
+        { calidad: "Flashback", probabilidad: 0.2 },
+        { calidad: "Legendaria", probabilidad: 0.2 },
+        { calidad: "Icónica", probabilidad: 0.2 },
+      ],
+      [
+        { calidad: "Future Star", probabilidad: 0.2 },
+        { calidad: "Épica", probabilidad: 0.2 },
+        { calidad: "Flashback", probabilidad: 0.2 },
+        { calidad: "Legendaria", probabilidad: 0.2 },
+        { calidad: "Icónica", probabilidad: 0.2 },
+      ],
+      [
+        { calidad: "Future Star", probabilidad: 0.2 },
+        { calidad: "Épica", probabilidad: 0.2 },
+        { calidad: "Flashback", probabilidad: 0.2 },
+        { calidad: "Legendaria", probabilidad: 0.2 },
+        { calidad: "Icónica", probabilidad: 0.2 },
+      ],
+      [
+        { calidad: "Future Star", probabilidad: 0.2 },
+        { calidad: "Épica", probabilidad: 0.2 },
+        { calidad: "Flashback", probabilidad: 0.2 },
+        { calidad: "Legendaria", probabilidad: 0.2 },
+        { calidad: "Icónica", probabilidad: 0.2 },
       ],
     ],
   };
   return probabilidades[tipoSobre];
 }
-
 
 function generarCalidadesPorPosicion(probabilidadesPorPosicion, cartasPorCalidad) {
   const calidadesGeneradas = [];

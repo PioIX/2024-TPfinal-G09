@@ -1,11 +1,12 @@
+/* Sobres genéricos */
 .sobre {
-  padding: 0;
-  border: 6px solid transparent; /* Establecemos un borde de 6px transparente */
+  border: 6px solid transparent;
   border-radius: 12px;
-  margin: 20px;
-  width: 220px;
-  height: 300px;
-  background-color: #ffffff; /* Fondo blanco predeterminado */
+  padding: 16px;
+  margin: 10px;
+  width: 200px;
+  height: 280px;
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,125 +15,151 @@
   position: relative;
   transition: transform 0.2s;
 }
-
-/* Efecto de hover */
+/* Efecto de hover para sobres */
 .sobre:hover {
   transform: scale(1.05);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}
+
+.paniniLogo {
+width: 140px;
+height: 50px;
+margin-top: 50px;
+}
+
+.logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold; /* Hace que el texto esté en negrita */
+  font-size: 1.8rem; /* Tamaño de la fuente */
+  margin-bottom: 10px;
+}
+
+/* Estilo específico para "Pio" (azul) */
+.pio {
+  color: #00538a; /* Azul brillante */
+  margin-right: 5px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Sombra sutil */
+  font-size: 2rem; /* Tamaño mayor para destacarlo */
+}
+
+/* Estilo específico para "Cards" (amarillo) */
+.cards {
+  color: #ffcc00; /* Amarillo dorado */
+  margin-left: 5px;
+  text-shadow: 2px 2px 5px rgba(4, 0, 43, 0.3); /* Sombra sutil */
+  font-size: 2rem; /* Tamaño mayor para destacarlo */
+}
+
+/* Estilo para el título del sobre */
+.h3 {
+  margin-top: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.p {
+  font-size: 1.2rem;
+  margin-top: 8px;
+  font-weight: normal;
+  color: #333;
 }
 
 /* Estilo para .comun */
 .comun {
-  background-color: #ffffff; /* Fondo blanco */
-  border: 6px solid transparent; /* Borde transparente para aplicar la imagen de borde */
+  background: linear-gradient(45deg, #f6f7f6, #c2c2c2); /* Blanco degradado a gris claro */
+  background-color: #ffffff; /* Fondo verde claro */
+  border: 6px solid transparent;
   border-radius: 12px;
-  border-image: var(--color-común) 1; /* Usamos la variable de gradiente definida en globals.css */
+  border-image: var(--color-común) 1;
 }
 
-/* Otros estilos de clases como .especial, .rara, etc. */
+/* Estilo para .especial */
 .especial {
-  background: linear-gradient(45deg, #32cd32,#90ee90 ,rgb(229, 232, 228)z);
-  background-color: #abffa8; /* Fondo verde claro */
-  border: 6px solid transparent; /* Borde transparente para aplicar gradiente */
+  background: linear-gradient(45deg, #abffa8, #4caf50); /* Verde claro a verde intenso */
+  background-color: #ffffff; /* Fondo verde claro */
+  border: 6px solid transparent;
   border-radius: 12px;
   border-image: var(--color-especial) 1;
 }
 
+/* Estilo para .rara */
 .rara {
-  background: linear-gradient(45deg, #1e90ff,#75d2f0 ,rgb(232, 228, 228));
+  background: linear-gradient(45deg, #b6e7ff, #3498db); /* Azul claro a azul intenso */
+  background-color: #ffffff; /* Fondo verde claro */
   border: 6px solid transparent;
   border-radius: 12px;
   border-image: var(--color-rara) 1;
 }
 
+/* Estilo para .épica */
 .epica {
-  /* background-color: #dda0f5; Fondo morado claro */
-  background: linear-gradient(45deg, #dda0f5,#8a00c1 ,rgb(53, 53, 53));
+  background: linear-gradient(45deg, #dda0f5, #bf1dff, rgb(160, 7, 122)); /* Morado claro a morado intenso */
+  background-color: #ffffff; /* Fondo verde claro */
   border: 6px solid transparent;
   border-radius: 12px;
   border-image: var(--color-épica) 1;
 }
 
+/* Estilo para .legendaria */
 .legendaria {
-  background: linear-gradient(45deg, #fff5c7,#ffbf00 ,rgb(255, 166, 24));
+  background: linear-gradient(45deg, rgb(247, 35, 35), rgb(255, 220, 25)); /* Rojo a dorado */
+  background-color: #ffffff; /* Fondo verde claro */
   border: 6px solid transparent;
   border-radius: 12px;
   border-image: var(--color-legendaria) 1;
 }
 
+/* Estilo para .icónica */
 .iconica {
   background: linear-gradient(25deg, #ffd700, #fff5c7); /* Fondo degradado dorado */
+  background-color: #ffffff; /* Fondo verde claro */
   border: 6px solid transparent;
   border-radius: 12px;
   border-image: var(--color-icónica) 1;
 }
 
+/* Estilo para .flashback */
 .flashback {
-  background: linear-gradient(45deg, #09ecf8, hsl(335, 100%, 55%)); /* Fondo azul neón a rosa */
+  background: linear-gradient(45deg, #09ecf8, hsl(335, 100%, 55%)); /* Azul neón a rosa */
+  background-color: #ffffff; /* Fondo verde claro */
   border: 6px solid transparent;
   border-radius: 12px;
   border-image: var(--color-flashback) 1;
 }
+
+/* Estilo para .future */
+.future {
+  background: linear-gradient(180deg, #014104,  #01a30f); /* Verde oscuro a amarillo dorado */
+  background-color: #ffffff; /* Fondo verde claro */
+  border: 6px solid transparent;
+  border-radius: 12px;
+  border-image: var(--color-future) 1;
+}
+
+
+.gold {
+  background: linear-gradient(45deg, #ffd61f, hsl(39, 100%, 50%)); /* Fondo azul neón a rosa */
+  background-color: #ffffff; /* Fondo verde claro */
+  border: 6px solid transparent;
+  border-radius: 12px;
+  border-image: var(--color-gold) 1;
+}
+
+.aleatorio {
+  background: linear-gradient(245deg, #ff0000, #ffa861,#fff4c5); /* Fondo azul neón a rosa */
+  background-color: #ffffff; /* Fondo verde claro */
+  border: 6px solid transparent;
+  border-radius: 12px;
+  border-image: var(--color-aleatorio) 1;
+}
+
 
 .default {
   background-color: #ffffff;
   border: 6px solid transparent;
   border-radius: 12px;
   border-image: var(--color-común) 1;
-}
-
-.sobre.GOD {
-  background: linear-gradient(45deg, rgb(247, 35, 35), rgb(255, 220, 25)); /* Fondo degradado */
-  border: 6px solid transparent; /* Borde transparente para el gradiente */
-  border-radius: 12px;
-  padding: 16px;
-  margin: 30px;
-  width: 220px;
-  height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  position: relative;
-  transition: transform 0.2s;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(110, 80, 20, 0.4),
-    inset 0 -2px 5px 1px rgba(139, 66, 8, 1),
-    inset 0 -1px 1px 3px rgba(250, 227, 133, 1);
-  background-image: linear-gradient(
-    160deg,
-    #a54e07,
-    #b47e11,
-    #fef1a2,
-    #bc881b,
-    #a54e07
-  );
-  border: 1px solid #a55d07; 
-  color: rgb(120, 50, 5);
-  text-shadow: 0 2px 2px rgba(250, 227, 133, 1);
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  background-size: 100% 100%;
-  background-position: center;
-}
-
-/* Efecto de hover y foco */
-.sobre.GOD:hover,
-.sobre.GOD:focus {
-  background-size: 150% 150%;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23),
-    inset 0 -2px 5px 1px #b17d10, inset 0 -1px 1px 3px rgba(250, 227, 133, 1);
-  border: 1px solid rgba(165, 93, 7, 0.6);
-  color: rgba(120, 50, 5, 0.8);
-}
-
-.sobre.GOD:active {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(110, 80, 20, 0.4),
-    inset 0 -2px 5px 1px #b17d10, inset 0 -1px 1px 3px rgba(250, 227, 133, 1);
-}
-
-
-
-.paniniLogo {
-width: 80%;
-height: 50%;
 }

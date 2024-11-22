@@ -21,6 +21,12 @@ export default function Sobre({ sobre, setSobreSelect }) {
               return styles.iconica;
             case 'Flashback':
               return styles.flashback;
+            case 'Gold':
+              return styles.gold;
+            case 'Aleatorio':
+                return styles.aleatorio;
+            case 'Future Star':
+                  return styles.future;
             default:
               return styles.default;
           }
@@ -33,8 +39,8 @@ export default function Sobre({ sobre, setSobreSelect }) {
                 <span className={styles.pio}>Pio</span>
                 <span className={styles.cards}>Cards</span>
               </div>
-              <h3>{name}</h3>
-              <p>Precio: {price} monedas</p>
+              <h3 className={styles.h3}>{name}</h3>
+              <p className={styles.p}>Precio: ${price} </p>
               <img
                 src="/panini-logo.png"
                 alt="Logo Panini"

@@ -2,44 +2,71 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  background-color: #dbdbdb; /* Fondo oscuro */
-  color: #ffffff;
-  max-height: 100%;
+  padding: 0rem 2rem;
+  background-color: #0066cc; /* Fondo azul principal */
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif; /* Tipografía moderna */
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
 .logo h1 {
-  font-size: 34px;
+  font-size: 2.5rem; /* Tamaño del texto del logo */
   font-weight: bold;
-  display: flex;
-  align-items: center;
   margin: 0;
+  display: flex;
+  gap: 0.5rem; /* Espaciado entre PIO y CARDS */
 }
 
 .logoPrimary {
-  color: #1f3a93; /* Color azul oscuro para "PIO" */
+  color: #ffd700; /* Amarillo vibrante */
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3); /* Sombra para resaltar */
 }
 
 .logoSecondary {
-  font-size: 30px;
-  color: #f0c419; /* Color dorado para "CARDS" */
+  color: #ffffff; /* Blanco limpio */
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3); /* Sombra similar */
+}
+
+.money {
+  font-size: 1.5rem; /* Tamaño del texto para el dinero */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.money .username {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.money .logoSecondary {
+  font-weight: bold;
+  color: #ffd700; /* Amarillo para destacar */
 }
 
 .userInfo {
   display: flex;
   align-items: center;
+  gap: 1rem;
 }
 
 .username {
-  margin-right: 15px;
-  font-size: 25px;
   font-weight: bold;
-  color: #1f3a93;
+  font-size: 1.5rem;
+  color: white;
 }
 
 .profilePic {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 5px solid #1f3a93; /* Borde dorado */
+  border: 2px solid white;
+  object-fit: cover;
 }

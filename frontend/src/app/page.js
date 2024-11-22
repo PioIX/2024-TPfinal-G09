@@ -101,6 +101,7 @@ export default function Home() {
       <div className={styles.login}>
       <div className={styles.container}>
         <h2>Login / Sign-Up</h2>
+        <br></br>
         <Input label="Usuario" type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
 
         <Input label="Contraseña" type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)}/>

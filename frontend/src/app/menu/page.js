@@ -1,85 +1,73 @@
-"use client"
+"use client";
 import Button from "@/components/button";
 import React, { useState, useEffect } from "react";
-import styles from "@/app/menu/page.module.css"; // Estilos para el formulario
+import styles from "@/app/menu/page.module.css";
 import { getUserById } from "@/functions/fetch";
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from "next/navigation";
 import Header from "@/components/header";
 import Loading from "@/components/loading";
 
 export default function Home() {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState({});
   const searchParams = useSearchParams();
-  const idUser = searchParams.get('idUser');
-  const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga
-  let cont=0
-
-  async function cargarUser() {
-    console.log("cargarUser")
-    const user = await getUserById(idUser)
-    setUser(user)
-    setIsLoading(false)
-    //Que cargue todas las cartas que correspondan al usuario
-  }; 
+  const idUser = searchParams.get("idUser");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (cont<1){
-      cargarUser();
-      cont++
+    async function cargarUser() {
+      const user = await getUserById(idUser);
+      setUser(user);
+      setIsLoading(false);
     }
-  }, []);
+    cargarUser();
+  }, [idUser]);
 
-  async function goUsers(){
-    window.location.href = `/user?idUser=${idUser}`
-  }
-  async function goPlay(){
-    window.location.href = `/game?idUser=${idUser}`
-  }
-  async function goRecord(){
-    window.location.href = `/historial?idUser=${idUser}`
-  }
-  async function goMazo(){
-    window.location.href = `/mazo?idUser=${idUser}`
-  }
-  async function goTienda(){
-    window.location.href = `/tienda?idUser=${idUser}`
-  }
+  const navigation = [
+    { label: "Jugar", onClick: () => (window.location.href = `/game?idUser=${idUser}`) },
+    { label: "Mazo", onClick: () => (window.location.href = `/mazo?idUser=${idUser}`) },
+    { label: "Historial", onClick: () => (window.location.href = `/historial?idUser=${idUser}`) },
+    { label: "Perfil", onClick: () => (window.location.href = `/user?idUser=${idUser}`) },
+    { label: "Tienda", onClick: () => (window.location.href = `/tienda?idUser=${idUser}`) },
+  ];
 
   return (
-    <div>
-      
-      {isLoading ? ( <Loading/>) : (      <main>
-        <Header username={user.username} money={user.money} profileImage={user.image} idUser={user.id} />
-        <div className={styles.container}>
-          <div>
-            <h2>Bienvenido a PioCards</h2> 
-              <Button onClick={goPlay}>Jugar</Button>
-              <Button onClick={goMazo}>Mazo</Button>
-              <Button onClick={goRecord}>Historial</Button>
-              <Button onClick={goUsers}>Perfil</Button>        
-              <Button onClick={goTienda}>Tienda</Button>        
-          </div>
-        <div className={styles.reglas}>
-            <h2>REGLAS DEL JUEGO</h2>
-              <h3>
-                En este juego competiras con tus 5 cartas contra las 5 cartas del jugador de la otra maquina
-              </h3>
+    <div className={styles.page}>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <main>
+          <Header username={user.username} money={user.money} profileImage={user.image} idUser={user.id} />
+          <div className={styles.container}>
+            <div className={styles.welcome}>
+              <h1>Bienvenido a <span className={styles.brand}>PioCards</span></h1>
+              <div className={styles.navigation}>
+                {navigation.map((navItem, index) => (
+                  <Button key={index} onClick={navItem.onClick}>
+                    {navItem.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+            <div className={styles.rules}>
+              <h2>Reglas del Juego</h2>
+              <p>Compite con tus 5 cartas contra las del jugador contrario. ¡Gana escogiendo la mejor estrategia!</p>
               <ol>
-                  <li>Leer todas las consignas</li>
-                  <li>Elegir las 5 cartas para jugar dentro de la pestaña mazo    </li>
-                  <li>Ir a la pestaña Jugar y esperar a que empiece el juego</li>
-                 </ol>
-              <h3> Una vez en el juego, podrás ver tus cartas junto con un mensaje que indicará si eres tú quien debe elegir la característica o no.</h3>
-                <ol>
-                  <li>elegir la caracterista con para empezar y esperar al rival</li>
-                  <li>elegir una carta para jugar esa ronda</li>
-                  <li>elegir una carta para jugar esa ronda</li>
-                </ol>
-        </div>          
-        </div>
-      </main>)}
-
+                <li>Lee todas las consignas.</li>
+                <li>Elige tus 5 cartas desde la pestaña "Mazo".</li>
+                <li>Presiona "Jugar" y espera a que comience el juego.</li>
+              </ol>
+              <h3>Durante el juego:</h3>
+              <ul>
+                <li>Selecciona una característica para empezar.</li>
+                <li>Escoge una carta para jugar cada ronda.</li>
+                <li>Gana el que tiene la mejor puntuación.</li>
+              </ul>
+            </div>
+          </div>
+        </main>
+      )}
     </div>
   );
 }
+
 

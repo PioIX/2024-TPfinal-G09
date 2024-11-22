@@ -1,18 +1,71 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 5%;
-    text-align: center;
-  }
+/* .page */
+.page {
+  background: linear-gradient(to bottom, #eef2f3, #ffffff);
+  min-height: 100vh;
+  display: flex;
+  width: 100%; /* Asegura que la página ocupe todo el ancho */
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+}
 
-  .reglas {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: justify;
-    margin-top: 5%;
-  }
-  
+/* .container */
+.container {
+  margin: 0 auto;
+  padding: 2rem;
+  width: 100%; /* Añadido para que ocupe todo el ancho */
+  max-width: 1200px; /* Opcional: define un ancho máximo si no quieres que crezca infinitamente */
+  box-sizing: border-box; /* Asegura que padding no afecte al ancho */
+}
+
+/* .welcome */
+.welcome {
+  text-align: center;
+  margin-bottom: 2rem;
+  width: 100%; /* Se extiende completamente */
+}
+
+/* .navigation */
+.navigation {
+  display: flex;
+  gap: 1rem;
+  justify-content: center; /* Alinea los botones al centro */
+  flex-wrap: wrap; /* Permite que los botones se reorganicen si no caben en una fila */
+  width: 100%; /* Asegura que la navegación ocupe todo el espacio disponible */
+  margin-top: 1rem;
+}
+
+/* Botones individuales en .navigation */
+.navigation button {
+  flex: 1; /* Los botones ocuparán un espacio proporcional */
+  min-width: 120px; /* Define un tamaño mínimo */
+}
+
+/* .rules */
+.rules {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Asegura que las reglas ocupen el ancho completo */
+  max-width: 800px; /* Opcional: límite de ancho */
+  margin: 0 auto; /* Centra las reglas horizontalmente */
+}
+
+.rules h2 {
+  text-align: center;
+  color: #333;
+}
+
+.rules ol, .rules ul {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.rules li {
+  margin: 0.5rem 0;
+}
+
+.rules p, .rules h3 {
+  color: #555;
+  margin: 0.5rem 0;
+}

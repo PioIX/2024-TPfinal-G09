@@ -1,7 +1,7 @@
 .profilePic{
   border-radius: 50%;
-  width: 25%;  
-  height: 25%;
+  width: 350px;  
+  height: 350px;
   margin-left: 15%;  
   justify-content: center;
   object-fit: cover;

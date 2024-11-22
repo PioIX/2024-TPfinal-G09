@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { getCardModels, getCardsByUser, getUserById, fetchUpdateCardHand } from "@/functions/fetch.js";
 import { setCards } from "@/functions/javascript";
-import styles from "@/app/user/page.module.css";
+import styles from "@/app/mazo/page.module.css";
 import { useSearchParams } from 'next/navigation';
 import Cartas from "@/components/cartas";
 import Header from "@/components/header";
@@ -83,7 +83,9 @@ export default function Home() {
       {isLoading ? <Loading /> : (
         <>
           <Header username={user.username} money={user.money} profileImage={user.image} idUser={user.id} />
-          <Button onClick={linkUpdate} className={styles.updateButton}>Guardar mazo</Button>
+          <div className={styles.guardarContainer}>
+            <Button onClick={linkUpdate} >Guardar mazo</Button> 
+          </div>
           <Cartas
             cards={cardsUser}
             setSelectCard={toggleCardSelection}

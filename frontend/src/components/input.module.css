@@ -1,32 +1,49 @@
-.inputContainer {
-  display: flex;
-  flex-direction: column; /* Columna para expandirse verticalmente */
-  flex: 1;
-  margin-bottom: 0px;
-  align-items: center;
-  overflow: visible; /* El contenedor también permite el crecimiento sin restricciones */
-}
-
-.label {
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-  
+/* Estilo base para el input */
 .input {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  box-sizing: border-box;
-  transition: all 0.3s ease;
+  width: 100%; /* Ocupa el ancho completo del contenedor */
+  max-width: 400px; /* Limita el tamaño máximo */
+  padding: 12px 16px; /* Espaciado interno */
+  margin: 8px 0; /* Espaciado externo */
+  border-radius: 8px; /* Bordes redondeados */
+  border: 1px solid #ccc; /* Borde inicial */
+  font-size: 16px; /* Tamaño de fuente */
+  box-sizing: border-box; /* Incluir paddings en el tamaño total */
+  transition: all 0.3s ease; /* Transiciones suaves */
+  color: #333; /* Color del texto */
+  background-color: #f9f9f9; /* Fondo ligero */
 }
 
+/* Al pasar el mouse */
+.input:hover {
+  background-color: #f1f1f1; /* Fondo ligeramente más oscuro */
+  border-color: #bbb; /* Borde más oscuro */
+}
 
-
+/* Cuando está enfocado */
 .input:focus {
-  border-color: #1e3c72;
-  outline: none;
-  box-shadow: 0 0 8px rgba(30, 60, 114, 0.2);
+  border-color: #1e3c72; /* Cambiar color del borde */
+  outline: none; /* Quitar el borde por defecto */
+  background-color: #ffffff; /* Fondo blanco */
+  box-shadow: 0 0 8px rgba(30, 60, 114, 0.2); /* Sombra sutil */
+}
+
+/* Estado deshabilitado */
+.input:disabled {
+  background-color: #eaeaea; /* Fondo gris */
+  border-color: #d1d1d1; /* Borde gris apagado */
+  color: #a1a1a1; /* Texto más claro */
+  cursor: not-allowed; /* Cursor de no permitido */
+  opacity: 0.6; /* Reducir opacidad */
+}
+
+/* Placeholder personalizado */
+.input::placeholder {
+  color: #aaa; /* Color del placeholder */
+  font-style: italic; /* Estilo cursivo */
+  transition: all 0.3s ease; /* Suave transición */
+}
+
+/* Placeholder al enfocarse */
+.input:focus::placeholder {
+  color: #ccc; /* Placeholder más tenue al enfocar */
 }

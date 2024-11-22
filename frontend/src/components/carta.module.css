@@ -10,12 +10,22 @@
   border-radius: 17px;
   transition: all 0.5s;
 }
-.carta:hover {
+
+.carta:hover,
+.carta:focus {
   transform: scale(1.05);
 }
+
 .carta:active {
   transform: scale(0.95) rotateZ(1.7deg);
+  opacity: 0.9;
 }
+
+.carta:focus-visible {
+  outline: 3px solid rgba(255, 215, 0, 0.8);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+}
+
 .cartaImg {
   width: 130px;
   height: 130px;
@@ -87,8 +97,8 @@
 }
 
 .épica {
-  background: #dda0f5; /* Fondo morado claro */
-  border-color: #9b59b6;     /* Borde morado */
+  background: linear-gradient(45deg, #dda0f5,#bf1dff ,rgb(160, 7, 122));
+  border-color: #7500a3;     /* Borde morado */
 }
 
 .legendaria {
@@ -104,6 +114,12 @@
 .flashback {
   background: linear-gradient(45deg, #09ecf8, hsl(335, 100%, 55%)); /* Azul neón a rosa */
   border-color:  hsl(180, 98%, 52%); /* Borde rojo oscuro */
+}
+
+
+.future {
+  background: linear-gradient(135deg, #029e02, #fffb00); /* Verde oscuro a verde intenso */
+  border-color: #0c6400; /* Borde dorado brillante */
 }
 
 .noElegido {

@@ -17,14 +17,18 @@ export default function Carta({
   sobre,
   winner = false
 }) {
+  const primeraCalidad = calidad.split(" ")[0];
+
   return (
+    
+
     <div
-      className={`${styles.carta} ${styles[calidad.toLowerCase()]} ${
+      className={`${styles.carta} ${styles[primeraCalidad.toLowerCase()]} ${
         winner ? styles.winner : ""
       } ${hand || sobre ? "" : styles.noElegido}`}  // Modificada la condición
     >
       <div className={styles.cartaHeader}>
-        <div className={styles.calidad}>
+        <div className={styles.primeraCalidad}>
           <img src="/calidad.png" alt="icon" className={styles.iconL} />
           {calidad}
         </div>

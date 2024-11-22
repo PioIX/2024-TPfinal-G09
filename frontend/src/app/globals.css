@@ -1,39 +1,44 @@
-  :root {
-    --background: linear-gradient(90deg,#e6e6e6 , #bdbdbd, #939393);
+ /* Ejemplo para importar */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+:root {
+    --font-primary: 'Poppins', sans-serif;
+    --background: linear-gradient(90deg, #fff8d0, #f1e5e5, #cdd3df);
     --foreground: #171717;
-    --color-común: linear-gradient(90deg, #c0c0c0, #fff, #c0c0c0) 1;
+    --color-común: linear-gradient(45deg, #c0c0c0, #fff, #c0c0c0) 1;
+    --color-future: linear-gradient(45deg, #0a5300,#99da02, #d4d106);
     --color-épica: linear-gradient(90deg, #8b00ff, #b19cd9, #472463) 1;
     --color-especial: linear-gradient(90deg, #32cd32, #90ee90, #32cd32) 1;
-    --color-icónica: linear-gradient(90deg, #fff495, #ffffff, #fff6a7) 1;
-    --color-legendaria: linear-gradient(90deg, #d4af37, #ffecb3, #d4af37) 1;
+    --color-icónica: linear-gradient(20deg, #f3e77e, #fcf95a, #fce61f) 1;
+    --color-legendaria: linear-gradient(30deg, #ffe600, #ffc400, #dd1e18) 1;
     --color-rara: linear-gradient(90deg, #1e90ff, #add8e6, #1e90ff) 1;
     --color-flashback: linear-gradient(90deg, #c800ff, #3d37ff, #69c1ff) 1;
-    --color-aleatorio: linear-gradient(90deg, #ff0000, #ffcccc, #ff0000) 1;
-  }
-
+    --color-aleatorio: linear-gradient(120deg, #ff0000, #fcb6b6) 1; 
+    --color-gold: linear-gradient(90deg, #ffd900, #fbff19, #fcff3d) 1;
+}
 html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
+    max-width: 100vw;
+    overflow-x: hidden;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: 'Exo 2', sans-serif;
+    color: var(--foreground);
+    background: var(--background);
+    font-family: Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Exo 2', sans-serif;
 }
 
 * {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 

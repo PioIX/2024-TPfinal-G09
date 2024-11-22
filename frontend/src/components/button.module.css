@@ -1,19 +1,37 @@
-
+/* Botón principal */
 .button {
-  padding: 12px;
-  margin-top: 16px;
+  padding: 12px 20px; /* Espaciado interno */
   margin: 10px;
-  border-radius: 8px;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  color: #ffffff;
-  background-color: #f0c419;
-  transition: background-color 0.3s ease;
+  border-radius: 8px; /* Bordes redondeados */
+  border: none; /* Sin borde */
+  font-size: 16px; /* Tamaño de fuente */
+  font-weight: bold; /* Resaltar texto */
+  cursor: pointer; /* Cambiar el cursor al pasar */
+  color: #ffffff; /* Texto blanco */
+  background: linear-gradient(90deg, #f0c419, #f39c12); /* Degradado base */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  transition: all 0.3s ease; /* Transiciones suaves */
 }
 
-
-/* Efecto hover en los botones */
+/* Hover (al pasar el mouse) */
 .button:hover {
-  background-color: #3e6892;
+  background: linear-gradient(90deg, #3e6892, #34557f); /* Degradado más oscuro */
+  transform: translateY(-2px); /* Movimiento sutil */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Intensificar sombra */
+}
+
+/* Active (cuando se hace clic) */
+.button:active {
+  transform: translateY(2px); /* Efecto de "presionado" */
+  background: linear-gradient(90deg, #2d4d73, #2a4565); /* Colores más oscuros */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reducir sombra */
+}
+
+/* Disabled (estado inactivo) */
+.button:disabled {
+  background: #bcbcbc; /* Color gris apagado */
+  color: #666666; /* Texto gris */
+  cursor: not-allowed; /* Cursor de no permitido */
+  box-shadow: none; /* Sin sombra */
+  opacity: 0.6; /* Reducir opacidad */
 }
